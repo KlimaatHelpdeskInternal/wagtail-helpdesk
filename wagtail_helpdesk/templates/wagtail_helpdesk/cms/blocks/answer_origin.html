@@ -21,12 +21,19 @@
 
       <div class="disclosure__disclosure-content richtext" role="region" aria-labelledby="{{ button_id }}"
            aria-hidden="false" data-disclosure-target="region">
-        {% for ref in page.get_references %}
-          <p>
-            <span>[{{ forloop.counter }}] {{ ref.text }}</span> <span><b><a
-            href="{{ ref.url }}">{{ ref.url }}</a></b></span>
-          </p>
-        {% endfor %}
+           {% for ref in page.get_references %}
+
+           <p>
+             
+             <span>[{{ forloop.counter }}] &nbsp; </span> 
+             <!-- if ref url exists display it -->
+            {% if ref.url %}
+            <span> <a href="{{ ref.url }}">{{ ref.text }}</a></span>
+            {% else %}
+            <span>{{ ref.text }}</span>
+            {% endif %}
+            </p>
+            {% endfor %}
 
         <p>©<em>De tekst is beschikbaar onder de licentie <a
           href="https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode.nl">Creative Commons
