@@ -177,6 +177,43 @@ class AnswerCategory(models.Model):
 
 register_snippet(AnswerCategory)
 
+class EnvironmentURL(models.Model):
+    id = models.IntegerField(_("id"), primary_key=True, default= 0)
+    name = models.CharField(_("name"), max_length=50)
+    urlroot = models.URLField(
+        _("urlroot"), max_length=255, blank=False, null=True
+    )
+    def __str__(self):
+        return self.name
+register_snippet(EnvironmentURL)
+class Tenant(models.Model):
+    id = models.IntegerField(_("id"), primary_key=True, default= 0)
+    name = models.CharField(_("name"), max_length=50)
+    environmenturl = models.ManyToManyField(EnvironmentURL,verbose_name="list of environment URL's")
+    description = models.CharField(
+        _("description"), max_length=255, blank=False, null=True
+    )
+
+    panels = [
+        FieldPanel("name"),
+        FieldPanel("environmenturl"),
+        FieldPanel("description"),
+    ]
+
+    class Meta:
+        verbose_name = _("Tenant")
+        verbose_name_plural = _("Tenants")
+        ordering = ["id"]
+
+    def __str__(self):
+        return self.name
+
+    def get_prefiltered_search_params(self):
+        return "?{}=".format(self.name)
+
+
+register_snippet(Tenant)
+
 
 class Answer(Page):
     template = "wagtail_helpdesk/cms/answer_detail.html"
@@ -208,6 +245,7 @@ class Answer(Page):
         help_text=_("This text is displayed above the tags, useful as a TLDR section"),
     )
     tags = ClusterTaggableManager(through=AnswerTag, blank=True)
+    tenantid = models.ManyToManyField(Tenant,verbose_name="list of tenant id's")
 
     social_image = models.ForeignKey(
         "wagtailimages.Image",
@@ -535,7 +573,8 @@ class ExpertIndexPage(Page):
 
     subtitle = models.CharField(max_length=128, blank=False)
     intro = RichTextField(blank=True)
-
+    """testfield = models.CharField(max_length=128, blank=False)"""
+    
     outro_title = models.CharField(
         verbose_name="Title",
         max_length=255,
