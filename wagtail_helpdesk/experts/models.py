@@ -4,6 +4,9 @@ from taggit.managers import TaggableManager
 from wagtail.admin.panels import FieldPanel
 from wagtail.snippets.models import register_snippet
 
+from wagtail_helpdesk.tenants.models import Tenant
+
+
 
 @register_snippet
 class Expert(models.Model):
@@ -26,6 +29,9 @@ class Expert(models.Model):
     orcid_profile = models.URLField(_("OrcID Link"), blank=True, null=True)
     creation_date = models.DateTimeField(auto_now_add=True)
     last_updated = models.DateTimeField(auto_now_add=True)
+
+    tenantid = models.ManyToManyField(Tenant,verbose_name="list of tenant id's", help_text="Choose the tenants for which this answer is applicable")
+
 
     panels = [
         FieldPanel(

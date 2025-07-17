@@ -5,6 +5,7 @@ from wagtail.admin.panels import FieldPanel
 from wagtail.snippets.models import register_snippet
 
 
+
 @register_snippet
 class Volunteer(models.Model):
     """Volunteers are people who contribute time to Wagtail Helpdesk. The model is similar to those of

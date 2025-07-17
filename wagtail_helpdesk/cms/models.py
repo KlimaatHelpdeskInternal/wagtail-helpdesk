@@ -29,6 +29,7 @@ from wagtail_helpdesk.cms.blocks import (
 from wagtail_helpdesk.core.forms import KeepMePostedForm, QuestionForm
 from wagtail_helpdesk.core.models import Question
 from wagtail_helpdesk.experts.models import Expert
+from wagtail_helpdesk.tenants.models import Tenant
 from wagtail_helpdesk.volunteers.models import Volunteer
 
 LINK_STREAM = [
@@ -177,42 +178,6 @@ class AnswerCategory(models.Model):
 
 register_snippet(AnswerCategory)
 
-class EnvironmentURL(models.Model):
-    id = models.IntegerField(_("id"), primary_key=True, default= 0)
-    name = models.CharField(_("name"), max_length=50)
-    urlroot = models.URLField(
-        _("urlroot"), max_length=255, blank=False, null=True
-    )
-    def __str__(self):
-        return self.name
-register_snippet(EnvironmentURL)
-class Tenant(models.Model):
-    id = models.IntegerField(_("id"), primary_key=True, default= 0)
-    name = models.CharField(_("name"), max_length=50)
-    environmenturl = models.ManyToManyField(EnvironmentURL,verbose_name="list of environment URL's")
-    description = models.CharField(
-        _("description"), max_length=255, blank=False, null=True
-    )
-
-    panels = [
-        FieldPanel("name"),
-        FieldPanel("environmenturl"),
-        FieldPanel("description"),
-    ]
-
-    class Meta:
-        verbose_name = _("Tenant")
-        verbose_name_plural = _("Tenants")
-        ordering = ["id"]
-
-    def __str__(self):
-        return self.name
-
-    def get_prefiltered_search_params(self):
-        return "?{}=".format(self.name)
-
-
-register_snippet(Tenant)
 
 
 class Answer(Page):
@@ -245,7 +210,7 @@ class Answer(Page):
         help_text=_("This text is displayed above the tags, useful as a TLDR section"),
     )
     tags = ClusterTaggableManager(through=AnswerTag, blank=True)
-    tenantid = models.ManyToManyField(Tenant,verbose_name="list of tenant id's")
+    tenantid = models.ManyToManyField(Tenant,verbose_name="list of tenant id's", help_text="Choose the tenants for which this answer is applicable")
 
     social_image = models.ForeignKey(
         "wagtailimages.Image",
@@ -303,6 +268,7 @@ class Answer(Page):
             "tags",
             heading="Please use tags with a maximum length of 16 characters per single word to avoid overlap in the mobile view.",
         ),
+        FieldPanel("tenantid"),
         MultiFieldPanel(
             [
                 InlinePanel(
@@ -573,13 +539,12 @@ class ExpertIndexPage(Page):
 
     subtitle = models.CharField(max_length=128, blank=False)
     intro = RichTextField(blank=True)
-    """testfield = models.CharField(max_length=128, blank=False)"""
     
     outro_title = models.CharField(
         verbose_name="Title",
         max_length=255,
         blank=True,
-        help_text="Example: Who are the people behind ...?",
+        help_text="Example: Who are the people behind ...?", 
         default="Who are the people behind ...?",
     )
     outro_text = RichTextField(verbose_name="Text", blank=True)
