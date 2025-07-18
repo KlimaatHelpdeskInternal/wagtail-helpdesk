@@ -26,11 +26,55 @@ class Tenant(models.Model):
     description = models.CharField(
         _("description"), max_length=255, blank=False, null=True
     )
-
+    favicon = models.ForeignKey(
+        "wagtailimages.Image",
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name="+",
+        help_text=_(
+            "This is the favicon used for display the tenant"
+        ),
+    )
+    apple_touch_icon = models.ForeignKey(
+        "wagtailimages.Image",
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name="+",
+        help_text=_(
+            "This is the png icon used for apple devices for this tenant"
+        ),
+    )
+    android_chrome_icon = models.ForeignKey(
+        "wagtailimages.Image",
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name="+",
+        help_text=_(
+            "This is the png icon used for android devices for this tenant"
+        ),
+    )
+    scss_file = models.ForeignKey(
+        "wagtailimages.Image",
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name="+",
+        help_text=_(
+            "This is the scss file for this tenant"
+        ),
+    )
     panels = [
         FieldPanel("name"),
         FieldPanel("environmenturl"),
         FieldPanel("description"),
+        FieldPanel("favicon", help_text=_("Image to be used as favicon")),
+        FieldPanel("apple_touch_icon", help_text=_("Image to be used as apple_touch_icon")),
+        FieldPanel("android_chrome_icon", help_text=_("Image to be used as android_chrome_icon")),
+        FieldPanel("scss_file", help_text=_("CSS file to be used as scss_file")),
+
     ]
 
     class Meta:
