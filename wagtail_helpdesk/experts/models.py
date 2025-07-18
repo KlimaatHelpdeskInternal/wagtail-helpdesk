@@ -43,6 +43,7 @@ class Expert(models.Model):
             "picture", heading="Expert's photo, 1:1 aspect ratio (square) works best"
         ),
         FieldPanel("email"),
+        FieldPanel("tenantid"),
         FieldPanel("bio"),
         FieldPanel("affiliation"),
         FieldPanel(

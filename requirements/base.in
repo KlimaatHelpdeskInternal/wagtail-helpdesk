@@ -1,0 +1,4 @@
+django~=4.2
+wagtail~=5.2
+python-gitlab
+django-health-check

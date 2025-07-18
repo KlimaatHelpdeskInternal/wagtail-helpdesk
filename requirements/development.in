@@ -1,0 +1,13 @@
+-r base.in
+-r testing.in
+
+dj_database_url
+fabric
+GitPython
+gunicorn
+inquirer
+pep8
+psycopg2-binary
+termcolor
+uvicorn
+whitenoise[brotli]

@@ -4,7 +4,7 @@ from taggit.managers import TaggableManager
 from wagtail.admin.panels import FieldPanel
 from wagtail.snippets.models import register_snippet
 
-
+from wagtail_helpdesk.tenants.models import Tenant
 
 @register_snippet
 class Volunteer(models.Model):
@@ -27,6 +27,7 @@ class Volunteer(models.Model):
     creation_date = models.DateTimeField(auto_now_add=True)
     last_updated = models.DateTimeField(auto_now_add=True)
     active_since = models.DateTimeField(null=True, auto_now_add=False, default=None)
+    tenantid = models.ManyToManyField(Tenant,verbose_name="list of tenant id's", help_text="Choose the tenants for which this answer is applicable")
 
     panels = [
         FieldPanel("name"),
@@ -34,6 +35,7 @@ class Volunteer(models.Model):
             "picture", heading="Volunteer's photo, 1:1 aspect ratio (square) works best"
         ),
         FieldPanel("email"),
+        FieldPanel("tenantid"),
         FieldPanel("bio"),
         FieldPanel("affiliation"),
         FieldPanel(
