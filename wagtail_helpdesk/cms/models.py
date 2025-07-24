@@ -8,6 +8,7 @@ from django.utils.translation import gettext_lazy as _
 from ipware import get_client_ip
 from modelcluster.contrib.taggit import ClusterTaggableManager
 from modelcluster.fields import ParentalKey
+from logging import getLogger
 from taggit.models import TaggedItemBase
 from wagtail import blocks
 from wagtail.admin.panels import FieldPanel, InlinePanel, MultiFieldPanel
@@ -80,6 +81,9 @@ class HomePage(Page):
 
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
+        logger = getLogger(__name__)
+        logger.info("Get context in homepage")
+
         context.update(
             {
                 "featured_answers": Answer.objects.live()
