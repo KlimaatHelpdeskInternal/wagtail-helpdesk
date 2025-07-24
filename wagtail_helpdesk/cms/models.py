@@ -32,6 +32,7 @@ from wagtail_helpdesk.core.models import Question
 from wagtail_helpdesk.experts.models import Expert
 from wagtail_helpdesk.tenants.models import Tenant
 from wagtail_helpdesk.volunteers.models import Volunteer
+from wagtail_helpdesk.tenants.utils import tenant_from_request
 
 LINK_STREAM = [
     (
@@ -82,12 +83,13 @@ class HomePage(Page):
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
         logger = getLogger(__name__)
-        logger.info("Get context in homepage")
+        logger.debug("Get context in homepage")
+        
 
         context.update(
             {
                 "featured_answers": Answer.objects.live()
-                .filter(featured=True)
+                .filter(featured=True, tenantid=tenant_from_request(request))
                 .prefetch_related(
                     "answer_expert_relationship__expert",
                     "answer_category_relationship__category",
