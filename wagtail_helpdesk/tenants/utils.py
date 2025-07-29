@@ -8,12 +8,21 @@ def hostname_from_request(request):
 
 
 def tenant_from_request(request):
+    #detect the hostname
     hostname = hostname_from_request(request)
-    environmenturl = EnvironmentURL.objects.filter(urlroot__iexact=hostname.lower()).first()
-    if environmenturl is None:
+    #then find the corresponding environment URL bij performing a lower case exact match
+    foundenvironmenturl = EnvironmentURL.objects.filter(urlroot__iexact=hostname.lower()).first()
+    if foundenvironmenturl is None:
+            message = f"No environmentURL found for hostname '{hostname}'"
+            raise ImproperlyConfigured(message)
+    #then find the tenant that matches this environement
+    foundtenant  = Tenant.objects.filter(environmenturl=foundenvironmenturl.id).first()
+    if foundtenant is None:
             message = f"No tenant found for hostname '{hostname}'"
             raise ImproperlyConfigured(message)
-    tenantid = environmenturl.id
+    
+    #return the id for the found tenant
+    tenantid = foundtenant.id
 
 
-    return tenantid#Tenant.objects.filter(subdomain_prefix=subdomain_prefix).first()
+    return tenantid

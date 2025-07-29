@@ -50,8 +50,8 @@ LINK_STREAM = [
 class HomePage(Page):
     template = "wagtail_helpdesk/cms/home_page.html"
 
-    max_count = 1
-
+    #max_count = 1
+    tenantid = models.ManyToManyField(Tenant,verbose_name="list of tenant id's", help_text="Choose the tenants for which this homepage is applicable")
     intro = models.TextField(blank=True)
     header_buttons = StreamField(
         LINK_STREAM, blank=True, verbose_name=_("Buttons"), use_json_field=True
@@ -64,6 +64,7 @@ class HomePage(Page):
     )
 
     content_panels = Page.content_panels + [
+        FieldPanel("tenantid"),
         MultiFieldPanel(
             [
                 FieldPanel("intro"),
@@ -82,9 +83,6 @@ class HomePage(Page):
 
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
-        logger = getLogger(__name__)
-        logger.debug("Get context in homepage")
-        
 
         context.update(
             {
