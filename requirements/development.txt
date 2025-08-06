@@ -62,7 +62,7 @@ deprecated==1.2.14
     # via fabric
 dj-database-url==2.3.0
     # via -r requirements/development.in
-django==5.2.4
+django==5.2.5
     # via
     #   -r c:\KH\wagtail-helpdesk\requirements\base.in
     #   dj-database-url
@@ -89,7 +89,7 @@ django-stubs-ext==5.2.2
     # via django-tasks
 django-taggit==6.1.0
     # via wagtail
-django-tasks==0.7.0
+django-tasks==0.8.1
     # via wagtail
 django-treebeard==4.7.1
     # via wagtail
@@ -280,12 +280,15 @@ urllib3==2.2.2
     #   responses
 uvicorn==0.34.2
     # via -r requirements/development.in
-wagtail==7.0.2
+wagtail==7.1
     # via
     #   -r c:\KH\wagtail-helpdesk\requirements\base.in
     #   wagtail-factories
+    #   wagtail-modeladmin
 wagtail-factories==4.2.1
     # via -r c:\KH\wagtail-helpdesk\requirements\testing.in
+wagtail-modeladmin @ git+https://github.com/wagtail-nest/wagtail-modeladmin.git
+    # via -r c:\KH\wagtail-helpdesk\requirements\base.in
 waitress==3.0.0
     # via webtest
 wcwidth==0.2.13

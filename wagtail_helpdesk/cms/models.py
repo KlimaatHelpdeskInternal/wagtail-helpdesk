@@ -30,9 +30,7 @@ from wagtail_helpdesk.cms.blocks import (
 from wagtail_helpdesk.core.forms import KeepMePostedForm, QuestionForm
 from wagtail_helpdesk.core.models import Question
 from wagtail_helpdesk.experts.models import Expert
-from wagtail_helpdesk.tenants.models import Tenant
 from wagtail_helpdesk.volunteers.models import Volunteer
-from wagtail_helpdesk.tenants.utils import tenant_from_request
 
 LINK_STREAM = [
     (
@@ -51,7 +49,6 @@ class HomePage(Page):
     template = "wagtail_helpdesk/cms/home_page.html"
 
     #max_count = 1
-    tenantid = models.ManyToManyField(Tenant,verbose_name="list of tenant id's", help_text="Choose the tenants for which this homepage is applicable")
     intro = models.TextField(blank=True)
     header_buttons = StreamField(
         LINK_STREAM, blank=True, verbose_name=_("Buttons"), use_json_field=True
@@ -64,7 +61,6 @@ class HomePage(Page):
     )
 
     content_panels = Page.content_panels + [
-        FieldPanel("tenantid"),
         MultiFieldPanel(
             [
                 FieldPanel("intro"),
@@ -87,7 +83,7 @@ class HomePage(Page):
         context.update(
             {
                 "featured_answers": Answer.objects.live()
-                .filter(featured=True, tenantid=tenant_from_request(request))
+                .filter(featured=True)
                 .prefetch_related(
                     "answer_expert_relationship__expert",
                     "answer_category_relationship__category",
@@ -214,7 +210,6 @@ class Answer(Page):
         help_text=_("This text is displayed above the tags, useful as a TLDR section"),
     )
     tags = ClusterTaggableManager(through=AnswerTag, blank=True)
-    tenantid = models.ManyToManyField(Tenant,verbose_name="list of tenant id's", help_text="Choose the tenants for which this answer is applicable")
 
     social_image = models.ForeignKey(
         "wagtailimages.Image",
@@ -272,7 +267,6 @@ class Answer(Page):
             "tags",
             heading="Please use tags with a maximum length of 16 characters per single word to avoid overlap in the mobile view.",
         ),
-        FieldPanel("tenantid"),
         MultiFieldPanel(
             [
                 InlinePanel(

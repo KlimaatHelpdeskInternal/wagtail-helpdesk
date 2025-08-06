@@ -1,1 +1,0 @@
-#from wagtail_helpdesk.tenants import Tenant

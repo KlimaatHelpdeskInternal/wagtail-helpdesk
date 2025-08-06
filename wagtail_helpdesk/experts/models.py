@@ -4,7 +4,6 @@ from taggit.managers import TaggableManager
 from wagtail.admin.panels import FieldPanel
 from wagtail.snippets.models import register_snippet
 
-from wagtail_helpdesk.tenants.models import Tenant
 
 
 
@@ -30,7 +29,6 @@ class Expert(models.Model):
     creation_date = models.DateTimeField(auto_now_add=True)
     last_updated = models.DateTimeField(auto_now_add=True)
 
-    tenantid = models.ManyToManyField(Tenant,verbose_name="list of tenant id's", help_text="Choose the tenants for which this answer is applicable")
 
 
     panels = [
@@ -43,7 +41,6 @@ class Expert(models.Model):
             "picture", heading="Expert's photo, 1:1 aspect ratio (square) works best"
         ),
         FieldPanel("email"),
-        FieldPanel("tenantid"),
         FieldPanel("bio"),
         FieldPanel("affiliation"),
         FieldPanel(

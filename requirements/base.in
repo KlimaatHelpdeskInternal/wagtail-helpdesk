@@ -1,4 +1,6 @@
 django~=5.2
-wagtail~=7.0
+wagtail>=7.0
 python-gitlab
 django-health-check
+# added to support wagtail 7 because modeladmin is no longer supported in 6+
+wagtail-modeladmin @ git+https://github.com/wagtail-nest/wagtail-modeladmin.git

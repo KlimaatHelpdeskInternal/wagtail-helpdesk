@@ -1,5 +1,6 @@
 from django import template
 
+
 from wagtail_helpdesk.utils.staticfiles import versioned_static as versioned_static_func
 
 register = template.Library()
