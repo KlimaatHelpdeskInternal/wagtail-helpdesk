@@ -1,8 +1,6 @@
 from django.conf import settings
-from responses import logger
 
 from wagtail_helpdesk.cms.models import AnswerIndexPage, HomePage
-from django.core.exceptions import ImproperlyConfigured
 
 
 def settings_context(_request):
@@ -11,7 +9,6 @@ def settings_context(_request):
 
 def defaults(request):
     home_page = HomePage.objects.first()
-    logger.info("Read defaults in utils/context_processors")
 
     if home_page:
         menu_qs = home_page.get_children().live().in_menu()
