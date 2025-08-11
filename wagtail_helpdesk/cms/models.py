@@ -46,7 +46,7 @@ LINK_STREAM = [
 
 class HomePage(Page):
     template = "wagtail_helpdesk/cms/home_page.html"
-
+    max_count = 1
     intro = models.TextField(blank=True)
     header_buttons = StreamField(
         LINK_STREAM, blank=True, verbose_name=_("Buttons"), use_json_field=True
