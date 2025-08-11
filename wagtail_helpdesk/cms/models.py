@@ -46,7 +46,9 @@ LINK_STREAM = [
 
 class HomePage(Page):
     template = "wagtail_helpdesk/cms/home_page.html"
+
     max_count = 1
+    
     intro = models.TextField(blank=True)
     header_buttons = StreamField(
         LINK_STREAM, blank=True, verbose_name=_("Buttons"), use_json_field=True
@@ -77,7 +79,6 @@ class HomePage(Page):
 
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
-
         context.update(
             {
                 "featured_answers": Answer.objects.live()
@@ -535,12 +536,11 @@ class ExpertIndexPage(Page):
 
     subtitle = models.CharField(max_length=128, blank=False)
     intro = RichTextField(blank=True)
-    
     outro_title = models.CharField(
         verbose_name="Title",
         max_length=255,
         blank=True,
-        help_text="Example: Who are the people behind ...?", 
+        help_text="Example: Who are the people behind ...?",
         default="Who are the people behind ...?",
     )
     outro_text = RichTextField(verbose_name="Text", blank=True)

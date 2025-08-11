@@ -5,8 +5,6 @@ from wagtail.admin.panels import FieldPanel
 from wagtail.snippets.models import register_snippet
 
 
-
-
 @register_snippet
 class Expert(models.Model):
     """To split the users from the experts. Users, for the time being will be only those who
@@ -28,8 +26,6 @@ class Expert(models.Model):
     orcid_profile = models.URLField(_("OrcID Link"), blank=True, null=True)
     creation_date = models.DateTimeField(auto_now_add=True)
     last_updated = models.DateTimeField(auto_now_add=True)
-
-
 
     panels = [
         FieldPanel(

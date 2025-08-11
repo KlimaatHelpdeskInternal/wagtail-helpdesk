@@ -9,7 +9,6 @@ def settings_context(_request):
 
 def defaults(request):
     home_page = HomePage.objects.first()
-
     if home_page:
         menu_qs = home_page.get_children().live().in_menu()
     else:
