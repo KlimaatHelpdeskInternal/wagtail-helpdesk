@@ -5,7 +5,17 @@ from .base import *  # NOQA
 SECRET_KEY = "CHANGEME!!!"
 
 DATABASES = {
-    "default": {
+        "default": {
+        "ENGINE": "django.db.backends.postgresql",
+        "CONN_MAX_AGE": 600,
+        # number of seconds database connections should persist for
+        "NAME": "KlimaatHelpdeskDev",
+        "USER": "postgres",
+        "HOST": "localhost",
+        "PASSWORD": "Vfhsdbgtcfbt85456$%",
+    },
+
+    "defaultRender": {
         "ENGINE": "django.db.backends.postgresql",
         "CONN_MAX_AGE": 600,
         # number of seconds database connections should persist for
