@@ -131,6 +131,15 @@
         <p class="content-header__introduction-text">{{ self.introduction }}</p>
       </div>
       <div class="content-header__tags">
+        {% with minutes=self.calculated_reading_time %}
+          {% if minutes %}
+            <span class="content-header__tag">
+              {{ minutes }} min. leestijd
+            </span>
+          {% endif %}
+        {% endwith %}
+      </div>
+            <div class="content-header__tags">
         {% for tag in self.tags.all %}
           <span class="content-header__tag">#{{ tag }}</span>
         {% endfor %}

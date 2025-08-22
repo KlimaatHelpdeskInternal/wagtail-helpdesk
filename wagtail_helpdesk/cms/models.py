@@ -1,3 +1,5 @@
+import re
+
 from django.conf import settings
 from django.db import models
 from django.db.models import TextField
@@ -290,6 +292,35 @@ class Answer(Page):
         search_index.SearchField("introduction"),
         search_index.SearchField("page_content"),
     ]
+
+    def get_plain_text_from_page_content(self) -> str:
+        parts = []
+
+        if self.excerpt:
+            parts.append(self.excerpt)
+
+        for block in self.page_content or []:
+            if block.block_type == "richtext":
+                try:
+                    html = block.value["content"].source
+                except Exception:
+                    html = ""
+
+                text = re.sub(r"<[^>]+>", " ", html)
+                parts.append(text)
+
+            elif block.block_type == "quote":
+                if hasattr(block.value, "get"):
+                    quote_html = block.value.get("text", "") or block.value.get("quote", "")
+                    quote_text = re.sub(r"<[^>]+>", " ", quote_html)
+                    parts.append(quote_text)
+
+        return " ".join(parts)
+    @property
+    def calculated_reading_time(self) -> int | None:
+        text = self.get_plain_text_from_page_content()
+        word_count = len(re.findall(r"\w+", text))
+        return max(1, round(word_count / 200)) if word_count else None
 
     @property
     def experts(self):
