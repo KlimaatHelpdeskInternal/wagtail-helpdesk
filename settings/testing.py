@@ -9,7 +9,7 @@ DATABASES = {
         "ENGINE": "django.db.backends.postgresql",
         "CONN_MAX_AGE": 600,
         # number of seconds database connections should persist for
-        "NAME": "KlimaatHelpdeskDev",
+        "NAME": "KlimaatHelpdeskDevMultiTenant",
         "USER": "postgres",
         "HOST": "localhost",
         "PASSWORD": "Vfhsdbgtcfbt85456$%",

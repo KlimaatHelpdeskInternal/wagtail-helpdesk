@@ -26,3 +26,9 @@ def tenant_from_request(request):
 
 
     return tenantid
+
+def is_admin_request(request):
+    # detect if this is request to the admin module
+    return request.path.startswith("/admin")
+
+    

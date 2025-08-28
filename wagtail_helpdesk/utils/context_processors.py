@@ -2,7 +2,7 @@ from django.conf import settings
 from responses import logger
 
 from wagtail_helpdesk.cms.models import AnswerIndexPage, HomePage
-from wagtail_helpdesk.tenants.utils import tenant_from_request
+from wagtail_helpdesk.tenants.utils import tenant_from_request, is_admin_request
 from django.core.exceptions import ImproperlyConfigured
 
 
@@ -11,7 +11,15 @@ def settings_context(_request):
 
 
 def defaults(request):
+
+    if (is_admin_request(request)):
+        return {
+        "main_nav": None,
+        "answers_list_url": "",
+        }
+    
     foundtenantid = tenant_from_request(request)
+
     home_page = HomePage.objects.filter(tenantid=foundtenantid).first()
     if home_page is None:
             message = f"No home_page defined for this tenant {foundtenantid}"
