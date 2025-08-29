@@ -1,6 +1,9 @@
 
 from wagtail_helpdesk.tenants.models import Tenant, EnvironmentURL
 from django.core.exceptions import ImproperlyConfigured
+from wagtail_helpdesk.tenants.models import Tenant, EnvironmentURL
+from django.core.exceptions import ValidationError
+
 
 def hostname_from_request(request):
     # split on `:` to remove port
@@ -31,4 +34,3 @@ def is_admin_request(request):
     # detect if this is request to the admin module
     return request.path.startswith("/admin")
 
-    
