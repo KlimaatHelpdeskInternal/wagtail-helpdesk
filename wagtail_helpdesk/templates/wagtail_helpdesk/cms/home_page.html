@@ -1,0 +1,55 @@
+{% extends "wagtail_helpdesk/base.html" %}
+{% load static i18n wagtailimages_tags wagtailcore_tags %}
+{% block extra_head %}
+  {{ block.super }}
+
+  {% with settings.cms.SocialMediaSettings as social_media_settings %}
+  <meta property="og:title" content="{{ social_media_settings.short_site_name }}">
+  <meta property="twitter:title" content="{{ social_media_settings.short_site_name }}">
+  <meta name="description" content="{{ social_media_settings.short_site_description }}">
+  <meta name="og:description" content="{{ social_media_settings.short_site_description }}">
+  <meta name="twitter:description" content="{{ social_media_settings.short_site_description }}">
+  <meta property="twitter:site" content="@{{ social_media_settings.twitter_handle }}">
+  <meta property="twitter:card" content="summary">
+  <meta property="og:locale" content="nl_NL">
+  <meta property="og:site_name" content="{{ social_media_settings.short_site_name }}">
+  {% endwith %}
+{% endblock extra_head %}
+
+{% block head %}
+  <div class="header">
+    <div class="header__wrapper">
+      <h1 class="header__title">{{ page.intro }}</h1>
+      <div class="header__buttons">
+        <div class="header__button">
+          {% include "wagtail_helpdesk/core/includes/button_list.html" with stream=page.header_buttons %}
+        </div>
+          <form class="header__form" name="filter" method="get" action="{% pageurl answer_index_page %}">
+            {% include "wagtail_helpdesk/cms/includes/search.html" with is_small=True %}
+          </form>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+{% block content %}
+  <main class="section">
+    <div class="question-link-list">
+      <h4 class="question-link-list__title no-border">{% trans "Recent questions" %}</h4>
+
+      <div class="question-link-list__links">
+        {% for answer in featured_answers %}
+          {% include "wagtail_helpdesk/core/includes/answer_home_block.html" with object=answer %}
+        {% endfor %}
+      </div>
+
+      <div class="question-link-list__button">
+        {% include "wagtail_helpdesk/core/includes/button_list.html" with stream=page.recent_question_buttons %}
+      </div>
+    </div>
+
+    {% include "wagtail_helpdesk/includes/social_share_buttons.html" %}
+    {% include "wagtail_helpdesk/cms/includes/sticky.html" %}
+    {% include "wagtail_helpdesk/cms/includes/about_footer.html" %}
+  </main>
+{% endblock %}

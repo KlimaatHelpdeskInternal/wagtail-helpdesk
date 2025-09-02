@@ -1,0 +1,130 @@
+.header {
+  position: relative;
+  margin: 0 0 50px 0;
+  padding: 30px 0 0 0;
+
+  &.header__homepage {
+    grid-column: column 2 / span 10;
+    @include landscape {
+      grid-column: column 1 / span 9;
+    }
+    border-bottom: 1px solid $color-true-black;
+    margin-bottom: 0;
+    padding-top: 0;
+  }
+
+  .header__wrapper {
+    @include grid-container;
+  }
+
+  .header__title {
+    grid-column: column 2 / span 10;
+    @include typography(heading-1);
+  }
+
+  .header__form {
+    grid-column: column 2 / span 10;
+
+    input {
+      display: none;
+
+      &:checked ~ label {
+        background-color: $color-true-black;
+        color: $color-white;
+      }
+    }
+    .header__search-input {
+      border: 1px solid $color-true-black;
+      display: inline-block;
+      border-radius: 5px 0 0 5px;
+      padding: 10px;
+      height: 43px;
+      width: 20vw;
+      min-width: 240px;
+    }
+  }
+  .header__search-wrapper {
+    @include typography(button);
+    padding-bottom: 15px;
+    padding-top: 15px;
+    margin-bottom: 30px;
+    display: flex;
+    align-items: center;
+    &--small {
+      @include typography(button);
+      padding: 0;
+      margin: 0;
+      display: flex;
+      align-items: center;
+    }
+  }
+  .header__search-button {
+    background: $color-true-black;
+    color: $color-white;
+    height: 43px;
+    padding: 10px;
+    border-radius: 0 5px 5px 0;
+  }
+  .header__search-icon {
+    max-width: 30px;
+  }
+
+  .header__buttons {
+    align-items: baseline;
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    grid-column: column 2 / span 10;
+
+    @include mobile-only {
+      flex-direction: column;
+    }
+  }
+
+  .header__text {
+    @include typography(paragraph);
+  }
+
+  .header__button {
+    display: inline-block;
+  }
+
+  .header__search-themes {
+    margin-bottom: 10px;
+  }
+
+  .header__reset-button {
+    @include typography(thema);
+    margin: 10px;
+
+    span {
+      color: $color-true-black;
+    }
+
+    :hover {
+      text-decoration: underline;
+    }
+  }
+
+  .header__author-tag {
+    margin-bottom: 30px;
+
+    .tag {
+      text-transform: capitalize;
+    }
+  }
+
+  @include landscape {
+    .header__title {
+      grid-column: column 1 / span 9;
+    }
+
+    .header__form {
+      grid-column: column 1 / span 9;
+    }
+
+    .header__buttons {
+      grid-column: column 1 / span 9;
+    }
+  }
+}

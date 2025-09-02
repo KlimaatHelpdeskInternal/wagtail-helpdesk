@@ -1,0 +1,573 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-12-22 14:24+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgid "Answers"
+msgstr "Antwoorden"
+
+msgid "General Pages"
+msgstr "Algemene pagina's"
+
+msgid "Q&A CMS"
+msgstr ""
+
+msgid "Buttons"
+msgstr "Knoppen"
+
+msgid "Title"
+msgstr "Titel"
+
+msgid "Header"
+msgstr "Kop"
+
+msgid "Recent questions"
+msgstr "Recente vragen"
+
+msgid "Homepage"
+msgstr "Homepagina"
+
+msgid "Homepages"
+msgstr "Homepagina's"
+
+msgid "name"
+msgstr "Naam"
+
+msgid "slug"
+msgstr "slug"
+
+msgid "A slug to identify the category"
+msgstr "Een slug om de categorie te identificeren"
+
+msgid "description"
+msgstr "Omschrijving"
+
+msgid "Answer Category"
+msgstr "Antwoord categorie"
+
+msgid "Answer Categories"
+msgstr "Antwoord categoriën"
+
+msgid "Choose between answer or discussion piece with a more prominent look"
+msgstr ""
+"Kies tussen antwoord of discussiestuk met een meer prominente uitstraling"
+
+msgid "Short description"
+msgstr "Korte omschrijving"
+
+msgid "This helps with search engines and when sharing on social media"
+msgstr "Dit helpt bij zoekmachines en bij het delen op sociale media."
+
+msgid "Introduction"
+msgstr "Inleiding"
+
+msgid "This text is displayed above the tags, useful as a TLDR section"
+msgstr "Deze tekst wordt weergegeven boven de tags, handig als TLDR-sectie"
+
+msgid "This is the image that will be displayed when sharing on social media"
+msgstr ""
+"Dit is de afbeelding die wordt weergegeven bij het delen op sociale media"
+
+msgid "Show this answer on the home page"
+msgstr "Toon dit antwoord op de homepagina"
+
+msgid "Categories"
+msgstr "Categoriën"
+
+msgid "Expert(s)"
+msgstr "Expert(s)"
+
+msgid "Image to be used when sharing on social media"
+msgstr "Afbeelding te gebruiken bij het delen op sociale media."
+
+msgid "Unknown"
+msgstr "Onbekend"
+
+msgid "Questions in progress page"
+msgstr "Vragen in behandeling pagina"
+
+msgid "Questions in progress pages"
+msgstr "Vragen in behandeling pagina's"
+
+msgid "Text"
+msgstr "Tekst"
+
+msgid "Didn't find the answer you were looking for?"
+msgstr "Heb je het antwoord dat je zocht niet gevonden?"
+
+msgid "Page"
+msgstr "Pagina"
+
+msgid "Main navigation"
+msgstr "Hoofdnavigatie"
+
+msgid "Initiator-text"
+msgstr "Initiatiefnemer-tekst"
+
+msgid "Navigation"
+msgstr "Navigatie"
+
+msgid "Maintainer text"
+msgstr "Tekst van de beheerder"
+
+msgid "About us"
+msgstr "Over ons"
+
+msgid "Experts"
+msgstr "Experts"
+
+msgid "Primary footer"
+msgstr "Hoofd footer"
+
+msgid ""
+"Didn't find the answer you were looking for? Check out the pending questions "
+"or ask your own question!"
+msgstr ""
+"Geen antwoord gevonden? Bekijk de openstaande vragen of stel je eigen vraag!"
+
+msgid "Sticky menu"
+msgstr "Sticky menu"
+
+msgid "Create a search widget to place on your own website"
+msgstr "Maak een zoekwidget om op je eigen website te plaatsen"
+
+msgid "Twitter handle"
+msgstr ""
+
+msgid "Short site name"
+msgstr "Korte site-naam"
+
+msgid "Short site description"
+msgstr "Korte site-omschrijving"
+
+msgid "Search"
+msgstr "Zoeken"
+
+msgid "Questions"
+msgstr "Vragen"
+
+msgid "Core App"
+msgstr ""
+
+msgid "I have read and agree to the terms and conditions"
+msgstr "Ik heb de algemene voorwaarden gelezen en ga er mee akkoord"
+
+msgid "Undecided"
+msgstr "Onbeslist"
+
+msgid "Approved"
+msgstr "Goedgekeurd"
+
+msgid "Answered"
+msgstr "Beantwoord"
+
+msgid "Rejected"
+msgstr "Afgewezen"
+
+msgid "Your Question"
+msgstr "Jouw vraag"
+
+msgid ""
+"How the question is displayed on the (questions pending) page, only approved "
+"questions are shown"
+msgstr ""
+"Hoe de vraag wordt weergegeven op de (vragen in behandeling) pagina, alleen "
+"goedgekeurde vragen worden getoond"
+
+msgid "Original Question"
+msgstr "Oorspronkelijke vraag"
+
+msgid "Relevant timespan"
+msgstr "Relevante tijdsspanne"
+
+msgid "Relevant location"
+msgstr "Relevante locatie"
+
+msgid "Extra information"
+msgstr "Aanvullende informatie"
+
+msgid "User Email"
+msgstr "Gebruikers e-mail"
+
+msgid "General"
+msgstr "Algemeen"
+
+msgid "User"
+msgstr "Gebruiker"
+
+msgid "email"
+msgstr "e-mail"
+
+msgid "biography"
+msgstr "biografie"
+
+msgid "areas of expertise"
+msgstr "expertisegebieden"
+
+msgid "Affiliation"
+msgstr "Werkzaam bij"
+
+msgid "Website"
+msgstr "Website"
+
+msgid "Twitter Profile"
+msgstr "op Twitter"
+
+msgid "LinkedIn Profile"
+msgstr "op LinkedIn"
+
+msgid "OrcID Link"
+msgstr ""
+
+msgid "Page not found"
+msgstr "Pagina niet gevonden"
+
+msgid "This is not the page you were looking for."
+msgstr "Dit is niet de pagina waar je naar zocht."
+
+msgid "Server Error"
+msgstr ""
+
+msgid "Looks like something went wrong!"
+msgstr "Het lijkt erop dat er iets mis is gegaan!"
+
+msgid ""
+"We track these errors automatically, but if the problem persists feel free "
+"to contact us."
+msgstr ""
+"Wij houden deze fouten automatisch bij, maar als het probleem aanhoudt, neem "
+"dan gerust contact met ons op."
+
+msgid "Account Inactive"
+msgstr "Inactief account"
+
+msgid "This account is inactive."
+msgstr "Dit account is inactief"
+
+msgid "Account"
+msgstr "Account"
+
+msgid "Email Addresses"
+msgstr "E-mailadressen"
+
+msgid "The following email addresses are associated with your account:"
+msgstr "De volgende e-mailadressen zijn gelinked aan jouw account:"
+
+msgid "Verified"
+msgstr "Geverifieerd"
+
+msgid "Unverified"
+msgstr "Ongeverifieerd"
+
+msgid "Primary"
+msgstr "Hoofd"
+
+msgid "Make Primary"
+msgstr "Maak hoofd"
+
+msgid "Re-send Verification"
+msgstr "Verzend verificatie opnieuw"
+
+msgid "Remove"
+msgstr "Verwijder"
+
+msgid "Warning:"
+msgstr "Waarschuwing:"
+
+msgid ""
+"You currently do not have any email address set up. You should really add an "
+"email address so you can receive notifications, reset your password, etc."
+msgstr ""
+"Je hebt momenteel geen e-mailadres toegevoegd. Voeg aub een e-mailadrestoe, "
+"zodat je notificaties kunt ontvangen, je wachtwoord kunt resetten, etc."
+
+msgid "Add Email Address"
+msgstr "Voeg e-mailadres toe"
+
+msgid "Add Email"
+msgstr "Voeg e-mail toe"
+
+msgid "Do you really want to remove the selected email address?"
+msgstr "Weet je zeker dat je het geselecteerde e-mailadres wilt verwijderen?"
+
+msgid "Confirm Email Address"
+msgstr "Bevestig je e-mailadres"
+
+#, python-format
+msgid ""
+"Please confirm that <a href=\"mailto:%(email)s\">%(email)s</a> is an email "
+"address for user %(user_display)s."
+msgstr ""
+"Bevestig aub dat <a href=\"mailto:%(email)s\">%(email)s</a> een e-mailadres "
+"is voor de gebruiker %(user_display)s."
+
+msgid "Confirm"
+msgstr "Bevestig"
+
+#, python-format
+msgid ""
+"This email confirmation link expired or is invalid. Please <a "
+"href=\"%(email_url)s\">issue a new email confirmation request</a>."
+msgstr ""
+"Deze bevestigingslink is verlopen of niet geldig. <a "
+"href=\"%(email_url)s\">Vraag een nieuwe bevestigingsmail aan.</a>"
+
+msgid "Sign In"
+msgstr "Log in"
+
+#, python-format
+msgid ""
+"Please sign in with one\n"
+"of your existing third party accounts. Or, <a href=\"%(signup_url)s\">sign "
+"up</a>\n"
+"for a %(site_name)s account and sign in below:"
+msgstr ""
+"Log in met een van je bestaande accounts. Of <a "
+"href=\"%(signup_url)s\">schrijf je in</a> voor een %(site_name)s account en "
+"log hieronder in:"
+
+msgid "or"
+msgstr "of"
+
+#, python-format
+msgid ""
+"If you have not created an account yet, then please\n"
+"<a href=\"%(signup_url)s\">sign up</a> first."
+msgstr ""
+"Als je nog geen account hebt gemaakt, <a href=\"%(signup_url)s\">schrijf je</"
+"a> dan in."
+
+msgid "Forgot Password?"
+msgstr "Wachtwoord vergeten?"
+
+msgid "Sign Out"
+msgstr "Log uit"
+
+msgid "Are you sure you want to sign out?"
+msgstr "Weet je zeker dat je uit wilt loggen?"
+
+msgid "Change Password"
+msgstr "Verander je wachtwoord"
+
+msgid "Password Reset"
+msgstr "Reset je wachtwoord"
+
+msgid ""
+"Forgotten your password? Enter your email address below, and we'll send you "
+"an email allowing you to reset it."
+msgstr ""
+"Wachtwoord vergeten? Vul hieronder je e-mailadres in, en we zullen een e-"
+"mail sturen met een rest link."
+
+msgid "Reset My Password"
+msgstr "Reset mijn wachtwoord"
+
+msgid "Please contact us if you have any trouble resetting your password."
+msgstr ""
+"Neem contact met ons op als je problemen hebt met het resetten van je "
+"wachtwoord."
+
+msgid ""
+"We have sent you an email. Please contact us if you do not receive it within "
+"a few minutes."
+msgstr ""
+"We hebben je een e-mail gestuurd. Mocht je na een paar minuten nog niks "
+"hebben ontvangen, neem dan contact met ons op."
+
+msgid "Bad Token"
+msgstr ""
+
+#, python-format
+msgid ""
+"The password reset link was invalid, possibly because it has already been "
+"used.  Please request a <a href=\"%(passwd_reset_url)s\">new password reset</"
+"a>."
+msgstr ""
+"Het wachtwoord resetten is mislukt, waarschijnlijk omdat een oud wachtwoord "
+"is hergebruikt. <a href=\"%(passwd_reset_url)s\">Vraag een nieuw wachtwoord "
+"aan</a>."
+
+msgid "change password"
+msgstr "Verander je wachtwoord"
+
+msgid "Your password is now changed."
+msgstr "Je wachtwoord is nu veranderd."
+
+msgid "Set Password"
+msgstr "Maak wachtwoord aan"
+
+msgid "Signup"
+msgstr "Account aanmaken"
+
+# ## seems signup and sign up are both used
+msgid "Sign Up"
+msgstr "Account aanmaken"
+
+#, python-format
+msgid ""
+"Already have an account? Then please <a href=\"%(login_url)s\">sign in</a>."
+msgstr "Heb je al een account? <a href=\"%(login_url)s\">Log hier in</a>"
+
+msgid "Sign Up Closed"
+msgstr "Inschrijvingen gesloten"
+
+msgid "We are sorry, but the sign up is currently closed."
+msgstr "Het spijt ons, maar er kan momenteel niet worden ingeschreven."
+
+msgid "Verify Your email Address"
+msgstr "Verifieer je e-mailadres"
+
+msgid ""
+"We have sent an email to you for verification. Follow the link provided to "
+"finalize the signup process. Please contact us if you do not receive it "
+"within a few minutes."
+msgstr ""
+"We hebben een e-mail naar je gestuurd voor verificatie. Klik op de link in "
+"de e-mail om dit process te voltooien. Mocht je na een paar minuten nog niks "
+"hebben ontvangen, neem dan contact met ons op."
+
+msgid ""
+"This part of the site requires us to verify that\n"
+"you are who you claim to be. For this purpose, we require that you\n"
+"verify ownership of your email address. "
+msgstr "Voor dit gedeelte van de site moet je jouw e-mailadres verifiëren."
+
+msgid ""
+"We have sent an email to you for\n"
+"verification. Please click on the link inside this email. Please\n"
+"contact us if you do not receive it within a few minutes."
+msgstr ""
+"We hebben een e-mail gestuurd voor de verificatie. Klik op de link in deze e-"
+"mail. Mocht je na een paar minuten nog niks hebben ontvangen, neem dan "
+"contact met ons op."
+
+#, python-format
+msgid ""
+"<strong>Note:</strong> you can still <a href=\"%(email_url)s\">change your "
+"email address</a>."
+msgstr "Je kunt je <a href=\"%(email_url)s\">e-mailadres aanpassen</a>."
+
+msgid "Your search term"
+msgstr "Je zoekterm"
+
+msgid "Unfortunately, no questions were found"
+msgstr "Helaas zijn er geen vragen gevonden"
+
+msgid "What is your question about?"
+msgstr "Waar gaat je vraag over?"
+
+msgid "Phrase your question"
+msgstr "Formuleer je vraag"
+
+msgid "The form could not be sent, please check the data."
+msgstr "Het formulier kon niet worden verzonden, controleer de gegevens."
+
+msgid "Continue"
+msgstr "Ga verder"
+
+msgid "Tip:"
+msgstr "Tip:"
+
+msgid ""
+"Before you ask a question, check that someone else didn't beat you to it"
+msgstr ""
+"Voordat je een vraag stelt, controleer of iemand anders je niet voor was"
+
+msgid "I have a question about "
+msgstr "Ik heb een vraag over "
+
+msgid "Submit"
+msgstr "Verstuur"
+
+msgid "Our conditions"
+msgstr "Onze voorwaarden"
+
+msgid "Back to homepage"
+msgstr "Terug naar de homepage"
+
+msgid "Sources"
+msgstr "Bronnen"
+
+msgid "Related items"
+msgstr "Gerelateerde items"
+
+msgid "Answers from "
+msgstr "Antwoorden van"
+
+msgid "See all answers"
+msgstr "Bekijk alle antwoorden"
+
+msgid "Find a question"
+msgstr "Zoek een vraag"
+
+msgid "Your search query"
+msgstr "Je zoekopdracht"
+
+msgid "Enter an accompanying text:"
+msgstr "Voer een begeleidende tekst in:"
+
+msgid "Copy the code below:"
+msgstr "Kopieer de onderstaande code:"
+
+msgid "Copy"
+msgstr "Kopieer"
+
+msgid "Code has been copied!"
+msgstr "Code is gekopieerd!"
+
+msgid "Example"
+msgstr "Voorbeeld"
+
+msgid "Answered by"
+msgstr "Beantwoord door"
+
+msgid "Ask your question"
+msgstr "Stel je vraag"
+
+msgid "Didn't find the answer you were looking for? Submit your own question!"
+msgstr "Heb je het antwoord dat je zocht niet gevonden? Stel je eigen vraag!"
+
+msgid "Ask a Question"
+msgstr "Stel je vraag"
+
+msgid "Who are the people behind the Climate Help Desk"
+msgstr "Wie zijn de mensen achter de Klimaathelpdesk"
+
+msgid "Who we are"
+msgstr "Wie we zijn"
+
+msgid "View the questions answered by "
+msgstr "Bekijk de vragen beantwoord door "
+
+msgid "Close navigation"
+msgstr "Navigatie sluiten"
+
+msgid "Share this page"
+msgstr "Deel deze pagina"
+
+msgid "My Info"
+msgstr "Mijn info"
+
+msgid "Update"
+msgstr "Bijwerken"
+
+msgid "Volunteers"
+msgstr "Vrijwilligers"
+
+msgid "roles"
+msgstr "rollen"

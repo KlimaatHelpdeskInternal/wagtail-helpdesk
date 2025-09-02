@@ -1,0 +1,21 @@
+{% extends "wagtail_helpdesk/base.html" %}
+{% load static i18n wagtailimages_tags %}
+
+{% block content %}
+  <main class="section">
+    <div class="question-link-list">
+      <h4 class="question-link-list__title">Op dit moment zijn de volgende vragen in behandeling</h4>
+
+      <div class="question-link-list__links">
+        {% for question in questions_in_progress %}
+          {{ question.get_as_home_row_card }}
+        {% endfor %}
+      </div>
+    </div>
+    {% include "wagtail_helpdesk/includes/social_share_buttons.html" %}
+    {% include "wagtail_helpdesk/cms/includes/sticky.html" %}
+    {% include "wagtail_helpdesk/cms/includes/about_footer.html" %}
+
+    </div>
+  </main>
+{% endblock %}

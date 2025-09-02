@@ -1,0 +1,22 @@
+{% extends "wagtail_helpdesk/base.html" %}
+{% load i18n %}
+{% block title %}{% trans "Server Error" %}{% endblock %}
+
+{% block content %}
+  <main class="section">
+  <div class="question-link-list">
+    <h3>Ooops!!! 500</h3>
+
+    <h4>{% trans "Looks like something went wrong!" %}</h4>
+
+    <p>{% trans "We track these errors automatically, but if the problem persists feel free to contact us." %}</p>
+
+  </div>
+
+  {% include "wagtail_helpdesk/cms/includes/sticky.html" %}
+  {% include "wagtail_helpdesk/cms/includes/about_footer.html" %}
+
+  </main>
+{% endblock content %}
+
+

@@ -1,0 +1,83 @@
+name: wagtail-helpdesk CI
+
+on:
+  push:
+    branches:
+      - main
+      - 'stable/**'
+
+  pull_request:
+
+jobs:
+  test-sqlite:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python: ['3.9', '3.10', '3.11']
+        django: ['4.2']
+        wagtail: ['5.0', '5.1', '5.2']
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python ${{ matrix.python }}
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python }}
+      - name: Install Tox
+        run: |
+          python -m pip install tox
+      - name: Test
+        run: |
+          tox
+        env:
+          TOXENV: python${{ matrix.python }}-django${{ matrix.django }}-wagtail${{ matrix.wagtail }}-sqlite
+
+  test-postgres:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python: ['3.9', '3.10', '3.11']
+        django: ['4.2']
+        wagtail: ['5.0', '5.1', '5.2']
+        postgres: ['12']
+
+
+    services:
+      postgres:
+        image: postgres:${{ matrix.postgres }}
+        env:
+          POSTGRES_PASSWORD: postgres
+        ports:
+          - 5432:5432
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python ${{ matrix.python }}
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python }}
+      - name: Install Tox
+        run: |
+          python -m pip install tox
+      - name: Test
+        run: |
+          tox
+        env:
+          DATABASE_URL: postgres://postgres:postgres@localhost:5432/wagtail_helpdesk
+          TOXENV: python${{ matrix.python }}-django${{ matrix.django }}-wagtail${{ matrix.wagtail }}-postgres
+
+  test-codestyle:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+      - name: Install Tox
+        run: |
+          python -m pip install tox
+      - name: Test code style
+        run: |
+          tox -e flake8

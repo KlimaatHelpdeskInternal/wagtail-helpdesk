@@ -1,0 +1,56 @@
+{% extends "wagtail_helpdesk/base.html" %}
+{% load i18n static %}
+{% block head %}
+  <div class="header">
+    <div class="header__wrapper">
+      <h1 class="header__title">{{ page.title }}</h1>
+
+      <form class="header__form" name="filter" method="get">
+        <div class="header__search-wrapper">
+          <input class="header__search-input" type="text" name="search" value="{{ search }}" placeholder="{% trans 'Your search term' %}" />
+          <button class="header__search-button" type="submit" aria-label="{% trans 'Search' %}">
+            <svg class="header__search-icon"><use xlink:href="#search" /></svg>
+          </button>
+        </div>
+        <div class="header__buttons">
+          <div class="header__search-themes">
+            {% for item in categories %}
+              <span>
+                <input type="checkbox" id="{{ item.category }}" value="" name="{{ item.category }}" {% if item.selected %}checked{% endif %}>
+                <label for="{{ item.category }}" class="tag">{{ item.category }}</label>
+              </span>
+            {% endfor %}
+          </div>
+          <div class="header__button">
+            <button class="button">
+              <span class="button__text">Filter</span>
+              <span class="button__icon"></span>
+            </button>
+
+            <a class="header__reset-button" href="/answers"><span>Filters verwijderen</span></a>
+          </div>
+
+        </div>
+      </form>
+    </div>
+  </div>
+{% endblock %}
+
+{#{% block container-class %} smokedglass{% endblock %}#}
+{% block content %}
+    <div class="question-link-list">
+      <div class="question-link-list__links">
+        {% for answer in answers_and_columns %}
+          {{ answer.get_as_overview_row_card }}
+        {% empty %}
+          <div class="question-link-list__no-results">
+            {% trans 'Unfortunately, no questions were found' %}
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+
+    {% include "wagtail_helpdesk/cms/includes/sticky.html" %}
+
+
+{% endblock %}
