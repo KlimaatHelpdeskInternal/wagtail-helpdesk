@@ -45,5 +45,3 @@ def add_new_tenant(app, template_id, newtenant_id, templateName, templateDescrip
 
         return newtenant
 
-def add_EnvironmentURL(app, tenant, enviromentName, urlRoot):
-       newenvironmenturl = EnvironmentURL(id = 0, name = enviromentName, urlroot=urlRoot)
