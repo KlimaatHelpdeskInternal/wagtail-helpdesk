@@ -18,6 +18,7 @@ from wagtail.fields import RichTextField, StreamField
 from wagtail.models import Orderable, Page
 from wagtail.search import index as search_index
 from wagtail.snippets.models import register_snippet
+#from embed_video.fields import EmbedVideoField
 
 from wagtail_helpdesk.cms.blocks import (
     AnswerImageBlock,
@@ -220,6 +221,8 @@ class Answer(Page):
         ),
     )
 
+    #videourl  = EmbedVideoField()
+
     # Freeform content of answer
     page_content = StreamField(
         [
@@ -282,6 +285,7 @@ class Answer(Page):
         FieldPanel(
             "social_image", help_text=_("Image to be used when sharing on social media")
         ),
+        #FieldPanel("videourl", help_text=_("The url to show the video")),
     ]
 
     search_fields = Page.search_fields + [
