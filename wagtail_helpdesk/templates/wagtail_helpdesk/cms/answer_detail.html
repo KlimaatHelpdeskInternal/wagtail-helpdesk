@@ -118,7 +118,7 @@
       </a>
       <div class="content-header__title-container">
         <h1 class="content-header__title">
-          {{ self.title }}
+          {{ self.title }}{{ self.YoutubeVideoID }}
         </h1>
       </div>
       <div class="content-header__theme">
@@ -128,7 +128,9 @@
         {% endfor %}
       </div>
       <div class="content-header__introduction" style="position:relative">
-        <div class="video"><iframe width="342" height="609" src="https://www.youtube.com/embed/mU9-TjarjkA" title="Wat is beter voor het milieu: een digitaal (herbruikbaar) opschrijfboek of een papieren schrift?" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>
+        {% if self.youtube_video_id %}
+          <div class="video"><iframe width="342" height="609" src="https://www.youtube.com/embed/{{ self.youtube_video_id }}" title="{{ self.title }}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>
+        {% endif %}
         <p class="content-header__introduction-text">{{ self.introduction }}</p>
       </div>
       <div class="content-header__tags">

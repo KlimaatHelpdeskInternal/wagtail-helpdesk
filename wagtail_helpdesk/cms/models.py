@@ -1,6 +1,7 @@
 from django.conf import settings
 from django.db import models
 from django.db.models import TextField
+from django.db.models import CharField
 from django.http import Http404, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, redirect, render
 from django.template.loader import render_to_string
@@ -221,7 +222,14 @@ class Answer(Page):
         ),
     )
 
-    #videourl  = EmbedVideoField()
+    youtube_video_id  = CharField(
+        verbose_name=_("Youtube Video ID"),
+        default="",
+        blank=True,
+        null=True,
+        max_length=20,
+        help_text=_("This ID of the video on Youtube,the part after 'embed/'"),
+    )
 
     # Freeform content of answer
     page_content = StreamField(
@@ -248,6 +256,7 @@ class Answer(Page):
     content_panels = Page.content_panels + [
         FieldPanel("type"),
         FieldPanel("featured", heading=_("Show this answer on the home page")),
+        FieldPanel("youtube_video_id", heading=_("The ID of the video on Youtube")),
         FieldPanel(
             "excerpt",
             classname="full",
