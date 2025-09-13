@@ -319,8 +319,9 @@ class Answer(Page):
     @property
     def calculated_reading_time(self) -> int | None:
         text = self.get_plain_text_from_page_content()
+        avg_read_speed = 200
         word_count = len(re.findall(r"\w+", text))
-        return max(1, round(word_count / 200)) if word_count else None
+        return max(1, round(word_count / avg_read_speed)) if word_count else None
 
     @property
     def experts(self):
