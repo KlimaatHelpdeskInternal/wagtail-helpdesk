@@ -26,8 +26,8 @@
            <p>
              
              <span>[{{ forloop.counter }}] &nbsp; </span> 
-             <!-- if ref url exists display it -->
-            {% if ref.url %}
+             <!-- if ref url and is not empty exists display it -->
+            {% if ref.url and ref.url != "-" %}
             <span> <a href="{{ ref.url }}" target="_blank">{{ ref.text }}</a></span>
             {% else %}
             <span>{{ ref.text }}</span>
