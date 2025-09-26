@@ -1,0 +1,35 @@
+/*.video {
+  border: none;
+  position: absolute;
+  top: 100px;
+  Left: -400px;
+}
+*/
+
+.video__title-button {
+  &[aria-expanded='true'] {
+    .disclosure__title-button-icon {
+      transform: rotate(180deg);
+    }
+  }
+}
+
+.video__title-button-icon {
+  background-image: url('../icons/chevron-down.svg');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 100%;
+  display: inline-block;
+  height: 10px;
+  vertical-align: middle;
+  width: 10px;
+  margin-left: 10px;
+}
+
+.video__video-content, .video__video-abstract {
+  &[aria-hidden='true'] {
+    display: none;
+  }
+}
+
+
