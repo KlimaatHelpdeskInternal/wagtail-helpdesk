@@ -11,7 +11,7 @@ module.exports = (env, argv) => {
   return {
     entry: {
       main: [
-        path.join(source, "js", "main.js"),
+        path.join(source, "js", "main.ts"),
         path.join(source, "scss", "main.scss"),
       ],
     },
