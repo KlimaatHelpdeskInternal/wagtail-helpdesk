@@ -18,6 +18,19 @@
 {% endblock extra_head %}
 
 {% block head %}
+  <div>
+    <form>
+      <label>Klik op een cirkel om de categorie te verwijderen.</label>
+      </br>
+      <label>Voeg hier categorieën toe:</label>
+      </br>
+      <select name="co2categories" id="co2categories">
+        <option value="">-</option>
+      </select>
+      </br>
+      <button id="co2button" class="button" type="button">Voeg toe</button>
+    </form>
+  </div>
   <div id="konva" style="display: inline-block"></div>
   <div class="header">
     <div class="header__wrapper">
