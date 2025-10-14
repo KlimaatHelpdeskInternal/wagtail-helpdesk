@@ -638,6 +638,21 @@ class VolunteerIndexPage(Page):
         )
         return context
 
+class CarbonCalculatorPage(Page):
+    """The carboncalculator tool"""
+
+    template = "wagtail_helpdesk/cms/carboncalculator.html"
+
+    content = RichTextField()
+
+    content_panels = Page.content_panels + [
+        FieldPanel("content"),
+    ]
+    def get_context(self, request, *args, **kwargs):
+        context = super(CarbonCalculatorPage, self).get_context(request, *args, **kwargs)
+
+        return context
+
 
 class GeneralPage(Page):
     """A page that won't show sidebar. Ideal for privacy policy, etc."""
