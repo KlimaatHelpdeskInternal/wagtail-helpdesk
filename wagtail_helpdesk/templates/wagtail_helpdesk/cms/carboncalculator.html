@@ -1,0 +1,21 @@
+{% extends "wagtail_helpdesk/base.html" %}
+{% load static i18n wagtailimages_tags wagtailcore_tags %}
+<script src="{% static 'main.js' %}"></script>
+
+{% block head %}
+  <div>
+    <form>
+      <label>Klik op een cirkel om de categorie te verwijderen.</label>
+      </br>
+      <label>Voeg hier categorieën toe:</label>
+      </br>
+      <select name="co2categories" id="co2categories">
+        <option value="">-</option>
+      </select>
+      </br>
+      <button id="co2button" class="button" type="button">Voeg toe</button>
+    </form>
+  </div>
+  <div id="konva" style="display: inline-block"></div>
+{% endblock %}
+
