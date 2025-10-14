@@ -129,20 +129,49 @@
       </div>
         <div class="content-header__introduction" style="position:relative">
           {% if self.youtube_video_id %}
-          <div class="video" >
-            <button id="{{ button_id }}" class="video__title-button" aria-controls="{{ content_id }}"
-                aria-expanded="true" data-action="video#toggleVideoAbstract" type="button">
-              <span class="video__title-button-span">Video</span>
-              <span class="video__title-button-icon"></span>
-            </button>
-
-            <div class="video__video-content" role="region" aria-hidden="false" data-video-target="video"><iframe width="342" height="609" src="https://www.youtube.com/embed/{{ self.youtube_video_id }}" title="{{ self.title }}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>
-          </div>
-        {% endif %}
-        <div class="video__video-abstract" role="region" aria-hidden="true" data-video-target="abstract">
-          <p class="content-header__introduction-text">{{ self.introduction }}</p>
+            <div class="video">
+              <button
+                id="toggleVideoTextBtn"
+                type="button"
+                onclick="toggleVideoText()"
+                style="padding: 8px 16px; background-color: #d40000; color: white; border: none; border-radius: 4px; cursor: pointer; font-family: inherit;"
+              >
+                <span id="toggleBtnText">Tekst</span>
+                <span id="toggleArrow" style="margin-left:8px;">&#9660;</span>
+              </button>
+              <div style="height: 16px;"></div>
+              <div id="videoContent" class="video__video-content" style="display:block;">
+                <iframe width="342" height="609" src="https://www.youtube.com/embed/{{ self.youtube_video_id }}" title="{{ self.title }}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+              </div>
+              <div id="textContent" class="video__video-abstract" style="display:none;">
+                <p class="content-header__introduction-text">{{ self.introduction }}</p>
+              </div>
+            </div>
+            <script>
+              function toggleVideoText() {
+                var video = document.getElementById('videoContent');
+                var text = document.getElementById('textContent');
+                var btn = document.getElementById('toggleBtnText');
+                var arrow = document.getElementById('toggleArrow');
+                if (video.style.display === 'none') {
+                  video.style.display = 'block';
+                  text.style.display = 'none';
+                  btn.textContent = 'Tekst';
+                  arrow.innerHTML = '&#9660;'; // Down arrow
+                } else {
+                  video.style.display = 'none';
+                  text.style.display = 'block';
+                  btn.textContent = 'Video';
+                  arrow.innerHTML = '&#9650;'; // Up arrow
+                }
+              }
+            </script>
+          {% else %}
+            <div class="video__video-abstract">
+              <p class="content-header__introduction-text">{{ self.introduction }}</p>
+            </div>
+          {% endif %}
         </div>
-      </div>
       <div class="content-header__tags">
         {% for tag in self.tags.all %}
           <span class="content-header__tag">#{{ tag }}</span>
