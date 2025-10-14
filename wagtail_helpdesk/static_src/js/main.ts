@@ -74,8 +74,7 @@ button.addEventListener("click", (value => {
       }
     }
   }
-}
-));
+}));
 
 // Konva
 // first we need to create a stage
@@ -172,8 +171,7 @@ function drawCircles(currentCategories) {
         stage.width() * circlePositions[i][0],
         stage.height() * circlePositions[i][1] - stage.height() / 9,
         circleRadius * 1.5,
-        Math.round((currentCategories[0].value / currentCategories[i].value) * 1000) /
-          1000,
+        Math.round((currentCategories[0].value / currentCategories[i].value) * 1000) / 1000,
         14,
         "Calibri",
         "green"
