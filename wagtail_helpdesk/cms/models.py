@@ -1,4 +1,6 @@
+from pickle import dumps
 from django.conf import settings
+from django.core import serializers
 from django.db import models
 from django.db.models import TextField
 from django.http import Http404, HttpResponseRedirect
@@ -25,7 +27,7 @@ from wagtail_helpdesk.cms.blocks import (
     AnswerRichTextBlock,
     QuoteBlock,
     RelatedItemsBlock,
-)
+   )
 from wagtail_helpdesk.core.forms import KeepMePostedForm, QuestionForm
 from wagtail_helpdesk.core.models import Question
 from wagtail_helpdesk.experts.models import Expert
@@ -177,6 +179,47 @@ class AnswerCategory(models.Model):
 
 register_snippet(AnswerCategory)
 
+class CarbonEmissionCategory(models.Model):
+    name = models.CharField(_("name"), max_length=50, help_text="The name of this CarbonEmission category")
+    conversion_to_kg_CO2 = models.FloatField(default=1,name="conversion_to_kg_CO2", help_text="The conversion ratio to 1kg of CO2")
+    description = models.CharField(
+        _("description"), max_length=255, blank=False, null=True, help_text="A description for this category"
+    )
+    image_url = models.URLField(name="image_url", blank=True, null=True, help_text="A URL for an image depicting this category")
+    source_description = models.CharField(
+        _("source_description"), max_length=255, blank=True, null=True, help_text="A description of the source of this conversion number")
+    source_url = models.CharField(
+        _("source_url"), max_length=255, blank=True, null=True, help_text="A URL for  the source of this conversion number"  
+    )
+    is_emission = models.BooleanField(
+        _("is_emission"), default=True, help_text="True if it is a CO2 emission, False if it is a CO2 absorbtion"  
+    )
+
+
+
+    panels = [
+        FieldPanel("name"),
+        FieldPanel("conversion_to_kg_CO2"),
+        FieldPanel("description"),
+        FieldPanel("image_url"),
+        FieldPanel("source_description"),
+        FieldPanel("source_url"),
+        FieldPanel("is_emission"),
+    ]
+
+    class Meta:
+        verbose_name = _("CO2 emission category")
+        verbose_name_plural = _("CO2 emission categories")
+        ordering = ["name"]
+
+    def __str__(self):
+        return self.name
+
+    def get_prefiltered_search_params(self):
+        return "?{}=".format(self.name)
+
+
+register_snippet(CarbonEmissionCategory)
 
 class Answer(Page):
     template = "wagtail_helpdesk/cms/answer_detail.html"
@@ -650,7 +693,14 @@ class CarbonCalculatorPage(Page):
     ]
     def get_context(self, request, *args, **kwargs):
         context = super(CarbonCalculatorPage, self).get_context(request, *args, **kwargs)
+        carbonemissioncategories = CarbonEmissionCategory.objects.all()
+        cc_json = serializers.serialize('json', carbonemissioncategories)
 
+        context.update(
+            {
+                "carbonemissioncategories":cc_json,
+            }
+        )
         return context
 
 
