@@ -66,6 +66,7 @@
 }
 </script>
 {% endblock schema %}
+
 {% block description %}
   {% if self.excerpt %}
     {{ self.excerpt }}
@@ -73,6 +74,7 @@
     {{ self.introduction }}
   {% endif %}
 {% endblock %}
+
 {% block navbar %}
   <div class="menu-bar menu-bar--inverted">
     <div class="menu-bar__bar">
@@ -86,15 +88,14 @@
 
       <div class="menu-bar__expert-container">
         {% for expert in self.experts %}
-             <a class="menu-bar__expert-link" href="/experts#{{ expert.pk }}">
-                 {% image expert.picture fill-200x200 as image %}
-                <img class="menu-bar__image" src="{{ image.url }}" alt="{{ image.alt }}">
-                <span class="menu-bar__expert-name">{{ expert.name }}</span>
-                {% if self.experts|length == 1 %}
-                    <span class="menu-bar__expert-title">{{ expert.affiliation }}</span>
-                {% endif %}
+          <a class="menu-bar__expert-link" href="/experts#{{ expert.pk }}">
+            {% image expert.picture fill-200x200 as image %}
+            <img class="menu-bar__image" src="{{ image.url }}" alt="{{ image.alt }}">
+            <span class="menu-bar__expert-name">{{ expert.name }}</span>
+            {% if self.experts|length == 1 %}
+              <span class="menu-bar__expert-title">{{ expert.affiliation }}</span>
+            {% endif %}
           </a>
-
         {% endfor %}
       </div>
 
@@ -106,9 +107,7 @@
     </div>
   </div>
 {% endblock %}
-{##}
-{#{% block smokedglass %}#}
-{#{% endblock %}#}
+
 
 {% block head %}
   <div class="content-header" data-controller="video">
@@ -117,61 +116,110 @@
         <span class="content-header__back-link-icon"></span>
       </a>
       <div class="content-header__title-container">
-        <h1 class="content-header__title">
-          {{ self.title }}
-        </h1>
+        <h1 class="content-header__title">{{ self.title }}</h1>
       </div>
+
       <div class="content-header__theme">
         {% for category in self.get_all_categories %}
-          <a href="{% pageurl self.get_parent %}{{ category.url }}"><span
-                  class="content-header__subject-tag tag">{{ category.title }}</span></a>
+          <a href="{% pageurl self.get_parent %}{{ category.url }}">
+            <span class="content-header__subject-tag tag">{{ category.title }}</span>
+          </a>
         {% endfor %}
       </div>
-        <div class="content-header__introduction" style="position:relative">
-          {% if self.youtube_video_id %}
-            <div class="video">
-              <button
-                id="toggleVideoTextBtn"
-                type="button"
-                onclick="toggleVideoText()"
-                style="padding: 8px 16px; background-color: #d40000; color: white; border: none; border-radius: 4px; cursor: pointer; font-family: inherit;"
-              >
-                <span id="toggleBtnText">Tekst</span>
-                <span id="toggleArrow" style="margin-left:8px;">&#9660;</span>
-              </button>
-              <div style="height: 16px;"></div>
-              <div id="videoContent" class="video__video-content" style="display:block;">
-                <iframe width="342" height="609" src="https://www.youtube.com/embed/{{ self.youtube_video_id }}" title="{{ self.title }}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-              </div>
-              <div id="textContent" class="video__video-abstract" style="display:none;">
-                <p class="content-header__introduction-text">{{ self.introduction }}</p>
-              </div>
+
+      <div class="content-header__introduction" style="position:relative">
+        {% if self.youtube_video_id %}
+          <div class="video">
+            <button
+              id="toggleBtn"
+              type="button"
+              aria-controls="videoContent textContent fullTextSection"
+              aria-pressed="true"
+              class="toggle-btn"
+              style="padding:8px 16px;background:#f40a0a;color:#fff;border:none;border-radius:4px;cursor:pointer;"
+            >
+              Bekijk video
+            </button>
+
+            <div style="height: 16px;"></div>
+
+            <!-- Video -->
+            <div id="videoContent" class="video__video-content fade is-visible" role="region" aria-label="Videoweergave">
+              <iframe width="342" height="609"
+                      src="https://www.youtube.com/embed/{{ self.youtube_video_id }}"
+                      title="{{ self.title }}" frameborder="0"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                      referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
             </div>
-            <script>
-              function toggleVideoText() {
-                var video = document.getElementById('videoContent');
-                var text = document.getElementById('textContent');
-                var btn = document.getElementById('toggleBtnText');
-                var arrow = document.getElementById('toggleArrow');
-                if (video.style.display === 'none') {
-                  video.style.display = 'block';
-                  text.style.display = 'none';
-                  btn.textContent = 'Tekst';
-                  arrow.innerHTML = '&#9660;'; // Down arrow
-                } else {
-                  video.style.display = 'none';
-                  text.style.display = 'block';
-                  btn.textContent = 'Video';
-                  arrow.innerHTML = '&#9650;'; // Up arrow
-                }
-              }
-            </script>
-          {% else %}
-            <div class="video__video-abstract">
+
+            <div id="textContent" class="video__video-abstract fade is-hidden" role="region" aria-label="Tekstweergave">
               <p class="content-header__introduction-text">{{ self.introduction }}</p>
             </div>
-          {% endif %}
-        </div>
+          </div>
+
+          <script>
+            (function () {
+              const btn  = document.getElementById('toggleBtn');
+              const vid  = document.getElementById('videoContent');
+              const text = document.getElementById('textContent');
+              const full = document.getElementById('fullTextSection');
+
+              // State: true = Video actief, false = Tekst actief
+              let isVideo = true;
+
+              function setState(newIsVideo) {
+                isVideo = newIsVideo;
+
+                // Knoplabel + ARIA
+                if (isVideo) {
+                  btn.textContent = 'Lees tekst';
+                  btn.style.backgroundColor = '#f40a0a';
+                  btn.style.color = '#fff';
+                  btn.setAttribute('aria-pressed', 'true');
+                } else {
+                  btn.textContent = 'Bekijk video';
+                  btn.style.backgroundColor = '#f40a0a';
+                  btn.style.color = '#fff';
+                  btn.setAttribute('aria-pressed', 'false');
+                }
+
+                // Headerweergave
+                if (isVideo) {
+                  vid.classList.remove('is-hidden'); vid.classList.add('is-visible');
+                  text.classList.remove('is-visible'); text.classList.add('is-hidden');
+                } else {
+                  vid.classList.remove('is-visible'); vid.classList.add('is-hidden');
+                  text.classList.remove('is-hidden');  text.classList.add('is-visible');
+                }
+
+                // Volledige tekstsectie inklappen/uitklappen
+                if (full) {
+                  if (isVideo) {
+                    full.classList.remove('is-visible'); full.classList.add('is-hidden');
+                    full.setAttribute('aria-hidden', 'true');
+                  } else {
+                    full.classList.remove('is-hidden');  full.classList.add('is-visible');
+                    full.removeAttribute('aria-hidden');
+                  }
+                }
+              }
+
+              // Toggle handler
+              btn.addEventListener('click', function () {
+                setState(!isVideo);
+              });
+
+              // Default start: Video actief (tekst ingeklapt)
+              setState(true);
+            })();
+          </script>
+        {% else %}
+          <div class="video__video-abstract">
+            <p class="content-header__introduction-text">{{ self.introduction }}</p>
+          </div>
+        {% endif %}
+      </div>
+
       <div class="content-header__tags">
         {% for tag in self.tags.all %}
           <span class="content-header__tag">#{{ tag }}</span>
@@ -181,21 +229,23 @@
   </div>
 {% endblock %}
 
+
+{# ==== HIERONDER: alles in 1 wrapper zodat het kan inklappen ==== #}
 {% block content %}
-  {% for block in self.page_content %}
-    {% include_block block %}
-  {% endfor %}
-  {% include "wagtail_helpdesk/includes/social_share_buttons.html" %}
+  <div id="fullTextSection" class="fade is-visible">
+    {% for block in self.page_content %}
+      {% include_block block %}
+    {% endfor %}
 
-  {% for block in self.answer_origin %}
-    {% include_block block %}
-  {% endfor %}
+    {% include "wagtail_helpdesk/includes/social_share_buttons.html" %}
 
-  {% for block in self.related_items %}
-    {% include_block block %}
-  {% endfor %}
+    {% for block in self.answer_origin %}
+      {% include_block block %}
+    {% endfor %}
 
+    {% for block in self.related_items %}
+      {% include_block block %}
+    {% endfor %}
+  </div>
 {% endblock %}
-
-
 
