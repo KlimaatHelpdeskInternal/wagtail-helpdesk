@@ -41,4 +41,14 @@
   text-align: center;
 }
 
+#videoContent.is-hidden,
+#pageContent.is-hidden {
+  display: none !important;
+}
+
+#videoContent.is-visible,
+#pageContent.is-visible {
+  display: block !important;
+}
+
 

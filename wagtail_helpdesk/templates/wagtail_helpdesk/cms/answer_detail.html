@@ -130,20 +130,26 @@
       <div class="content-header__introduction" style="position:relative">
         {% if self.youtube_video_id %}
           <div class="video">
+
+            <div class="video__video-abstract" role="region" aria-label="Introductie">
+              <p class="content-header__introduction-text">{{ self.introduction }}</p>
+            </div>
+
+            <div style="height: 16px;"></div>
+
             <button
               id="toggleBtn"
               type="button"
-              aria-controls="videoContent textContent fullTextSection"
+              aria-controls="videoContent pageContent"
               aria-pressed="true"
               class="toggle-btn"
               style="padding:8px 16px;background:#f40a0a;color:#fff;border:none;border-radius:4px;cursor:pointer;"
             >
-              Bekijk video
+              Verberg video
             </button>
 
             <div style="height: 16px;"></div>
 
-            <!-- Video -->
             <div id="videoContent" class="video__video-content fade is-visible" role="region" aria-label="Videoweergave">
               <iframe width="342" height="609"
                       src="https://www.youtube.com/embed/{{ self.youtube_video_id }}"
@@ -151,68 +157,54 @@
                       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                       referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
             </div>
-
-            <div id="textContent" class="video__video-abstract fade is-hidden" role="region" aria-label="Tekstweergave">
-              <p class="content-header__introduction-text">{{ self.introduction }}</p>
-            </div>
           </div>
 
           <script>
-            (function () {
+            document.addEventListener('DOMContentLoaded', function () {
               const btn  = document.getElementById('toggleBtn');
               const vid  = document.getElementById('videoContent');
-              const text = document.getElementById('textContent');
-              const full = document.getElementById('fullTextSection');
+              const page = document.getElementById('pageContent');
 
-              // State: true = Video actief, false = Tekst actief
-              let isVideo = true;
+              let isVideoVisible = true;
 
-              function setState(newIsVideo) {
-                isVideo = newIsVideo;
+              function setState(showVideo) {
+                isVideoVisible = showVideo;
 
-                // Knoplabel + ARIA
-                if (isVideo) {
-                  btn.textContent = 'Lees tekst';
-                  btn.style.backgroundColor = '#f40a0a';
-                  btn.style.color = '#fff';
+                if (isVideoVisible) {
+                  btn.textContent = 'Verberg video';
                   btn.setAttribute('aria-pressed', 'true');
+
+                  vid.classList.remove('is-hidden');
+                  vid.classList.add('is-visible');
+
+                  if (page) {
+                    page.classList.remove('is-visible');
+                    page.classList.add('is-hidden');
+                    page.setAttribute('aria-hidden', 'true');
+                  }
                 } else {
                   btn.textContent = 'Bekijk video';
-                  btn.style.backgroundColor = '#f40a0a';
-                  btn.style.color = '#fff';
                   btn.setAttribute('aria-pressed', 'false');
-                }
 
-                // Headerweergave
-                if (isVideo) {
-                  vid.classList.remove('is-hidden'); vid.classList.add('is-visible');
-                  text.classList.remove('is-visible'); text.classList.add('is-hidden');
-                } else {
-                  vid.classList.remove('is-visible'); vid.classList.add('is-hidden');
-                  text.classList.remove('is-hidden');  text.classList.add('is-visible');
-                }
+                  vid.classList.remove('is-visible');
+                  vid.classList.add('is-hidden');
 
-                // Volledige tekstsectie inklappen/uitklappen
-                if (full) {
-                  if (isVideo) {
-                    full.classList.remove('is-visible'); full.classList.add('is-hidden');
-                    full.setAttribute('aria-hidden', 'true');
-                  } else {
-                    full.classList.remove('is-hidden');  full.classList.add('is-visible');
-                    full.removeAttribute('aria-hidden');
+                  if (page) {
+                    page.classList.remove('is-hidden');
+                    page.classList.add('is-visible');
+                    page.removeAttribute('aria-hidden');
                   }
                 }
               }
 
-              // Toggle handler
               btn.addEventListener('click', function () {
-                setState(!isVideo);
+                setState(!isVideoVisible);
               });
 
-              // Default start: Video actief (tekst ingeklapt)
               setState(true);
-            })();
+            });
           </script>
+
         {% else %}
           <div class="video__video-abstract">
             <p class="content-header__introduction-text">{{ self.introduction }}</p>
@@ -232,20 +224,21 @@
 
 {# ==== HIERONDER: alles in 1 wrapper zodat het kan inklappen ==== #}
 {% block content %}
-  <div id="fullTextSection" class="fade is-visible">
+  <!-- page_content is collapsed when video is visible -->
+  <div id="pageContent" class="fade is-hidden">
     {% for block in self.page_content %}
       {% include_block block %}
     {% endfor %}
-
-    {% include "wagtail_helpdesk/includes/social_share_buttons.html" %}
-
-    {% for block in self.answer_origin %}
-      {% include_block block %}
-    {% endfor %}
-
-    {% for block in self.related_items %}
-      {% include_block block %}
-    {% endfor %}
   </div>
-{% endblock %}
 
+  {% include "wagtail_helpdesk/includes/social_share_buttons.html" %}
+
+  <!-- 4️⃣ Altijd zichtbaar -->
+  {% for block in self.answer_origin %}
+    {% include_block block %}
+  {% endfor %}
+
+  {% for block in self.related_items %}
+    {% include_block block %}
+  {% endfor %}
+{% endblock %}
