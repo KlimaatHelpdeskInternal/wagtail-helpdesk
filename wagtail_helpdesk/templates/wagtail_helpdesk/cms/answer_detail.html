@@ -33,7 +33,7 @@
         <meta property="twitter:creator" content="@{{ expert.twitter_username }}">
       {% endif %}
     {% endwith %}
-    <meta name="keywords" content="{% for tag in self.tags.all %}{{ tag }}, {% endfor %}">
+    <!-- <meta name="keywords" content="{% for tag in self.tags.all %}{{ tag }}, {% endfor %}"> -->
 
     <meta property="og:locale" content="nl_NL">
     <meta property="og:site_name" content="{{ social_media_settings.short_site_name }}">
@@ -145,7 +145,7 @@
               class="toggle-btn"
               style="padding:8px 16px;background:#f40a0a;color:#fff;border:none;border-radius:4px;cursor:pointer;"
             >
-              Verberg video
+              Toon tekst
             </button>
 
             <div style="height: 16px;"></div>
@@ -171,7 +171,7 @@
                 isVideoVisible = showVideo;
 
                 if (isVideoVisible) {
-                  btn.textContent = 'Verberg video';
+                  btn.textContent = 'Lees meer';
                   btn.setAttribute('aria-pressed', 'true');
 
                   vid.classList.remove('is-hidden');
@@ -212,11 +212,11 @@
         {% endif %}
       </div>
 
-      <div class="content-header__tags">
+      <!-- <div class="content-header__tags">
         {% for tag in self.tags.all %}
           <span class="content-header__tag">#{{ tag }}</span>
         {% endfor %}
-      </div>
+      </div> -->
     </div>
   </div>
 {% endblock %}
