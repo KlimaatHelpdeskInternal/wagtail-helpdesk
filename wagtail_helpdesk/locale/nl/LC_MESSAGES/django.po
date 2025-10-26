@@ -571,3 +571,9 @@ msgstr "Vrijwilligers"
 
 msgid "roles"
 msgstr "rollen"
+
+msgid "Continue reading..."
+msgstr "Lees meer..."
+
+msgid "Watch video"
+msgstr "Bekijk video"

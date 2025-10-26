@@ -33,8 +33,6 @@
         <meta property="twitter:creator" content="@{{ expert.twitter_username }}">
       {% endif %}
     {% endwith %}
-    <!-- <meta name="keywords" content="{% for tag in self.tags.all %}{{ tag }}, {% endfor %}"> -->
-
     <meta property="og:locale" content="nl_NL">
     <meta property="og:site_name" content="{{ social_media_settings.short_site_name }}">
   {% endwith %}
@@ -137,16 +135,17 @@
 
             <div style="height: 16px;"></div>
 
-            <button
-              id="toggleBtn"
-              type="button"
-              aria-controls="videoContent pageContent"
-              aria-pressed="true"
-              class="toggle-btn"
-              style="padding:8px 16px;background:#f40a0a;color:#fff;border:none;border-radius:4px;cursor:pointer;"
-            >
-              Toon tekst
-            </button>
+            <p class="video__toggle-text">
+              <a
+                href="javascript:void(0)"
+                id="toggleLink"
+                class="toggle-link"
+                aria-controls="videoContent pageContent"
+                aria-pressed="true"
+              >
+                Lees meer...
+              </a>
+            </p>
 
             <div style="height: 16px;"></div>
 
@@ -161,7 +160,7 @@
 
           <script>
             document.addEventListener('DOMContentLoaded', function () {
-              const btn  = document.getElementById('toggleBtn');
+              const btn  = document.getElementById('toggleLink');
               const vid  = document.getElementById('videoContent');
               const page = document.getElementById('pageContent');
 
@@ -171,7 +170,7 @@
                 isVideoVisible = showVideo;
 
                 if (isVideoVisible) {
-                  btn.textContent = 'Lees meer';
+                  btn.textContent = 'Lees meer...';
                   btn.setAttribute('aria-pressed', 'true');
 
                   vid.classList.remove('is-hidden');
@@ -197,7 +196,8 @@
                 }
               }
 
-              btn.addEventListener('click', function () {
+              btn.addEventListener('click', function (e) {
+                e.preventDefault();
                 setState(!isVideoVisible);
               });
 
@@ -205,24 +205,18 @@
             });
           </script>
 
+
         {% else %}
           <div class="video__video-abstract">
             <p class="content-header__introduction-text">{{ self.introduction }}</p>
           </div>
         {% endif %}
       </div>
-
-      <!-- <div class="content-header__tags">
-        {% for tag in self.tags.all %}
-          <span class="content-header__tag">#{{ tag }}</span>
-        {% endfor %}
-      </div> -->
     </div>
   </div>
 {% endblock %}
 
 
-{# ==== HIERONDER: alles in 1 wrapper zodat het kan inklappen ==== #}
 {% block content %}
   {% if self.youtube_video_id %}
     <div id="pageContent" class="fade is-hidden">
