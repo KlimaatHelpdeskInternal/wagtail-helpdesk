@@ -577,3 +577,6 @@ msgstr "Lees meer..."
 
 msgid "Watch video"
 msgstr "Bekijk video"
+
+msgid "min reading time"
+msgstr "min. leestijd"

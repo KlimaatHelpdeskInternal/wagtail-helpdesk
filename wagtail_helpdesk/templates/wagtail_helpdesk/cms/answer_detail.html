@@ -135,17 +135,25 @@
 
             <div style="height: 16px;"></div>
 
-            <p class="video__toggle-text">
-              <a
-                href="javascript:void(0)"
-                id="toggleLink"
-                class="toggle-link"
-                aria-controls="videoContent pageContent"
-                aria-pressed="true"
-              >
-                Lees meer...
-              </a>
-            </p>
+          <div class="video__toggle-text">
+            <a
+              href="javascript:void(0)"
+              id="toggleLink"
+              class="toggle-link"
+              aria-controls="videoContent pageContent"
+              aria-pressed="true"
+            >
+              Lees meer...
+            </a>
+
+            {% with minutes=self.calculated_reading_time %}
+              {% if minutes %}
+                <span class="reading-time">
+                  {{ minutes }} min. leestijd
+                </span>
+              {% endif %}
+            {% endwith %}
+          </div>
 
             <div style="height: 16px;"></div>
 

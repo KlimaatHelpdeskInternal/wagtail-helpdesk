@@ -9,13 +9,16 @@
 }
 
 .video__toggle-text {
-  text-align: left;
+  flex-direction: column;
+  gap: 0.5rem;
   margin: 0.5rem 0;
+  text-align: left;
 
   @media (max-width: 768px) {
     text-align: center;
   }
 }
+
 
 .toggle-link {
   color: $color-true-black;    
@@ -42,3 +45,9 @@
   text-decoration: none;
 }
 
+.reading-time {
+  font-family: $geomanist-font-stack, system-ui, sans-serif;
+  font-size: 16px;
+  color: $color-true-black;
+  opacity: 1;
+}
