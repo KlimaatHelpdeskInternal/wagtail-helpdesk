@@ -224,16 +224,22 @@
 
 {# ==== HIERONDER: alles in 1 wrapper zodat het kan inklappen ==== #}
 {% block content %}
-  <!-- page_content is collapsed when video is visible -->
-  <div id="pageContent" class="fade is-hidden">
-    {% for block in self.page_content %}
-      {% include_block block %}
-    {% endfor %}
-  </div>
+  {% if self.youtube_video_id %}
+    <div id="pageContent" class="fade is-hidden">
+      {% for block in self.page_content %}
+        {% include_block block %}
+      {% endfor %}
+    </div>
+  {% else %}
+    <div id="pageContent" class="fade is-visible">
+      {% for block in self.page_content %}
+        {% include_block block %}
+      {% endfor %}
+    </div>
+  {% endif %}
 
   {% include "wagtail_helpdesk/includes/social_share_buttons.html" %}
 
-  <!-- 4️⃣ Altijd zichtbaar -->
   {% for block in self.answer_origin %}
     {% include_block block %}
   {% endfor %}
@@ -242,3 +248,4 @@
     {% include_block block %}
   {% endfor %}
 {% endblock %}
+
