@@ -1,7 +1,7 @@
 import { Application } from "@hotwired/stimulus";
 import { definitionsFromContext } from "@hotwired/stimulus-webpack-helpers";
 import Konva from "konva";
-import { co2categories } from "./co2categories.ts";
+import { co2categories } from "./co2categories.js";
 
 window.Stimulus = Application.start();
 const context = require.context("./controllers", true, /\.js$/);
@@ -126,7 +126,7 @@ function drawCircles(currentCategories) {
         stage.width() * circlePositions[i][0],
         stage.height() * circlePositions[i][1] - stage.height() / 9,
         circleRadius * 1.5,
-        Math.round((currentCategories[0].value / currentCategories[i].value) * 1000) / 1000,
+        Math.round((currentCategories[0].conversion_to_kg_CO2 / currentCategories[i].conversion_to_kg_CO2) * 1000) / 1000,
         14,
         "Calibri",
         "green"
@@ -146,9 +146,9 @@ function drawCircles(currentCategories) {
     );
 
     let amountCeil = Math.ceil(
-      currentCategories[0].value / currentCategories[i].value
+      currentCategories[0].conversion_to_kg_CO2 / currentCategories[i].conversion_to_kg_CO2
     );
-    let lastAmount = (currentCategories[0].value / currentCategories[i].value) % 1;
+    let lastAmount = (currentCategories[0].conversion_to_kg_CO2 / currentCategories[i].conversion_to_kg_CO2) % 1;
     if (lastAmount == 0) {
       lastAmount = 1;
     }
@@ -156,7 +156,7 @@ function drawCircles(currentCategories) {
     for (let j = 0; j < amountCeil; j++) {
       if (j == amountCeil - 1) {
         const imageObj = new Image();
-        imageObj.src = currentCategories[i].icon;
+        imageObj.src = currentCategories[i].image_url;
         imageObj.onload = () => {
           const halfWidth = imageObj.width * lastAmount;
 

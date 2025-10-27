@@ -698,7 +698,7 @@ class CarbonCalculatorPage(Page):
 
         context.update(
             {
-                "carbonemissioncategories":cc_json,
+                "carbonemissioncategories":cc_json
             }
         )
         return context

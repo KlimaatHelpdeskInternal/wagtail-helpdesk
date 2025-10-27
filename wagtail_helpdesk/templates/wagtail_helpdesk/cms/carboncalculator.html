@@ -1,9 +1,12 @@
 {% extends "wagtail_helpdesk/base.html" %}
 {% load static i18n wagtailimages_tags wagtailcore_tags %}
 <script src="{% static 'main.js' %}"></script>
+<script src="{% static 'carboncalculator.js' %}"></script>
 
 {% block head %}
-  {{ carbonemissioncategories | json_script:"carbonemissioncategories" }}
+  <script>
+    const carbonemissioncategoriesvar = '{{ carbonemissioncategories|escapejs  }}';
+</script>
   <div>
     <form>
       <label>Klik op een cirkel om de categorie te verwijderen.</label>
