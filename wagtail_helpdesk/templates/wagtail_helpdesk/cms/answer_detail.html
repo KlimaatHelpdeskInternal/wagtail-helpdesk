@@ -126,14 +126,12 @@
       </div>
 
       <div class="content-header__introduction" style="position:relative">
-        {% if self.youtube_video_id %}
-          <div class="video">
+      {% if self.youtube_video_id %}
+        <div class="video">
 
-            <div class="video__video-abstract" role="region" aria-label="Introductie">
-              <p class="content-header__introduction-text">{{ self.introduction }}</p>
-            </div>
-
-            <div style="height: 16px;"></div>
+          <div class="video__video-abstract" role="region" aria-label="Introductie">
+            <p class="content-header__introduction-text">{{ self.introduction }}</p>
+          </div>
 
           <div class="video__toggle-text">
             <a
@@ -155,71 +153,73 @@
             {% endwith %}
           </div>
 
-            <div style="height: 16px;"></div>
-
-            <div id="videoContent" class="video__video-content fade is-visible" role="region" aria-label="Videoweergave">
-              <iframe width="342" height="609"
-                      src="https://www.youtube.com/embed/{{ self.youtube_video_id }}"
-                      title="{{ self.title }}" frameborder="0"
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                      referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-            </div>
+          <div id="videoContent" class="video__video-content fade is-visible" role="region" aria-label="Videoweergave">
+            <iframe width="342" height="609"
+                    src="https://www.youtube.com/embed/{{ self.youtube_video_id }}"
+                    title="{{ self.title }}" frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
           </div>
+        </div>
 
-          <script>
-            document.addEventListener('DOMContentLoaded', function () {
-              const btn  = document.getElementById('toggleLink');
-              const vid  = document.getElementById('videoContent');
-              const page = document.getElementById('pageContent');
+        <script>
+          document.addEventListener('DOMContentLoaded', function () {
+            const btn  = document.getElementById('toggleLink');
+            const vid  = document.getElementById('videoContent');
+            const page = document.getElementById('pageContent');
+            let isVideoVisible = true;
 
-              let isVideoVisible = true;
+            function setState(showVideo) {
+              isVideoVisible = showVideo;
 
-              function setState(showVideo) {
-                isVideoVisible = showVideo;
-
-                if (isVideoVisible) {
-                  btn.textContent = 'Lees meer...';
-                  btn.setAttribute('aria-pressed', 'true');
-
-                  vid.classList.remove('is-hidden');
-                  vid.classList.add('is-visible');
-
-                  if (page) {
-                    page.classList.remove('is-visible');
-                    page.classList.add('is-hidden');
-                    page.setAttribute('aria-hidden', 'true');
-                  }
-                } else {
-                  btn.textContent = 'Bekijk video';
-                  btn.setAttribute('aria-pressed', 'false');
-
-                  vid.classList.remove('is-visible');
-                  vid.classList.add('is-hidden');
-
-                  if (page) {
-                    page.classList.remove('is-hidden');
-                    page.classList.add('is-visible');
-                    page.removeAttribute('aria-hidden');
-                  }
+              if (isVideoVisible) {
+                btn.textContent = 'Lees meer...';
+                vid.classList.remove('is-hidden');
+                vid.classList.add('is-visible');
+                if (page) {
+                  page.classList.remove('is-visible');
+                  page.classList.add('is-hidden');
+                  page.setAttribute('aria-hidden', 'true');
+                }
+              } else {
+                btn.textContent = 'Bekijk video';
+                vid.classList.remove('is-visible');
+                vid.classList.add('is-hidden');
+                if (page) {
+                  page.classList.remove('is-hidden');
+                  page.classList.add('is-visible');
+                  page.removeAttribute('aria-hidden');
                 }
               }
+              btn.blur();
+            }
 
-              btn.addEventListener('click', function (e) {
-                e.preventDefault();
-                setState(!isVideoVisible);
-              });
-
-              setState(true);
+            btn.addEventListener('click', function (e) {
+              e.preventDefault();
+              setState(!isVideoVisible);
             });
-          </script>
 
+            setState(true);
+          });
+        </script>
 
-        {% else %}
-          <div class="video__video-abstract">
-            <p class="content-header__introduction-text">{{ self.introduction }}</p>
-          </div>
-        {% endif %}
-      </div>
+      {% else %}
+        <div class="video__video-abstract">
+          <p class="content-header__introduction-text">{{ self.introduction }}</p>
+        </div>
+
+        {% with minutes=self.calculated_reading_time %}
+          {% if minutes %}
+            <div class="video__toggle-text">
+              <span class="reading-time">
+                {{ minutes }} min. leestijd
+              </span>
+            </div>
+          {% endif %}
+        {% endwith %}
+      {% endif %}
+    </div>
+
     </div>
   </div>
 {% endblock %}
