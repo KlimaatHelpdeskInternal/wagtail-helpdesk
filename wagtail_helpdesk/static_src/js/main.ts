@@ -15,21 +15,27 @@ const select = document.getElementById("co2categories");
 const button = document.getElementById("co2button");
 
 for (const category of categories) {
-  select.options[select.options.length] = new Option(category.name, category.name);
+  select.options[select.options.length] = new Option(
+    category.name,
+    category.name
+  );
 }
 
-button.addEventListener("click", (value => {
-  if (currentCategories.length < 9 && currentCategories.includes(select.value) === false) {
+button.addEventListener("click", (value) => {
+  if (
+    currentCategories.length < 9 &&
+    currentCategories.includes(select.value) === false
+  ) {
     console.log(select.value);
     for (const category of categories) {
       if (category.name == select.value) {
         currentCategories.push(category);
-        
-        redraw()
+
+        redraw();
       }
     }
   }
-}));
+});
 
 // Konva
 // first we need to create a stage
@@ -46,7 +52,7 @@ const layer = new Konva.Layer();
 function redraw() {
   stage.removeChildren();
   layer.destroyChildren();
-  drawCircles(currentCategories);
+  drawCategories(currentCategories);
   stage.add(layer);
 }
 
@@ -60,7 +66,7 @@ function createCircle(x, y, radius, fill, stroke, name) {
   });
 
   circle.on("mousedown", () => {
-    currentCategories = currentCategories.filter(cat => cat.name !== name);
+    currentCategories = currentCategories.filter((cat) => cat.name !== name);
     redraw();
   });
 
@@ -77,43 +83,56 @@ function createText(x, y, width, text, fontSize, fontFamily, fill) {
     fill: fill,
     width: width,
     align: "center",
-    listening: false
+    listening: false,
   });
 }
 
-function createImage(x, y, width, height, source) {
+function createImage(x, y, width, height, source, name) {
   const imgObj = new Image();
   imgObj.src = source;
 
-  return new Konva.Image({
-    x: x,
-    y: y,
+  let img = new Konva.Image({
+    x: x - width / 2,
+    y: y - height / 2,
     image: imgObj,
     width: width,
     height: height,
     listening: false,
   });
+
+  img.on("mousedown", () => {
+    currentCategories = currentCategories.filter((cat) => cat.name !== name);
+    redraw();
+  });
+
+  return img;
 }
 
-function drawCircles(currentCategories) {
+function drawCategories(currentCategories) {
   let circleRadius = stage.width() * 0.09;
-  let circlePositions = [
-    [0.5, 0.5],
-    [0.5, 0.2],
-    [0.69, 0.28],
-    [0.8, 0.5],
-    [0.69, 0.72],
-    [0.5, 0.8],
-    [0.31, 0.72],
-    [0.2, 0.5],
-    [0.31, 0.28],
-  ];
 
   for (let i = 0; i < currentCategories.length; i++) {
-      layer.add(
+    let posX;
+    let posY;
+
+    if (i == 0) {
+      posX = stage.width() * 0.5;
+      posY = stage.height() * 0.5;
+    } else {
+      let degrees = (360 * i) / (currentCategories.length - 1);
+      let rad = (degrees / 360) * 2 * Math.PI;
+      posX =
+        Math.sin(rad) * 0.5 * (stage.width() * 0.5 + circleRadius) +
+        stage.width() * 0.5;
+      posY =
+        Math.cos(rad) * (stage.height() * 0.9 * 0.5 - circleRadius) +
+        stage.height() * 0.5;
+    }
+
+    layer.add(
       createCircle(
-        stage.width() * circlePositions[i][0],
-        stage.height() * circlePositions[i][1],
+        posX,
+        posY,
         circleRadius,
         "white",
         "black",
@@ -123,10 +142,14 @@ function drawCircles(currentCategories) {
 
     layer.add(
       createText(
-        stage.width() * circlePositions[i][0],
-        stage.height() * circlePositions[i][1] - stage.height() / 9,
+        posX,
+        posY - stage.height() / 9,
         circleRadius * 1.5,
-        Math.round((currentCategories[0].conversion_to_kg_CO2 / currentCategories[i].conversion_to_kg_CO2) * 1000) / 1000,
+        Math.round(
+          (currentCategories[0].conversion_to_kg_CO2 /
+            currentCategories[i].conversion_to_kg_CO2) *
+            1000
+        ) / 1000,
         14,
         "Calibri",
         "green"
@@ -135,8 +158,8 @@ function drawCircles(currentCategories) {
 
     layer.add(
       createText(
-        stage.width() * circlePositions[i][0],
-        stage.height() * circlePositions[i][1] - stage.height() / 11,
+        posX,
+        posY - stage.height() / 11,
         circleRadius * 1.5,
         currentCategories[i].name,
         14,
@@ -145,60 +168,16 @@ function drawCircles(currentCategories) {
       )
     );
 
-    let amountCeil = Math.ceil(
-      currentCategories[0].conversion_to_kg_CO2 / currentCategories[i].conversion_to_kg_CO2
+    layer.add(
+      createImage(
+        posX,
+        posY + 0.04 * stage.height(),
+        circleRadius,
+        circleRadius,
+        currentCategories[i].image_url,
+        currentCategories[i].name
+      )
     );
-    let lastAmount = (currentCategories[0].conversion_to_kg_CO2 / currentCategories[i].conversion_to_kg_CO2) % 1;
-    if (lastAmount == 0) {
-      lastAmount = 1;
-    }
-
-    for (let j = 0; j < amountCeil; j++) {
-      if (j == amountCeil - 1) {
-        const imageObj = new Image();
-        imageObj.src = currentCategories[i].image_url;
-        imageObj.onload = () => {
-          const halfWidth = imageObj.width * lastAmount;
-
-          const konvaImage = new Konva.Image({
-            x:
-              circlePositions[i][0] * stage.width() -
-              0.5 * circleRadius +
-              j * (circleRadius / amountCeil),
-            y:
-              circlePositions[i][1] * stage.height() -
-              (0.5 * circleRadius) / amountCeil +
-              0.035 * stage.height(),
-            image: imageObj,
-            // crop defines what part of the image is visible
-            crop: {
-              x: 0,
-              y: 0,
-              width: halfWidth,
-              height: imageObj.height,
-            },
-            width: (circleRadius / amountCeil) * lastAmount,
-            height: circleRadius / amountCeil,
-          });
-
-          layer.add(konvaImage);
-        };
-      } else {
-        layer.add(
-          createImage(
-            circlePositions[i][0] * stage.width() -
-              0.5 * circleRadius +
-              j * (circleRadius / amountCeil),
-            circlePositions[i][1] * stage.height() -
-              (0.5 * circleRadius) / amountCeil +
-              0.035 * stage.height(),
-            circleRadius / amountCeil,
-            circleRadius / amountCeil,
-            currentCategories[i].icon
-          )
-        );
-      }
-    }
   }
 }
 
@@ -215,7 +194,7 @@ layer.add(
   )
 );
 
-drawCircles(currentCategories);
+drawCategories(currentCategories);
 
 // add the layer to the stage
 stage.add(layer);
