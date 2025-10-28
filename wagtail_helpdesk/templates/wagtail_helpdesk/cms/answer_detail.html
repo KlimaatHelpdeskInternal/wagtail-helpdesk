@@ -126,7 +126,6 @@
       </div>
 
       <div class="content-header__introduction" style="position:relative">
-      {% if self.youtube_video_id %}
         <div class="video">
 
           <div class="video__video-abstract" role="region" aria-label="Introductie">
@@ -146,20 +145,20 @@
 
             {% with minutes=self.calculated_reading_time %}
               {% if minutes %}
-                <span class="reading-time">
-                  {{ minutes }} min. leestijd
-                </span>
+                <span class="reading-time">{{ minutes }} min. leestijd</span>
               {% endif %}
             {% endwith %}
           </div>
 
-          <div id="videoContent" class="video__video-content fade is-visible" role="region" aria-label="Videoweergave">
-            <iframe width="342" height="609"
-                    src="https://www.youtube.com/embed/{{ self.youtube_video_id }}"
-                    title="{{ self.title }}" frameborder="0"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                    referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-          </div>
+          {% if self.youtube_video_id %}
+            <div id="videoContent" class="video__video-content fade is-visible" role="region" aria-label="Videoweergave">
+              <iframe width="342" height="609"
+                      src="https://www.youtube.com/embed/{{ self.youtube_video_id }}"
+                      title="{{ self.title }}" frameborder="0"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                      referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+            </div>
+          {% endif %}
         </div>
 
         <script>
@@ -167,15 +166,18 @@
             const btn  = document.getElementById('toggleLink');
             const vid  = document.getElementById('videoContent');
             const page = document.getElementById('pageContent');
-            let isVideoVisible = true;
+
+            let isVideoVisible = {{ self.youtube_video_id|yesno:"true,false" }};
 
             function setState(showVideo) {
               isVideoVisible = showVideo;
 
               if (isVideoVisible) {
                 btn.textContent = 'Lees meer...';
-                vid.classList.remove('is-hidden');
-                vid.classList.add('is-visible');
+                if (vid) {
+                  vid.classList.remove('is-hidden');
+                  vid.classList.add('is-visible');
+                }
                 if (page) {
                   page.classList.remove('is-visible');
                   page.classList.add('is-hidden');
@@ -183,8 +185,10 @@
                 }
               } else {
                 btn.textContent = 'Bekijk video';
-                vid.classList.remove('is-visible');
-                vid.classList.add('is-hidden');
+                if (vid) {
+                  vid.classList.remove('is-visible');
+                  vid.classList.add('is-hidden');
+                }
                 if (page) {
                   page.classList.remove('is-hidden');
                   page.classList.add('is-visible');
@@ -199,46 +203,25 @@
               setState(!isVideoVisible);
             });
 
+            if (page) {
+              page.classList.add('is-hidden');
+              page.setAttribute('aria-hidden', 'true');
+            }
+
             setState(true);
           });
         </script>
-
-      {% else %}
-        <div class="video__video-abstract">
-          <p class="content-header__introduction-text">{{ self.introduction }}</p>
-        </div>
-
-        {% with minutes=self.calculated_reading_time %}
-          {% if minutes %}
-            <div class="video__toggle-text">
-              <span class="reading-time">
-                {{ minutes }} min. leestijd
-              </span>
-            </div>
-          {% endif %}
-        {% endwith %}
-      {% endif %}
-    </div>
-
+      </div>
     </div>
   </div>
 {% endblock %}
 
-
 {% block content %}
-  {% if self.youtube_video_id %}
-    <div id="pageContent" class="fade is-hidden">
-      {% for block in self.page_content %}
-        {% include_block block %}
-      {% endfor %}
-    </div>
-  {% else %}
-    <div id="pageContent" class="fade is-visible">
-      {% for block in self.page_content %}
-        {% include_block block %}
-      {% endfor %}
-    </div>
-  {% endif %}
+  <div id="pageContent" class="fade is-hidden">
+    {% for block in self.page_content %}
+      {% include_block block %}
+    {% endfor %}
+  </div>
 
   {% include "wagtail_helpdesk/includes/social_share_buttons.html" %}
 
@@ -250,4 +233,3 @@
     {% include_block block %}
   {% endfor %}
 {% endblock %}
-
