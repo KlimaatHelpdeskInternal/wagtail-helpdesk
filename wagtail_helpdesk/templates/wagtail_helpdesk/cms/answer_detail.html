@@ -167,12 +167,28 @@
             const vid  = document.getElementById('videoContent');
             const page = document.getElementById('pageContent');
 
-            let isVideoVisible = {{ self.youtube_video_id|yesno:"true,false" }};
+            // Check of er een video is
+            const hasVideo = Boolean(vid);
+            // Starttoestand: video zichtbaar als die er is, anders tekst ingeklapt
+            let isExpanded = false;
 
-            function setState(showVideo) {
-              isVideoVisible = showVideo;
+            function setState(expand) {
+              isExpanded = expand;
 
-              if (isVideoVisible) {
+              if (isExpanded) {
+                // Tekst opengeklapt
+                btn.textContent = hasVideo ? 'Bekijk video' : 'Lees minder...';
+                if (vid) {
+                  vid.classList.remove('is-visible');
+                  vid.classList.add('is-hidden');
+                }
+                if (page) {
+                  page.classList.remove('is-hidden');
+                  page.classList.add('is-visible');
+                  page.removeAttribute('aria-hidden');
+                }
+              } else {
+                // Tekst ingeklapt
                 btn.textContent = 'Lees meer...';
                 if (vid) {
                   vid.classList.remove('is-hidden');
@@ -183,34 +199,21 @@
                   page.classList.add('is-hidden');
                   page.setAttribute('aria-hidden', 'true');
                 }
-              } else {
-                btn.textContent = 'Bekijk video';
-                if (vid) {
-                  vid.classList.remove('is-visible');
-                  vid.classList.add('is-hidden');
-                }
-                if (page) {
-                  page.classList.remove('is-hidden');
-                  page.classList.add('is-visible');
-                  page.removeAttribute('aria-hidden');
-                }
               }
+
               btn.blur();
             }
 
             btn.addEventListener('click', function (e) {
               e.preventDefault();
-              setState(!isVideoVisible);
+              setState(!isExpanded);
             });
 
-            if (page) {
-              page.classList.add('is-hidden');
-              page.setAttribute('aria-hidden', 'true');
-            }
-
-            setState(true);
+            // Altijd standaard: tekst ingeklapt bij laden
+            setState(false);
           });
         </script>
+
       </div>
     </div>
   </div>

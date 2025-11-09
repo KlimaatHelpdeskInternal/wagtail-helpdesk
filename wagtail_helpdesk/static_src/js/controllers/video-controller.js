@@ -1,19 +1,42 @@
-import {Controller} from "@hotwired/stimulus"
+
+import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static targets = ["video","abstract"]
+  static targets = ["videoPanel", "textPanel", "videoBtn", "textBtn", "iframe"]
 
-  toggleVideoAbstract(event) {
-    if (event.target.getAttribute('aria-expanded') === 'true') {
-      this.videoTarget.setAttribute('aria-hidden', true)
-      this.abstractTarget.setAttribute('aria-hidden', false)
-      event.target.setAttribute('aria-expanded', false)
+  connect() {
+    if (this.hasIframeTarget && this.iframeTarget?.dataset?.src) {
+      this.showVideo()
     } else {
-      this.videoTarget.setAttribute('aria-hidden', false)
-      this.abstractTarget.setAttribute('aria-hidden', true)
-      event.target.setAttribute('aria-expanded', true)
+      this.showText()
     }
-    /*const rect = this.regionTarget.getBoundingClientRect()
-    window.scroll({ top: (window.pageYOffset + rect.top) - (window.innerHeight / 3), left: 0, behavior: 'smooth' })*/
+  }
+
+  showVideo() {
+    this._setSelected(true)
+    this._show(this.videoPanelTarget)
+    this._hide(this.textPanelTarget)
+
+    if (this.hasIframeTarget) {
+      const src = this.iframeTarget.getAttribute("src")
+      if (!src) this.iframeTarget.setAttribute("src", this.iframeTarget.dataset.src)
+    }
+  }
+
+  showText() {
+    this._setSelected(false)
+    this._hide(this.videoPanelTarget)
+    this._show(this.textPanelTarget)
+
+    if (this.hasIframeTarget && this.iframeTarget.getAttribute("src")) {
+      this.iframeTarget.setAttribute("src", "")
+    }
+  }
+
+  _show(el)   { el.hidden = false }
+  _hide(el)   { el.hidden = true }
+  _setSelected(videoSelected) {
+    if (this.hasVideoBtnTarget) this.videoBtnTarget.setAttribute("aria-selected", String(videoSelected))
+    if (this.hasTextBtnTarget)  this.textBtnTarget.setAttribute("aria-selected", String(!videoSelected))
   }
 }
