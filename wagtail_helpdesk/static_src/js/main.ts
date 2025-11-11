@@ -7,14 +7,14 @@ window.Stimulus = Application.start();
 const context = require.context("./controllers", true, /\.js$/);
 Stimulus.load(definitionsFromContext(context));
 
-let circleCount = 9;
-let categories = co2categories;
-let currentCategories = categories.slice();
+let currentCategories = [];
+currentCategories.push(co2categories.find((cat) => cat.name == "kg CO2"));
+currentCategories.push(...co2categories.filter((cat) => cat.name !== "kg CO2"));
 
 const select = document.getElementById("co2categories");
 const button = document.getElementById("co2button");
 
-for (const category of categories) {
+for (const category of co2categories) {
   select.options[select.options.length] = new Option(
     category.name,
     category.name
@@ -24,10 +24,9 @@ for (const category of categories) {
 button.addEventListener("click", (value) => {
   if (
     currentCategories.length < 9 &&
-    currentCategories.includes(select.value) === false
+    currentCategories.some(cat => cat.name === select.value) === false
   ) {
-    console.log(select.value);
-    for (const category of categories) {
+    for (const category of co2categories) {
       if (category.name == select.value) {
         currentCategories.push(category);
 
@@ -109,6 +108,18 @@ function createImage(x, y, width, height, source, name) {
 }
 
 function drawCategories(currentCategories) {
+  layer.add(
+  createText(
+    stage.width() / 2,
+    0,
+    stage.width(),
+    "1 " + currentCategories[0].name + " geeft evenveel CO2-uitstoot als:",
+    30,
+    "Arial",
+    "black"
+    )
+  );
+
   let circleRadius = stage.width() * 0.09;
 
   for (let i = 0; i < currentCategories.length; i++) {
@@ -144,7 +155,7 @@ function drawCategories(currentCategories) {
       createText(
         posX,
         posY - stage.height() / 9,
-        circleRadius * 1.5,
+        circleRadius * 1.4,
         Math.round(
           (currentCategories[0].conversion_to_kg_CO2 /
             currentCategories[i].conversion_to_kg_CO2) *
@@ -152,7 +163,7 @@ function drawCategories(currentCategories) {
         ) / 1000,
         14,
         "Calibri",
-        "green"
+        "red"
       )
     );
 
@@ -160,11 +171,11 @@ function drawCategories(currentCategories) {
       createText(
         posX,
         posY - stage.height() / 11,
-        circleRadius * 1.5,
+        circleRadius * 1.4,
         currentCategories[i].name,
         14,
         "Calibri",
-        "green"
+        "black"
       )
     );
 
@@ -182,17 +193,6 @@ function drawCategories(currentCategories) {
 }
 
 // create our shapes and add the shapes to the layer
-layer.add(
-  createText(
-    stage.width() / 2,
-    0,
-    stage.width(),
-    "1 " + currentCategories[0].name + " geeft evenveel CO2-uitstoot als:",
-    30,
-    "Arial",
-    "black"
-  )
-);
 
 drawCategories(currentCategories);
 
