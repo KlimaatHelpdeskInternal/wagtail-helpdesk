@@ -7,6 +7,8 @@ window.Stimulus = Application.start();
 const context = require.context("./controllers", true, /\.js$/);
 Stimulus.load(definitionsFromContext(context));
 
+console.log("main.js toegevoegd");
+
 let currentCategories = [];
 currentCategories.push(co2categories.find((cat) => cat.name == "kg CO2"));
 currentCategories.push(...co2categories.filter((cat) => cat.name !== "kg CO2"));
@@ -193,7 +195,6 @@ function drawCategories(currentCategories) {
 }
 
 // create our shapes and add the shapes to the layer
-
 drawCategories(currentCategories);
 
 // add the layer to the stage

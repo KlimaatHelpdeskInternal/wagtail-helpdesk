@@ -4,10 +4,25 @@
 <script src="{% static 'carboncalculator.js' %}"></script>
 
 {% block head %}
-  <script>
+<script>
     const carbonemissioncategoriesvar = '{{ carbonemissioncategories|escapejs  }}';
 </script>
-  <div>
+
+<div class="konva-container"> 
+  <div class="konva-text">
+    <h1>Carbon Calculator</h1>
+    <p>
+      <span>
+        Lorem ipsum dolor sit amet. Ut repellendus velit aut architecto nesciunt ea debitis quia aut assumenda quia et consequuntur earum vel nemo minus. Qui incidunt fugiat et sunt eligendi aut obcaecati omnis?
+        </br><br>
+        Qui consectetur repellat est molestias similique qui debitis quod ut perspiciatis reprehenderit At placeat dolor et officia reprehenderit. Qui enim quaerat vel quasi assumenda ut harum enim est sint commodi et nulla itaque quo iusto velit rem labore minima. Qui saepe aliquid qui illum dolores et molestiae minima. Et consequatur quis sit itaque magni vel expedita porro eum voluptatum eveniet ut iste tempore sed quis molestias 33 quia molestiae.
+        </br></br>
+        Qui consectetur reiciendis qui cupiditate harum ut autem necessitatibus a voluptas minima. Est reiciendis veritatis ea eveniet nisi et placeat optio est molestiae nostrum id quos tempora qui magni cupiditate. Sed internos beatae et saepe sunt qui dolorem autem aut molestiae tempora 33 consequatur assumenda cum nostrum explicabo? Qui praesentium tempore nam exercitationem maiores eum voluptate galisum et omnis dolorem et pariatur maxime est corporis recusandae.
+      </span>
+    </p>
+  </div>
+  <div id="konva"></div>
+  <div class="konva-form">
     <form onload="LoadCarbonCategories()">
       <label>Klik op een cirkel om de categorie te verwijderen.</label>
       </br>
@@ -20,6 +35,7 @@
       <button id="co2button" class="button" type="button">Voeg toe</button>
     </form>
   </div>
-  <div id="konva" style="display: inline-block"></div>
+</div>
+
 {% endblock %}
 
