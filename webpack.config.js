@@ -14,6 +14,9 @@ module.exports = (env, argv) => {
         path.join(source, "js", "main.ts"),
         path.join(source, "scss", "main.scss"),
       ],
+      carboncalculator: [
+        path.join(source,"js","carboncalculator.ts")
+      ]
     },
     output: {
       path: destination,

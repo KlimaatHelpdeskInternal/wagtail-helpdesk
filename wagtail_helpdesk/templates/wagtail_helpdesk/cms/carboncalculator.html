@@ -1,9 +1,11 @@
 {% extends "wagtail_helpdesk/base.html" %}
-{% load static i18n wagtailimages_tags wagtailcore_tags %}
-<script src="{% static 'main.js' %}"></script>
-<script src="{% static 'carboncalculator.js' %}"></script>
-
+{% load static i18n helpdesk_tags wagtailimages_tags wagtailcore_tags %}
+{% comment %} <script src="{% static 'main.js' %}"></script> {% endcomment %}
+{% comment %}<script src="{% static 'carboncalculator.js' %}"></script>{% endcomment %}
 {% block head %}
+{% block js %}
+  <script src="{% versioned_static 'wagtail_helpdesk/carboncalculator.js' %}"></script>
+{% endblock %}
 <script>
     const carbonemissioncategoriesvar = '{{ carbonemissioncategories|escapejs  }}';
 </script>
