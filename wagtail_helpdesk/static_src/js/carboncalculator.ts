@@ -7,12 +7,13 @@ window.Stimulus = Application.start();
 const context = require.context("./controllers", true, /\.js$/);
 Stimulus.load(definitionsFromContext(context));
 
-console.log("main.js toegevoegd");
+console.log("carboncalculator.ts toegevoegd");
 
 let currentCategories = [];
 currentCategories.push(co2categories.find((cat) => cat.name == "kg CO2"));
 currentCategories.push(...co2categories.filter((cat) => cat.name !== "kg CO2"));
 
+/*
 const select = document.getElementById("co2categories");
 const button = document.getElementById("co2button");
 
@@ -37,6 +38,7 @@ button.addEventListener("click", (value) => {
     }
   }
 });
+*/
 
 // Konva
 // first we need to create a stage
@@ -51,10 +53,8 @@ const layer = new Konva.Layer();
 
 //functions
 function redraw() {
-  stage.removeChildren();
   layer.destroyChildren();
   drawCategories(currentCategories);
-  stage.add(layer);
 }
 
 function createCircle(x, y, radius, fill, stroke, name) {
@@ -67,7 +67,11 @@ function createCircle(x, y, radius, fill, stroke, name) {
   });
 
   circle.on("mousedown", () => {
-    currentCategories = currentCategories.filter((cat) => cat.name !== name);
+    let index = currentCategories.map(cat => cat.name).indexOf(name);
+    let cat = currentCategories[index];
+    currentCategories[index] = currentCategories[0];
+    currentCategories[0] = cat;
+
     redraw();
   });
 
@@ -101,11 +105,6 @@ function createImage(x, y, width, height, source, name) {
     listening: false,
   });
 
-  img.on("mousedown", () => {
-    currentCategories = currentCategories.filter((cat) => cat.name !== name);
-    redraw();
-  });
-
   return img;
 }
 
@@ -115,8 +114,8 @@ function drawCategories(currentCategories) {
     stage.width() / 2,
     0,
     stage.width(),
-    "1 " + currentCategories[0].name + " geeft evenveel CO2-uitstoot als:",
-    30,
+    "De CO2-uitstoot van 1 " + currentCategories[0].name + " is gelijk aan:",
+    24,
     "Arial",
     "black"
     )
@@ -156,7 +155,7 @@ function drawCategories(currentCategories) {
     layer.add(
       createText(
         posX,
-        posY - stage.height() / 9,
+        posY - 0.07 * stage.width() - 12,
         circleRadius * 1.4,
         Math.round(
           (currentCategories[0].conversion_to_kg_CO2 /
@@ -172,7 +171,7 @@ function drawCategories(currentCategories) {
     layer.add(
       createText(
         posX,
-        posY - stage.height() / 11,
+        posY - 0.07 * stage.width(),
         circleRadius * 1.4,
         currentCategories[i].name,
         14,
@@ -184,7 +183,7 @@ function drawCategories(currentCategories) {
     layer.add(
       createImage(
         posX,
-        posY + 0.04 * stage.height(),
+        posY + 0.03 * stage.width(),
         circleRadius,
         circleRadius,
         currentCategories[i].image_url,

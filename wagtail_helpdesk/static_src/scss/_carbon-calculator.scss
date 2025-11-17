@@ -1,5 +1,4 @@
 .konva-container {
-  margin-top: 45px;
   width: 100%;
   display: inline-grid;
   grid-template-columns: 1fr 800px 1fr;
@@ -10,12 +9,12 @@
     display: inline-block;
     margin-bottom: 20px;
   }
-  
 }
-/*.konva-text 
-{
-  background-color: yellow;
-}*/
+
+.konva-text {
+
+}
+
 // #konva {
   
 // }
