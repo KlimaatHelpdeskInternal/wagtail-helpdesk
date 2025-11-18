@@ -57,22 +57,13 @@ function redraw() {
   drawCategories(currentCategories);
 }
 
-function createCircle(x, y, radius, fill, stroke, name) {
+function createCircle(x, y, radius, fill, stroke) {
   let circle = new Konva.Circle({
     x: x,
     y: y,
     radius: radius,
     fill: fill,
     stroke: stroke,
-  });
-
-  circle.on("mousedown", () => {
-    let index = currentCategories.map(cat => cat.name).indexOf(name);
-    let cat = currentCategories[index];
-    currentCategories[index] = currentCategories[0];
-    currentCategories[0] = cat;
-
-    redraw();
   });
 
   return circle;
@@ -87,8 +78,7 @@ function createText(x, y, width, text, fontSize, fontFamily, fill) {
     fontFamily: fontFamily,
     fill: fill,
     width: width,
-    align: "center",
-    listening: false,
+    align: "center"
   });
 }
 
@@ -102,7 +92,6 @@ function createImage(x, y, width, height, source, name) {
     image: imgObj,
     width: width,
     height: height,
-    listening: false,
   });
 
   return img;
@@ -122,6 +111,7 @@ function drawCategories(currentCategories) {
   );
 
   let circleRadius = stage.width() * 0.09;
+  let categoryZero;
 
   for (let i = 0; i < currentCategories.length; i++) {
     let posX;
@@ -141,55 +131,117 @@ function drawCategories(currentCategories) {
         stage.height() * 0.5;
     }
 
-    layer.add(
-      createCircle(
-        posX,
-        posY,
-        circleRadius,
-        "white",
-        "black",
-        currentCategories[i].name
-      )
+    const category = new Konva.Group({
+      x: posX,
+      y: posY,
+      name: currentCategories[i].name
+    });
+
+    const circle = createCircle(
+      0,
+      0,
+      circleRadius,
+      "white",
+      "black"
+    );
+    
+    const numText = createText(
+      0,
+      -0.065 * stage.width() - 16,
+      circleRadius * 1.4,
+      Math.round(
+        (currentCategories[0].conversion_to_kg_CO2 /
+          currentCategories[i].conversion_to_kg_CO2) *
+          1000
+      ) / 1000,
+      14,
+      "Calibri",
+      "red"
     );
 
-    layer.add(
-      createText(
-        posX,
-        posY - 0.07 * stage.width() - 12,
-        circleRadius * 1.4,
-        Math.round(
-          (currentCategories[0].conversion_to_kg_CO2 /
-            currentCategories[i].conversion_to_kg_CO2) *
-            1000
-        ) / 1000,
-        14,
-        "Calibri",
-        "red"
-      )
+    numText.on('mouseover', () => {
+      numText.fontStyle("bold");
+    });
+
+    numText.on('mouseout', () => {
+      numText.fontStyle("normal");
+    });
+
+    numText.on('mousedown', () => {
+      redraw();
+      window.location.href = "https://www.klimaathelpdesk.org/";
+    });
+
+    const nameText = createText(
+      0,
+      -0.065 * stage.width(),
+      circleRadius * 1.4,
+      currentCategories[i].name,
+      14,
+      "Calibri",
+      "black"
     );
 
-    layer.add(
-      createText(
-        posX,
-        posY - 0.07 * stage.width(),
-        circleRadius * 1.4,
-        currentCategories[i].name,
-        14,
-        "Calibri",
-        "black"
-      )
+    const img = createImage(
+      0,
+      0.03 * stage.width(),
+      circleRadius,
+      circleRadius,
+      currentCategories[i].image_url,
+      currentCategories[i].name
     );
 
-    layer.add(
-      createImage(
-        posX,
-        posY + 0.03 * stage.width(),
-        circleRadius,
-        circleRadius,
-        currentCategories[i].image_url,
-        currentCategories[i].name
-      )
-    );
+    category.add(circle);
+    category.add(numText);
+    category.add(nameText);
+    category.add(img);
+
+    if (category.x() === stage.width() / 2 && category.y() === stage.height() / 2) {
+      categoryZero = category;
+    }
+    else {
+      category.on('mousedown', () => {
+        const index = currentCategories.map(cat => cat.name).indexOf(category.name());
+        const cat = currentCategories[index];
+
+        const xSpeed = (stage.width() / 2 - category.x()) / stage.width() * 0.1;
+        const ySpeed = (stage.height() / 2 - category.y()) / stage.height() * 0.1 * 0.75;
+        
+        const anim = new Konva.Animation(function(frame) {
+          categoryZero.zIndex(1000);
+          category.zIndex(2000);
+
+          categoryZero.x(
+            categoryZero.x() + -xSpeed * frame.time
+          );
+          categoryZero.y(
+            categoryZero.y() + -ySpeed * frame.time
+          );
+
+          category.x(
+            category.x() + xSpeed * frame.time
+          );
+          category.y(
+            category.y() + ySpeed * frame.time
+          );
+
+          if (stage.width() / 2 * 0.95 <= category.x() && category.x() <= stage.width() / 2 * 1.05 &&
+        stage.height() / 2 * 0.95 <= category.y() && category.y() <= stage.height() / 2 * 1.05) {
+            anim.stop();
+
+            currentCategories[index] = currentCategories[0];
+            currentCategories[0] = cat;  
+
+            redraw();
+          }
+
+        }, layer);
+
+        anim.start();
+      });
+    }
+
+    layer.add(category);
   }
 }
 
