@@ -208,8 +208,8 @@ function drawCategories(currentCategories) {
         const ySpeed = (stage.height() / 2 - category.y()) / stage.height() * 0.1 * 0.75;
         
         const anim = new Konva.Animation(function(frame) {
-          categoryZero.zIndex(1000);
-          category.zIndex(2000);
+          category.zIndex(9);
+          categoryZero.zIndex(8);
 
           categoryZero.x(
             categoryZero.x() + -xSpeed * frame.time
