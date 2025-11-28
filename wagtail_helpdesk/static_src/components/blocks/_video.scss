@@ -3,9 +3,31 @@
   display: none !important;
 }
 
-#videoContent.is-visible,
+#videoContent.is-visible {
+  display: flex !important;
+  justify-content: center;
+}
+
 #pageContent.is-visible {
   display: block !important;
+}
+
+.video {
+  display: flex;
+  flex-direction: column;
+  align-items: center;  
+  width: 100%;
+}
+
+.video__video-content {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.video__video-content iframe {
+  margin: 0 auto;
+  display: block;
 }
 
 .video__toggle-text {
@@ -19,9 +41,8 @@
   }
 }
 
-
 .toggle-link {
-  color: $color-true-black;    
+  color: $color-true-black;
   background-color: transparent;
   text-align: center;
   text-decoration: underline;
@@ -38,8 +59,7 @@
   justify-content: center;
 }
 
-.toggle-link:hover
-{
+.toggle-link:hover {
   background-color: $color-true-black;
   color: $color-white;
   text-decoration: none;
