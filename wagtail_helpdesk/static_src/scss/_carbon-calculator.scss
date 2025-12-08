@@ -1,7 +1,6 @@
 .konva-container {
   width: 100%;
-  display: inline-grid;
-  grid-template-columns: 1fr 800px 1fr;
+  display: flex;
 }
 
 .konva-form {
@@ -12,14 +11,21 @@
 }
 
 .konva-text {
+  width: 400px;
 
+  @media only screen and (max-width: 1200px) {
+    display: none;
+  }
 }
 
-// #konva {
-  
-// }
+#konva {
+  height: calc(100vh - 90px);
+  width: 800px;
 
-// .konva-text {
+  @media only screen and (max-width: 800px) {
+    width: 100vw;
+    height: calc(100vh - 60px);
+  }
+}
 
-// }
 

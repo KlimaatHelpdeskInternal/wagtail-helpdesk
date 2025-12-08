@@ -44,9 +44,10 @@ button.addEventListener("click", (value) => {
 // first we need to create a stage
 const stage = new Konva.Stage({
   container: "konva", // id of container <div>
-  width: 800,
-  height: 600,
 });
+
+stage.width(stage.container().offsetWidth);
+stage.height(stage.container().offsetHeight);
 
 // then create layer
 const layer = new Konva.Layer();
@@ -98,19 +99,8 @@ function createImage(x, y, width, height, source, name) {
 }
 
 function drawCategories(currentCategories) {
-  layer.add(
-  createText(
-    stage.width() / 2,
-    0,
-    stage.width(),
-    "De CO2-uitstoot van 1 " + currentCategories[0].name + " is gelijk aan:",
-    24,
-    "Arial",
-    "black"
-    )
-  );
 
-  let circleRadius = stage.width() * 0.09;
+  let circleRadius = Math.min(stage.height() * 0.13, stage.width() * 0.13);
   let categoryZero;
 
   for (let i = 0; i < currentCategories.length; i++) {
@@ -124,10 +114,10 @@ function drawCategories(currentCategories) {
       let degrees = (360 * i) / (currentCategories.length - 1);
       let rad = (degrees / 360) * 2 * Math.PI;
       posX =
-        Math.sin(rad) * 0.5 * (stage.width() * 0.5 + circleRadius) +
+        Math.sin(rad) * (stage.width() * 0.5 - circleRadius - Math.max(0, 0.4 * (stage.width() - stage.height())) - 3) +
         stage.width() * 0.5;
       posY =
-        Math.cos(rad) * (stage.height() * 0.9 * 0.5 - circleRadius) +
+        Math.cos(rad) * (stage.height() * 0.5 - circleRadius - Math.max(0, 0.4 * (stage.height() - stage.width())) - 3) +
         stage.height() * 0.5;
     }
 
@@ -147,7 +137,7 @@ function drawCategories(currentCategories) {
     
     const numText = createText(
       0,
-      -0.065 * stage.width() - 16,
+      -circleRadius * 0.7 - 14,
       circleRadius * 1.4,
       Math.round(
         (currentCategories[0].conversion_to_kg_CO2 /
@@ -167,14 +157,14 @@ function drawCategories(currentCategories) {
       numText.fontStyle("normal");
     });
 
-    numText.on('mousedown', () => {
+    numText.on('mousedown touchend', () => {
       redraw();
       window.location.href = "https://www.klimaathelpdesk.org/";
     });
 
     const nameText = createText(
       0,
-      -0.065 * stage.width(),
+      -circleRadius * 0.7,
       circleRadius * 1.4,
       currentCategories[i].name,
       14,
@@ -184,9 +174,9 @@ function drawCategories(currentCategories) {
 
     const img = createImage(
       0,
-      0.03 * stage.width(),
-      circleRadius,
-      circleRadius,
+      25,
+      circleRadius * 0.8,
+      circleRadius * 0.8,
       currentCategories[i].image_url,
       currentCategories[i].name
     );
@@ -200,16 +190,16 @@ function drawCategories(currentCategories) {
       categoryZero = category;
     }
     else {
-      category.on('mousedown', () => {
+      category.on('mousedown touchend', () => {
         const index = currentCategories.map(cat => cat.name).indexOf(category.name());
         const cat = currentCategories[index];
 
-        const xSpeed = (stage.width() / 2 - category.x()) / stage.width() * 0.1;
-        const ySpeed = (stage.height() / 2 - category.y()) / stage.height() * 0.1 * 0.75;
+        const xSpeed = (stage.width() / 2 - category.x()) / stage.height() * 0.2;
+        const ySpeed = (stage.height() / 2 - category.y()) / stage.height() * 0.2;
         
         const anim = new Konva.Animation(function(frame) {
-          category.zIndex(9);
-          categoryZero.zIndex(8);
+          category.zIndex(2);
+          categoryZero.zIndex(1);
 
           categoryZero.x(
             categoryZero.x() + -xSpeed * frame.time
