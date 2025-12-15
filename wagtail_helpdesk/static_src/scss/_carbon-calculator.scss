@@ -8,14 +8,16 @@
     height: 0;
   }
 
- .content-header__wrapper {
-  padding-left: 30px;
-  padding-right: 30px;
- }
+  .content-header__wrapper {
+    padding-right: 30px;
+  }
 
   h1 {
     display: inline-block;
 
+    //  @media only screen and (max-width: 1000px) {
+    //     font-size: 36px;
+    //  }
   }
 
   i {
