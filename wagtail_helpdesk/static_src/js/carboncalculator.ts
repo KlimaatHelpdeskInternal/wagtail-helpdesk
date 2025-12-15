@@ -43,7 +43,7 @@ button.addEventListener("click", (value) => {
 // Konva
 // first we need to create a stage
 const stage = new Konva.Stage({
-  container: "konva", // id of container <div>
+  container: "cc__konva", // id of container <div>
 });
 
 stage.width(stage.container().offsetWidth);
@@ -144,8 +144,8 @@ function drawCategories(currentCategories) {
           currentCategories[i].conversion_to_kg_CO2) *
           1000
       ) / 1000,
-      14,
-      "Calibri",
+      13,
+      "Geomanist Webfont",
       "red"
     );
 
@@ -165,10 +165,10 @@ function drawCategories(currentCategories) {
     const nameText = createText(
       0,
       -circleRadius * 0.7,
-      circleRadius * 1.4,
+      circleRadius * 1.2,
       currentCategories[i].name,
-      14,
-      "Calibri",
+      13,
+      "Geomanist Webfont",
       "black"
     );
 
