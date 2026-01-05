@@ -3,14 +3,15 @@
 {% block head %}
 <script>
   const carbonemissioncategoriesvar = '{{ carbonemissioncategories|escapejs  }}';
+  let popUpIsOpen = false;
 
-  function openPopup() {
-    console.log("click");
-    document.getElementById("cc__popup").style.display = "block";
-  }
-
-  function closePopup() {
+  function togglePopup() {
+    if (popUpIsOpen) {
     document.getElementById("cc__popup").style.display = "none";
+    } else {
+      document.getElementById("cc__popup").style.display = "block";
+    }
+    popUpIsOpen = !popUpIsOpen;
   }
 </script>
 <script defer src="{% versioned_static 'wagtail_helpdesk/carboncalculator.js' %}"></script>
@@ -25,7 +26,7 @@
     <div class="content-header__title-container">
       <h1 class="content-header__title">
         {{ page.title }} 
-        <i onclick="openPopup()" class="fa fa-question-circle" aria-hidden="true" style="font-size:24px"></i>
+        <i onclick="togglePopup()" class="fa fa-question-circle" aria-hidden="true" style="font-size:24px"></i>
       </h1>
       
     </div>
@@ -34,7 +35,7 @@
 
 <div id="cc__popup">
   <div id="cc__popup-content" class="content__container">
-    <i onclick="closePopup()" class="fa fa-times" aria-hidden="true" style="font-size:24px"></i>
+    <i onclick="togglePopup()" class="fa fa-times" aria-hidden="true" style="font-size:24px"></i>
     <div class="content__answer richtext">
       <p>{{ page.content|richtext }}</p>
     </div>
