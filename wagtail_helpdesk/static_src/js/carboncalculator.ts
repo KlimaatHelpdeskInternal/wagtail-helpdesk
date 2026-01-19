@@ -7,8 +7,6 @@ window.Stimulus = Application.start();
 const context = require.context("./controllers", true, /\.js$/);
 Stimulus.load(definitionsFromContext(context));
 
-console.log("carboncalculator.ts toegevoegd");
-
 let currentCategories = [];
 currentCategories.push(co2categories.find((cat) => cat.name == "kg CO2"));
 currentCategories.push(...co2categories.filter((cat) => cat.name !== "kg CO2"));
@@ -99,7 +97,6 @@ function createImage(x, y, width, height, source, name) {
 }
 
 function drawCategories(currentCategories) {
-
   let circleRadius = Math.min(stage.height() * 0.13, stage.width() * 0.13);
   let categoryZero;
 
@@ -159,7 +156,7 @@ function drawCategories(currentCategories) {
 
     numText.on('mousedown touchend', () => {
       redraw();
-      window.location.href = "https://www.klimaathelpdesk.org/";
+      window.location.href = "https://www.klimaathelpdesk.org/co2-omrekenfactoren";
     });
 
     const nameText = createText(
