@@ -1,6 +1,7 @@
 const path = require("path");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
+const { watch } = require("fs");
 
 const source = path.resolve(path.join("./wagtail_helpdesk", "./static_src"));
 const destination = path.resolve(path.join("./wagtail_helpdesk", "./static", "./wagtail_helpdesk"));
@@ -19,6 +20,11 @@ module.exports = (env, argv) => {
       path: destination,
       filename: "[name].js",
       clean: true,
+    },
+    watch: true,
+    watchOptions: {
+      aggregateTimeout: 200,
+      poll: 1000,
     },
     devtool: isProductionMode ? false : "inline-source-map",
     module: {
