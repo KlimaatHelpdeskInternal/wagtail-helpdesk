@@ -209,8 +209,8 @@
               setState(!isExpanded);
             });
 
-            // Altijd standaard: tekst ingeklapt bij laden
-            setState(false);
+            // Altijd standaard: tekst ingeklapt als er geen video is bij laden
+            setState(!hasVideo);
           });
         </script>
 
