@@ -172,7 +172,7 @@
             const hasVideo = Boolean(vid);
             if (!hasVideo)
             {
-              collapsediv.classList.add('is-hidden');
+              //collapsediv.classList.add('is-hidden');
 
             }
             // Starttoestand: video zichtbaar als die er is, anders tekst ingeklapt
@@ -215,8 +215,8 @@
               setState(!isExpanded);
             });
 
-            // Altijd standaard: tekst ingeklapt als er een video is bij laden
-            setState(!hasVideo);
+            // Altijd standaard: tekst ingeklapt als er geen video is bij laden
+            setState(true);
           });
         </script>
 
