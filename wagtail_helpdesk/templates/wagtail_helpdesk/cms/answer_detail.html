@@ -132,6 +132,7 @@
             <p class="content-header__introduction-text">{{ self.introduction }}</p>
           </div>
 
+          {% if self.youtube_video_id %}
           <div class="video__toggle-text">
             <a
               href="javascript:void(0)"
@@ -149,6 +150,7 @@
               {% endif %}
             {% endwith %}
           </div>
+          {% endif %}
 
           {% if self.youtube_video_id %}
             <div id="videoContent" class="video__video-content fade is-visible" role="region" aria-label="Videoweergave">
