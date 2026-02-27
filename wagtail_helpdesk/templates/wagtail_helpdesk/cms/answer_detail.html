@@ -132,7 +132,7 @@
             <p class="content-header__introduction-text">{{ self.introduction }}</p>
           </div>
 
-          <div class="video__toggle-text" >
+          <div class="video__toggle-text">
             <a
               href="javascript:void(0)"
               id="toggleLink"
@@ -166,15 +166,9 @@
             const btn  = document.getElementById('toggleLink');
             const vid  = document.getElementById('videoContent');
             const page = document.getElementById('pageContent');
-            const collapsediv = document.getElementById('video__toggle-text');
 
             // Check of er een video is
             const hasVideo = Boolean(vid);
-            if (!hasVideo)
-            {
-              //collapsediv.classList.add('is-hidden');
-
-            }
             // Starttoestand: video zichtbaar als die er is, anders tekst ingeklapt
             let isExpanded = false;
 
