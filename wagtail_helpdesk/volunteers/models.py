@@ -26,7 +26,7 @@ class Volunteer(models.Model):
     creation_date = models.DateTimeField(auto_now_add=True)
     last_updated = models.DateTimeField(auto_now_add=True)
     active_since = models.DateTimeField(null=True, auto_now_add=False, default=None)
-
+    
     panels = [
         FieldPanel("name"),
         FieldPanel(

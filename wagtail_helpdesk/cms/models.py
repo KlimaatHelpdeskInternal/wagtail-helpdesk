@@ -182,6 +182,7 @@ class AnswerCategory(models.Model):
 register_snippet(AnswerCategory)
 
 
+
 class Answer(Page):
     template = "wagtail_helpdesk/cms/answer_detail.html"
 
@@ -584,7 +585,6 @@ class ExpertIndexPage(Page):
 
     subtitle = models.CharField(max_length=128, blank=False)
     intro = RichTextField(blank=True)
-
     outro_title = models.CharField(
         verbose_name="Title",
         max_length=255,
