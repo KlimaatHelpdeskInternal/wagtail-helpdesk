@@ -72,8 +72,8 @@ module.exports = (env, argv) => {
         ],
       }),
     ],
-  },
-  {
+  }
+  ,{
     entry: {
       carboncalculator: [
         path.join(source,"js","carboncalculator.ts")
@@ -82,7 +82,7 @@ module.exports = (env, argv) => {
     output: {
       path: destination,
       filename: "[name].js",
-      clean: true,
+      clean: false,
     },
     devtool: isProductionMode ? false : "inline-source-map",
     module: {
@@ -108,7 +108,7 @@ module.exports = (env, argv) => {
           },
           {   
             from: path.join(source, "js","co2categories.js"),
-            to: path.join(destination, "js", "co2categories.js")
+            to: path.join(destination, "co2categories.js")
           }
 
         ],
