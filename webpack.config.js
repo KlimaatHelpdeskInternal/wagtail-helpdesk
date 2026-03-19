@@ -104,7 +104,7 @@ module.exports = (env, argv) => {
         patterns: [
           {   
             from: path.join(destination, "carboncalculator.js"),
-            to: path.join(source, "carboncalculator.js"),
+            to: path.join(source, "js", "carboncalculator.js"),
           },
           {   
             from: path.join(source, "js","co2categories.js"),
