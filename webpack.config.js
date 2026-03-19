@@ -13,9 +13,6 @@ module.exports = (env, argv) => {
       main: [
         path.join(source, "js", "main.ts"),
         path.join(source, "scss", "main.scss"),
-      ],
-      carboncalculator: [
-        path.join(source,"js","carboncalculator.ts")
       ]
     },
     output: {
@@ -71,10 +68,47 @@ module.exports = (env, argv) => {
           {   
             from: path.join(source, "images"),
             to: path.join(destination, "images"),
-          },
-          {
+          }
+        ],
+      }),
+    ],
+  },
+  {
+    entry: {
+      carboncalculator: [
+        path.join(source,"js","carboncalculator.ts")
+      ]
+    },
+    output: {
+      path: destination,
+      filename: "[name].js",
+      clean: true,
+    },
+    devtool: isProductionMode ? false : "inline-source-map",
+    module: {
+      rules: [
+        {
+          test: /\.js$/,
+          exclude: /node_modules/,
+          use: {
+            loader: "babel-loader",
+            options: {
+              presets: ["@babel/preset-env"]
+            }
+          }
+        },
+      ],
+    },
+    plugins: [
+      new CopyWebpackPlugin({
+        patterns: [
+          {   
             from: path.join(destination, "carboncalculator.js"),
-            to: path.join(source, "js/carboncalculator.js"),
+            to: path.join(source, "carboncalculator.js"),
+          },
+          {   
+            from: path.join(source, "js","co2categories.js"),
+            to: path.join(destination, "js", "co2categories.js")
           }
 
         ],
