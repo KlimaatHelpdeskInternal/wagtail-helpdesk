@@ -103,10 +103,6 @@ module.exports = (env, argv) => {
       new CopyWebpackPlugin({
         patterns: [
           {   
-            from: path.join(destination, "carboncalculator.js"),
-            to: path.join(source, "js", "carboncalculator.js"),
-          },
-          {   
             from: path.join(source, "js","co2categories.js"),
             to: path.join(destination, "co2categories.js")
           }
