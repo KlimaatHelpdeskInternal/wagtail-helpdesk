@@ -240,3 +240,5 @@ drawCategories(currentCategories);
 
 // add the layer to the stage
 stage.add(layer);
+
+//test
