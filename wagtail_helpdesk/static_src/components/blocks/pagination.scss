@@ -1,0 +1,47 @@
+.pagination {
+  @include typography(button);
+  max-width: calc(
+    var(--grid-max-width) + var(--grid-gutter) * 2 + var(--grid-margin) * 2
+  );
+  margin-left: 60px;
+  /*margin-right: 60px;
+  width:80%;*/
+  padding-left: var(--grid-margin);
+  padding-right: var(--grid-margin);
+  position: relative;
+  grid-column: column 2 / span 10;
+  @include landscape {
+    grid-column: column 1 / span 9;
+  }
+
+  
+  
+  @include mobile-only {
+    display: grid;
+    grid-template-columns: repeat(12, [column] minmax(0, 1fr));
+  }
+
+  &__page-item {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: inline;
+
+    @include mobile-only {
+      grid-column: column 2 / span 10;
+    }
+  }
+  &__page-link {
+    display: inline;
+  }
+  &__current {
+    display: inline-block;
+    visibility: hidden;
+    grid-column: column 2 / span 10;
+  }
+  
+  &__row {
+    display: inline;
+    grid-column: column 2 / span 10;
+  }
+}
