@@ -603,7 +603,7 @@ class AnswerIndexPage(RoutablePageMixin, Page):
         page = request.GET.get("page")
         try:
             paginated_answers_and_columns = paginator.page(page)
-            currentpage = page
+            currentpage = int(page)
         except PageNotAnInteger:
             paginated_answers_and_columns = paginator.page(1)
             currentpage = 1 
