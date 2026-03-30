@@ -691,10 +691,15 @@ class ExpertIndexPage(Page):
         experts = Expert.objects.all()
         categories = AnswerCategory.objects.all()
         itemsperpage = 25
-        requestedexpertid = 304 #request.GET.get("expertID")
-        expertids = list(experts.values_list('id', flat = True))
-        experttoopenwithindex= expertids.index(requestedexpertid)
-        pagettoopenwith = 1 + experttoopenwithindex // itemsperpage # find the first page that contains the iddex of this expert
+        if request.GET.get("expertID") is not None :
+            requestedexpertid = int(request.GET.get("expertID"))
+            expertids = list(experts.values_list('id', flat = True))
+            experttoopenwithindex= expertids.index(requestedexpertid)
+            pagettoopenwith = 1 + experttoopenwithindex // itemsperpage # find the first page that contains the iddex of this expert
+        else :
+            requestedexpertid = 0
+            pagettoopenwith = 1 
+
 
         #list created, now paginate
         paginator = Paginator(experts,itemsperpage)
