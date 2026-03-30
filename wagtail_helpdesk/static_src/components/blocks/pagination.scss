@@ -13,7 +13,7 @@
   grid-gap: var(--grid-spacing) var(--grid-gutter);
   padding-left: var(--grid-margin);
   padding-right: var(--grid-margin);
-  padding-bottom: 60px;
+  padding-bottom: 30px;
   position: relative;
   grid-template-columns: repeat(var(--grid-columns), [column] minmax(0, 1fr));
 
