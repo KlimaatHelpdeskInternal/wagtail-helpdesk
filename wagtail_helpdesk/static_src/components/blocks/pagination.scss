@@ -15,29 +15,15 @@
   padding-right: var(--grid-margin);
   padding-bottom: 60px;
   position: relative;
-  /*grid-column: column 2 / span 10;*/
   grid-template-columns: repeat(var(--grid-columns), [column] minmax(0, 1fr));
-  /*@include landscape {
-    grid-column: column 1 / span 9;
-  }*/
-
-  
-  
-  /*@include mobile-only {
-    display: grid;
-    grid-template-columns: repeat(12, [column] minmax(0, 1fr));
-  }*/
 
   &__page-item {
     margin: 0;
     padding: 0;
     list-style: none;
     display: inline;
-    
+   
 
-    /*@include mobile-only {
-      grid-column: column 2 / span 10;
-    }*/
   }
   &__page-link {
     display: inline;
