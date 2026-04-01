@@ -13,8 +13,11 @@
   grid-gap: var(--grid-spacing) var(--grid-gutter);
   padding-left: var(--grid-margin);
   padding-right: var(--grid-margin);
-  padding-bottom: 30px;
-  position: relative;
+  padding-bottom: 0px;
+  margin-bottom:30px;
+  position: absolute;
+  top:-100px;
+  left: 20%;
   grid-template-columns: repeat(var(--grid-columns), [column] minmax(0, 1fr));
 
   &__page-item {
@@ -58,7 +61,7 @@
   }
     
   &__row {
-    display: inline;
+    /*display: inline;*/
     grid-column: column 1 / span 10;
   }
 }

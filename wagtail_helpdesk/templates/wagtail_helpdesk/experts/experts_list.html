@@ -30,35 +30,35 @@
 
 {% block content %}
 
-    <div class="pagination">
-        {% if experts.paginator.num_pages > 1 %}
-          <div class="pagination__row">
-            {% if experts.has_previous %}
-              <li class="pagination__page-item">
-                <a href="?{% updated_params page=experts.previous_page_number %}" class="pagination__page-link"><span>&laquo;</span></a>
-              </li>
-            {% endif %}
-            {% for page_num in experts.paginator.page_range %}
-              <li class="pagination__page-item">
-              {% if page_num == current_page %} 
-                <a href="?{% updated_params page=page_num %} " class="pagination__page-link pagination__page-link-active">{{ page_num }}</a>
-              {% else %}
-                <a href="?{% updated_params page=page_num %} " class="pagination__page-link">{{ page_num }}</a>
-              {% endif %}
-              </li>
-            {% endfor %}
-            {% if experts.has_next %}
-              <li class="pagination__page-item">
-                <a href="?{% updated_params page=experts.next_page_number %}" class="pagination__page-link"><span>&raquo;</span></a>
-              </li>
-            {% endif %}
-
-          </div>
-        {% endif %}
-
-  </div>
 
   <div class="expert-list">
+        <div class="pagination">
+          {% if experts.paginator.num_pages > 1 %}
+            <div class="pagination__row">
+              {% if experts.has_previous %}
+                <li class="pagination__page-item">
+                  <a href="?{% updated_params page=experts.previous_page_number %}" class="pagination__page-link"><span>&laquo;</span></a>
+                </li>
+              {% endif %}
+              {% for page_num in experts.paginator.page_range %}
+                <li class="pagination__page-item">
+                {% if page_num == current_page %} 
+                  <a href="?{% updated_params page=page_num %} " class="pagination__page-link pagination__page-link-active">{{ page_num }}</a>
+                {% else %}
+                  <a href="?{% updated_params page=page_num %} " class="pagination__page-link">{{ page_num }}</a>
+                {% endif %}
+                </li>
+              {% endfor %}
+              {% if experts.has_next %}
+                <li class="pagination__page-item">
+                  <a href="?{% updated_params page=experts.next_page_number %}" class="pagination__page-link"><span>&raquo;</span></a>
+                </li>
+              {% endif %}
+
+            </div>
+          {% endif %}
+        </div>
+
     <div class="expert-list__wrapper">
       <div class="expert-list__experts">
         {% for expert in experts %}

@@ -15,7 +15,7 @@
   .simple-header__wrapper {
     @include grid-container;
     padding-top: 55px;
-    padding-bottom: 80px;
+    padding-bottom: 40px;
   }
 
   .simple-header__back-link {
@@ -62,7 +62,7 @@
 
   @include landscape {
     .simple-header__wrapper {
-      padding-top: 100px;
+      padding-top: 50px;
     }
 
     .simple-header__back-link {

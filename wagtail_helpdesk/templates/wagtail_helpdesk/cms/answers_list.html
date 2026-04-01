@@ -39,7 +39,8 @@
 {#{% block container-class %} smokedglass{% endblock %}#}
 {% block content %}
 
-    <div class="pagination">
+    <div class="question-link-list">
+        <div class="pagination">
           {% if answers_and_columns.paginator.num_pages > 1 %}
             <div class="pagination__row">
               {% if answers_and_columns.has_previous %}
@@ -64,9 +65,8 @@
 
             </div>
           {% endif %}
+      </div>
 
-    </div>
-    <div class="question-link-list">
       <div class="question-link-list__links">
         {% for answer in answers_and_columns %}
           {{ answer.get_as_overview_row_card }}
