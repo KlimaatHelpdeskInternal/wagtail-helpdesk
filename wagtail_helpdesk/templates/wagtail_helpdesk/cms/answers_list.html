@@ -39,17 +39,6 @@
 {#{% block container-class %} smokedglass{% endblock %}#}
 {% block content %}
 
-    <div class="question-link-list">
-      <div class="question-link-list__links">
-        {% for answer in answers_and_columns %}
-          {{ answer.get_as_overview_row_card }}
-        {% empty %}
-          <div class="question-link-list__no-results">
-            {% trans 'Unfortunately, no questions were found' %}
-          </div>
-        {% endfor %}
-      </div>
-    </div>
     <div class="pagination">
           {% if answers_and_columns.paginator.num_pages > 1 %}
             <div class="pagination__row">
@@ -76,6 +65,17 @@
             </div>
           {% endif %}
 
+    </div>
+    <div class="question-link-list">
+      <div class="question-link-list__links">
+        {% for answer in answers_and_columns %}
+          {{ answer.get_as_overview_row_card }}
+        {% empty %}
+          <div class="question-link-list__no-results">
+            {% trans 'Unfortunately, no questions were found' %}
+          </div>
+        {% endfor %}
+      </div>
     </div>
 
     {% include "wagtail_helpdesk/cms/includes/sticky.html" %}

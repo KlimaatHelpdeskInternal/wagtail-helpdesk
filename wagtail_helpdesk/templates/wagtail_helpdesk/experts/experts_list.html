@@ -30,16 +30,6 @@
 
 {% block content %}
 
-
-  <div class="expert-list">
-    <div class="expert-list__wrapper">
-      <div class="expert-list__experts">
-        {% for expert in experts %}
-          {% include "wagtail_helpdesk/experts/includes/expert_block.html" with expert=expert %}
-        {% endfor %}
-      </div>
-    </div>
-  </div>
     <div class="pagination">
         {% if experts.paginator.num_pages > 1 %}
           <div class="pagination__row">
@@ -66,6 +56,16 @@
           </div>
         {% endif %}
 
+  </div>
+
+  <div class="expert-list">
+    <div class="expert-list__wrapper">
+      <div class="expert-list__experts">
+        {% for expert in experts %}
+          {% include "wagtail_helpdesk/experts/includes/expert_block.html" with expert=expert %}
+        {% endfor %}
+      </div>
+    </div>
   </div>
 
 
