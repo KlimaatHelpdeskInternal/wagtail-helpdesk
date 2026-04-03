@@ -28,6 +28,7 @@ boto3==1.42.57
     # via django-storages
 botocore==1.42.57
     # via
+    #   -r requirements/development.in
     #   boto3
     #   s3transfer
 cachecontrol[filecache]==0.14.4
@@ -81,8 +82,10 @@ django==6.0.3
     #   wagtail
 django-embed-video==1.4.10
     # via -r requirements/base.in
-django-filter==23.5
-    # via wagtail
+django-filter==25.2
+    # via
+    #   -r requirements/base.in
+    #   wagtail
 django-health-check==3.24.0
     # via -r requirements/base.in
 django-modelcluster==6.4.1
