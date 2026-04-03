@@ -92,6 +92,8 @@ django-filter==25.2
     #   wagtail
 django-health-check==3.20.0
     # via -r requirements/base.in
+django-ipware==7.0.1
+    # via -r requirements/base.in
 django-modelcluster==6.4.1
     # via wagtail
 django-permissionedforms==0.1
@@ -257,6 +259,8 @@ python-dotenv==1.2.1
     # via dotenv
 python-gitlab==7.0.0
     # via -r requirements/base.in
+python-ipware==3.0.0
+    # via django-ipware
 pytokens==0.3.0
     # via black
 pyyaml==6.0.3

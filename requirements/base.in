@@ -6,3 +6,4 @@ django-health-check
 django-storages[s3]
 django-embed-video
 wagtail-modeladmin
+django-ipware
