@@ -28,6 +28,7 @@ boto3==1.40.66
     # via django-storages
 botocore==1.40.66
     # via
+    #   -r requirements/development.in
     #   boto3
     #   s3transfer
 brotli==1.1.0
@@ -316,8 +317,11 @@ wagtail==7.3.1
     # via
     #   -r requirements/base.in
     #   wagtail-factories
+    #   wagtail-modeladmin
 wagtail-factories==4.2.1
     # via -r requirements/testing.in
+wagtail-modeladmin==2.2.0
+    # via -r requirements/base.in
 waitress==3.0.2
     # via webtest
 wcwidth==0.2.14
