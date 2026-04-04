@@ -640,6 +640,30 @@ class AnswerIndexPage(RoutablePageMixin, Page):
 
         return render(request, self.template, context)
 
+class KidsPage(Page):
+    """ A page for kids with send in questions and answers in a more playful way """
+    template = "wagtail_helpdesk/cms/kids_page.html"
+
+    subtitle = models.CharField(
+        max_length=255,
+        blank=True,
+        help_text="Korte tekst onder de titel"
+    )
+    intro = RichTextField(
+        blank=True,
+        help_text="Introductietekst voor de kids pagina"
+    )
+
+    content_panels = Page.content_panels + [
+        FieldPanel("subtitle"),
+        FieldPanel("intro"),
+    ]
+
+    class Meta:
+        verbose_name = _("Kids page")
+        verbose_name_plural = _("Kids pages")
+        
+
 class ExpertIndexPage(Page):
     """List of experts on the website"""
 
