@@ -1,0 +1,56 @@
+{% extends "wagtail_helpdesk/base.html" %}
+{% load i18n static wagtailcore_tags %}
+
+{% block smokedglass %}
+{% endblock %}
+
+{% block content_area %}
+  <div class="kids-event-page">
+
+    <div class="content-header content-header--kids">
+      <div class="content-header__wrapper">
+        <div class="content-header__title-container">
+          <h1 class="content-header__title">
+            {{ page.title }}
+          </h1>
+        </div>
+
+        {% if page.subtitle %}
+          <div class="content-header__introduction">
+            <p class="content-header__introduction-text">
+              {{ page.subtitle }}
+            </p>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+
+    <div class="content kids-event-page__content">
+      <div class="content__container">
+        <div class="content__answer richtext">
+          {{ page.intro|richtext }}
+        </div>
+
+        {% if page.event_year or page.event_location %}
+          <div class="kids-event-page__meta">
+            {% if page.event_date %}
+              <p><strong>Datum:</strong> {{ page.event_date }}</p>
+            {% endif %}
+
+            {% if page.event_location %}
+              <p><strong>Locatie:</strong> {{ page.event_location }}</p>
+            {% endif %}
+          </div>
+        {% endif %}
+
+        <section class="kids-event-page__placeholder">
+          <h2>Test sectie</h2>
+          <p>Hier komen straks de vragen, antwoorden en tekeningen van dit evenement.</p>
+        </section>
+      </div>
+
+      {% include "wagtail_helpdesk/includes/social_share_buttons.html" %}
+    </div>
+
+  </div>
+{% endblock content_area %}

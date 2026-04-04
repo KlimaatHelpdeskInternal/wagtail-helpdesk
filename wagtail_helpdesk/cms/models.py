@@ -647,22 +647,68 @@ class KidsPage(Page):
     subtitle = models.CharField(
         max_length=255,
         blank=True,
-        help_text="Korte tekst onder de titel"
+        help_text="Korte tekst onder de titel",
     )
     intro = RichTextField(
         blank=True,
-        help_text="Introductietekst voor de kids pagina"
+        help_text="Introductietekst voor de kids hoofdpagina",
     )
+
+    subpage_types = ["cms.KidsEventPage"]
 
     content_panels = Page.content_panels + [
         FieldPanel("subtitle"),
         FieldPanel("intro"),
     ]
 
+    def get_context(self, request, *args, **kwargs):
+        context = super().get_context(request, *args, **kwargs)
+        context["event_pages"] = self.get_children().live().specific()
+        return context
+
     class Meta:
         verbose_name = _("Kids page")
         verbose_name_plural = _("Kids pages")
         
+        
+class KidsEventPage(Page):
+    template = "wagtail_helpdesk/cms/kids_event_page.html"
+
+    parent_page_types = ["cms.KidsPage"]
+    subpage_types = []
+    
+    subtitle = models.CharField(
+    max_length=255,
+        blank=True,
+        help_text="Korte tekst onder de titel",
+    )
+    intro = RichTextField(
+        blank=True,
+        help_text="Introductietekst voor deze kids event pagina",
+    )
+    event_date = models.DateField(
+        blank=True,
+        null=True,
+        help_text="Datum waarop het event plaatsvindt",
+    )
+    event_location = models.CharField(
+        max_length=255,
+        blank=True,
+        help_text="Locatie van het event",
+    )
+    
+    content_panels = Page.content_panels + [
+        FieldPanel("subtitle"),
+        FieldPanel("intro"),
+        FieldPanel("event_date"),
+        FieldPanel("event_location"),
+    ]
+    
+    class Meta:
+        verbose_name = _("Kids event page")
+        verbose_name_plural = _("Kids event pages")
+        
+
 
 class ExpertIndexPage(Page):
     """List of experts on the website"""
