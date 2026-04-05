@@ -1,0 +1,231 @@
+/* ========================================
+   Kids base wrapper
+======================================== */
+
+.kids-page,
+.kids-event-page,
+.kids-answer-page {
+  position: relative;
+  z-index: 2;
+}
+
+
+/* ========================================
+   Kids header (hero)
+======================================== */
+
+.content-header--kids {
+  background: linear-gradient(to bottom, #fe9450, #fed36b);
+  color: #000;
+
+  .content-header__wrapper {
+    padding-top: 4rem;
+    padding-bottom: 3rem;
+  }
+
+  .content-header__title {
+    color: #000;
+  }
+
+  .content-header__introduction-text {
+    color: #000;
+    font-size: 1.2rem;
+  }
+}
+
+
+/* ========================================
+   Content achtergrond
+======================================== */
+
+.kids-page__content,
+.kids-event-page__content,
+.kids-answer-page__content {
+  background: linear-gradient(to bottom, #ffc300, #fff9e7);
+  color: #000;
+}
+
+
+/* ========================================
+   Event overview (KidsPage)
+======================================== */
+
+.kids-events-overview {
+  padding: 3rem 0;
+
+  &__title {
+    margin-bottom: 1.5rem;
+  }
+
+  &__grid {
+    display: grid;
+    gap: 1.5rem;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  }
+}
+
+.kids-event-card {
+  background: #fff9e7;
+  border: 2px solid #fed36b;
+  border-radius: 1rem;
+  padding: 1.5rem;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+  transition: transform 0.2s ease;
+
+  &:hover {
+    transform: translateY(-4px);
+  }
+
+  &__title {
+    margin-bottom: 0.5rem;
+
+    a {
+      color: #000;
+      text-decoration: none;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+
+  &__subtitle {
+    margin-bottom: 0.75rem;
+  }
+
+  &__meta {
+    font-size: 0.9rem;
+  }
+}
+
+
+/* ========================================
+   Question cards (event page)
+======================================== */
+
+.kids-questions-section {
+  margin-top: 3rem;
+}
+
+.kids-questions-grid {
+  display: grid;
+  gap: 2rem;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+}
+
+.kids-card {
+  background: #fff;
+  border-radius: 1rem;
+  overflow: hidden;
+  border: 3px solid #fed36b;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  transition: transform 0.2s ease;
+
+  &:hover {
+    transform: translateY(-4px);
+  }
+
+  &__image {
+    img {
+      width: 100%;
+      display: block;
+    }
+  }
+
+  &__content {
+    padding: 1.5rem;
+  }
+
+  &__question {
+    font-size: 1.3rem;
+    margin-bottom: 0.5rem;
+  }
+
+  &__author {
+    font-size: 0.9rem;
+    color: #555;
+    margin-bottom: 1rem;
+  }
+
+  &__link {
+    margin-top: 1rem;
+
+    a {
+      font-weight: bold;
+      color: #000;
+      text-decoration: underline;
+    }
+  }
+}
+
+
+/* ========================================
+   Drawings grid
+======================================== */
+
+.kids-drawings {
+  margin-top: 4rem;
+
+  &__grid {
+    display: grid;
+    gap: 1.5rem;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  }
+}
+
+.kids-drawing {
+  background: #fff9e7;
+  border: 3px solid #fed36b;
+  border-radius: 1rem;
+  overflow: hidden;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  transition: transform 0.2s ease;
+  cursor: pointer;
+
+  &:hover {
+    transform: translateY(-4px);
+  }
+
+  img {
+    width: 100%;
+    display: block;
+  }
+
+  figcaption {
+    padding: 0.8rem;
+    background: #fed36b;
+    font-size: 0.95rem;
+  }
+}
+
+
+/* ========================================
+   Answer page tweaks
+======================================== */
+
+.kids-answer-page__card-image {
+  margin-bottom: 2rem;
+
+  img {
+    width: 100%;
+    border-radius: 1rem;
+  }
+}
+
+
+/* ========================================
+   FIXES (KH layout quirks)
+======================================== */
+
+// .smokedglass {
+//   position: relative;
+//   z-index: 1;
+// }
+
+/* kids content moet daarboven */
+.kids-page,
+.kids-event-page,
+.kids-answer-page {
+  position: relative;
+  z-index: 2;
+}

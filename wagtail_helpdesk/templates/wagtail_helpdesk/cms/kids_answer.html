@@ -1,0 +1,52 @@
+{% extends "wagtail_helpdesk/base.html" %}
+{% load i18n static wagtailcore_tags wagtailimages_tags %}
+
+{% block smokedglass %}
+{% endblock %}
+
+{% block content_area %}
+  <div class="kids-answer-page">
+
+    <div class="content-header content-header--kids">
+      <div class="content-header__wrapper">
+        <div class="content-header__title-container">
+          <h1 class="content-header__title">
+            {{ page.title }}
+          </h1>
+        </div>
+
+        {% if page.subtitle %}
+          <div class="content-header__introduction">
+            <p class="content-header__introduction-text">
+              {{ page.subtitle }}
+            </p>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+
+    <div class="content kids-answer-page__content">
+      <div class="content__container">
+        {% if page.card_image %}
+          <div class="kids-answer-page__card-image">
+            {% image page.card_image width-900 as img %}
+            <img src="{{ img.url }}" alt="{{ page.title }}">
+          </div>
+        {% endif %}
+
+        {% if page.intro %}
+          <div class="content__answer richtext">
+            {{ page.intro|richtext }}
+          </div>
+        {% endif %}
+
+        <div class="content__answer richtext">
+          {{ page.content|richtext }}
+        </div>
+      </div>
+
+      {% include "wagtail_helpdesk/includes/social_share_buttons.html" %}
+    </div>
+
+  </div>
+{% endblock content_area %}

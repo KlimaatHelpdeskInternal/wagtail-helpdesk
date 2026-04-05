@@ -675,10 +675,10 @@ class KidsEventPage(Page):
     template = "wagtail_helpdesk/cms/kids_event_page.html"
 
     parent_page_types = ["cms.KidsPage"]
-    subpage_types = []
-    
+    subpage_types = ["cms.KidsAnswerPage"]
+
     subtitle = models.CharField(
-    max_length=255,
+        max_length=255,
         blank=True,
         help_text="Korte tekst onder de titel",
     )
@@ -689,26 +689,164 @@ class KidsEventPage(Page):
     event_date = models.DateField(
         blank=True,
         null=True,
-        help_text="Datum waarop het event plaatsvindt",
+        help_text="Datum van het evenement",
     )
     event_location = models.CharField(
         max_length=255,
         blank=True,
-        help_text="Locatie van het event",
+        help_text="Bijvoorbeeld Tivoli Utrecht",
     )
-    
+
     content_panels = Page.content_panels + [
         FieldPanel("subtitle"),
         FieldPanel("intro"),
         FieldPanel("event_date"),
         FieldPanel("event_location"),
+        MultiFieldPanel(
+            [
+                InlinePanel("kids_questions", label="Kids vragen"),
+            ],
+            heading="Vragen",
+        ),
+        MultiFieldPanel(
+            [
+                InlinePanel("kids_drawings", label="Kids tekeningen"),
+            ],
+            heading="Tekeningen",
+        ),
     ]
-    
+
+    def get_context(self, request, *args, **kwargs):
+        context = super().get_context(request, *args, **kwargs)
+        context["kids_questions"] = self.kids_questions.all()
+        context["kids_drawings"] = self.kids_drawings.all()
+        context["kids_answer_pages"] = self.get_children().type(KidsAnswerPage).live().specific()
+        return context
+
     class Meta:
         verbose_name = _("Kids event page")
         verbose_name_plural = _("Kids event pages")
         
 
+class KidsAnswerPage(Page):
+    template = "wagtail_helpdesk/cms/kids_answer_page.html"
+
+    parent_page_types = ["cms.KidsEventPage"]
+    subpage_types = []
+
+    subtitle = models.CharField(
+        max_length=255,
+        blank=True,
+        help_text="Korte tekst onder de titel",
+    )
+    intro = RichTextField(
+        blank=True,
+        help_text="Introductietekst voor het kids antwoord",
+    )
+    content = RichTextField(
+        blank=True,
+        help_text="Het antwoord in kindvriendelijke taal",
+    )
+    card_image = models.ForeignKey(
+        "wagtailimages.Image",
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name="+",
+        help_text="Afbeelding van het originele vraagkaartje",
+    )
+
+    content_panels = Page.content_panels + [
+        FieldPanel("subtitle"),
+        FieldPanel("intro"),
+        FieldPanel("content"),
+        FieldPanel("card_image"),
+    ]
+
+    class Meta:
+        verbose_name = _("Kids answer page")
+        verbose_name_plural = _("Kids answer pages")
+        
+        
+class KidsQuestion(Orderable, models.Model):
+    page = ParentalKey(
+        "cms.KidsEventPage",
+        related_name="kids_questions",
+        on_delete=models.CASCADE,
+    )
+
+    child_name = models.CharField(max_length=255, blank=True)
+    age = models.PositiveIntegerField(blank=True, null=True)
+    question_text = models.CharField(max_length=500)
+    card_image = models.ForeignKey(
+        "wagtailimages.Image",
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name="+",
+    )
+    answer_page = models.ForeignKey(
+        "cms.KidsAnswerPage",
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name="+",
+        help_text="Koppel een kids antwoordpagina aan deze vraag",
+    )
+
+    panels = [
+        FieldPanel("child_name"),
+        FieldPanel("age"),
+        FieldPanel("question_text"),
+        FieldPanel("card_image"),
+        FieldPanel("answer_page"),
+    ]
+
+    def __str__(self):
+        if self.child_name and self.age:
+            return f"{self.question_text} — {self.child_name} ({self.age})"
+        if self.child_name:
+            return f"{self.question_text} — {self.child_name}"
+        return self.question_text
+
+    class Meta:
+        verbose_name = _("Kids question")
+        verbose_name_plural = _("Kids questions")
+        
+        
+class KidsDrawing(Orderable, models.Model):
+    page = ParentalKey(
+        "cms.KidsEventPage",
+        related_name="kids_drawings",
+        on_delete=models.CASCADE,
+    )
+
+    title = models.CharField(max_length=255, blank=True)
+    child_name = models.CharField(max_length=255, blank=True)
+    age = models.PositiveIntegerField(blank=True, null=True)
+    caption = models.CharField(max_length=255, blank=True)
+    drawing_image = models.ForeignKey(
+        "wagtailimages.Image",
+        null=True,
+        blank=False,
+        on_delete=models.SET_NULL,
+        related_name="+",
+    )
+
+    panels = [
+        FieldPanel("title"),
+        FieldPanel("child_name"),
+        FieldPanel("age"),
+        FieldPanel("caption"),
+        FieldPanel("drawing_image"),
+    ]
+
+    def __str__(self):
+        return self.title or self.caption or "Kids tekening"
+
+    class Meta:
+        verbose_name = _("Kids drawing")
+        verbose_name_plural = _("Kids drawings")        
 
 class ExpertIndexPage(Page):
     """List of experts on the website"""

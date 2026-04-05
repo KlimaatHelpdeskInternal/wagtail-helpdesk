@@ -1,5 +1,5 @@
 {% extends "wagtail_helpdesk/base.html" %}
-{% load i18n static wagtailcore_tags %}
+{% load i18n static wagtailcore_tags wagtailimages_tags %}
 
 {% block smokedglass %}
 {% endblock %}
@@ -31,21 +31,69 @@
           {{ page.intro|richtext }}
         </div>
 
-        {% if page.event_year or page.event_location %}
+        {% if page.event_date or page.event_location %}
           <div class="kids-event-page__meta">
             {% if page.event_date %}
               <p><strong>Datum:</strong> {{ page.event_date }}</p>
             {% endif %}
-
             {% if page.event_location %}
               <p><strong>Locatie:</strong> {{ page.event_location }}</p>
             {% endif %}
           </div>
         {% endif %}
 
-        <section class="kids-event-page__placeholder">
-          <h2>Test sectie</h2>
-          <p>Hier komen straks de vragen, antwoorden en tekeningen van dit evenement.</p>
+        <section class="kids-questions-section">
+          <h2>Vragen van kinderen</h2>
+
+          <div class="kids-questions-grid">
+            {% for item in kids_questions %}
+              <article class="kids-card">
+                {% if item.card_image %}
+                  <div class="kids-card__image">
+                    {% image item.card_image fill-800x500 as img %}
+                    <img src="{{ img.url }}" alt="{{ item.question_text }}">
+                  </div>
+                {% endif %}
+
+                <div class="kids-card__content">
+                  <h3 class="kids-card__question">{{ item.question_text }}</h3>
+
+                  {% if item.child_name or item.age %}
+                    <p class="kids-card__author">
+                      {% if item.child_name %}{{ item.child_name }}{% endif %}
+                      {% if item.age %} ({{ item.age }}){% endif %}
+                    </p>
+                  {% endif %}
+
+                  {% if item.answer_page %}
+                    <p class="kids-card__link">
+                      <a href="{{ item.answer_page.url }}">Lees het antwoord</a>
+                    </p>
+                  {% endif %}
+                </div>
+              </article>
+            {% empty %}
+              <p>Er zijn nog geen vragen toegevoegd.</p>
+            {% endfor %}
+          </div>
+        </section>
+
+        <section class="kids-drawings">
+          <h2>Hoe denken kinderen dat de wereld er over 50 jaar uitziet? 🌏</h2>
+
+          <div class="kids-drawings__grid">
+            {% for drawing in kids_drawings %}
+              <figure class="kids-drawing">
+                {% image drawing.drawing_image fill-600x450 as img %}
+                <img src="{{ img.url }}" alt="{{ drawing.caption|default:drawing.title }}">
+                {% if drawing.caption %}
+                  <figcaption>{{ drawing.caption }}</figcaption>
+                {% endif %}
+              </figure>
+            {% empty %}
+              <p>Er zijn nog geen tekeningen toegevoegd.</p>
+            {% endfor %}
+          </div>
         </section>
       </div>
 
