@@ -1,231 +1,240 @@
-/* ========================================
-   Kids base wrapper
-======================================== */
-
 .kids-page,
 .kids-event-page,
 .kids-answer-page {
   position: relative;
   z-index: 2;
+  color: #000;
 }
 
-
-/* ========================================
-   Kids header (hero)
-======================================== */
+/* =========================
+   KH header tweak voor kids
+========================= */
 
 .content-header--kids {
   background: linear-gradient(to bottom, #fe9450, #fed36b);
   color: #000;
 
-  .content-header__wrapper {
-    padding-top: 4rem;
-    padding-bottom: 3rem;
-  }
-
-  .content-header__title {
-    color: #000;
-  }
-
+  .content-header__title,
   .content-header__introduction-text {
     color: #000;
-    font-size: 1.2rem;
   }
 }
 
+/* =========================
+   Kids inner wrappers
+========================= */
 
-/* ========================================
-   Content achtergrond
-======================================== */
+.kids-page__inner,
+.kids-event-page__inner,
+.kids-answer-page__inner {
+  width: min(1100px, calc(100% - 2rem));
+  margin: 0 auto;
+  padding: 2.5rem 0 4rem;
+  position: relative;
+  z-index: 2;
+}
 
-.kids-page__content,
-.kids-event-page__content,
-.kids-answer-page__content {
-  background: linear-gradient(to bottom, #ffc300, #fff9e7);
+/* =========================
+   Sections
+========================= */
+
+.kids-section {
+  margin-top: 3rem;
+}
+
+.kids-section--intro {
+  margin-top: 0;
+}
+
+.kids-section__title {
+  margin-bottom: 1.5rem;
   color: #000;
 }
 
+/* =========================
+   Richtext
+========================= */
 
-/* ========================================
-   Event overview (KidsPage)
-======================================== */
+.kids-richtext {
+  max-width: 54rem;
+  color: #000;
+  line-height: 1.7;
+}
 
-.kids-events-overview {
-  padding: 3rem 0;
+.kids-richtext p + p {
+  margin-top: 1rem;
+}
 
-  &__title {
-    margin-bottom: 1.5rem;
-  }
+/* =========================
+   Meta
+========================= */
 
-  &__grid {
-    display: grid;
-    gap: 1.5rem;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  }
+.kids-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 1.5rem;
+  padding: 1rem 1.25rem;
+  background: rgba(255, 249, 231, 0.92);
+  border: 2px solid #fed36b;
+  border-radius: 1rem;
+}
+
+.kids-meta__item {
+  margin: 0;
+  color: #000;
+}
+
+/* =========================
+   Event overview
+========================= */
+
+.kids-events-overview__grid {
+  display: grid;
+  gap: 1.5rem;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
 }
 
 .kids-event-card {
   background: #fff9e7;
   border: 2px solid #fed36b;
   border-radius: 1rem;
-  padding: 1.5rem;
+  padding: 1.25rem;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
   transition: transform 0.2s ease;
-
-  &:hover {
-    transform: translateY(-4px);
-  }
-
-  &__title {
-    margin-bottom: 0.5rem;
-
-    a {
-      color: #000;
-      text-decoration: none;
-
-      &:hover {
-        text-decoration: underline;
-      }
-    }
-  }
-
-  &__subtitle {
-    margin-bottom: 0.75rem;
-  }
-
-  &__meta {
-    font-size: 0.9rem;
-  }
 }
 
-
-/* ========================================
-   Question cards (event page)
-======================================== */
-
-.kids-questions-section {
-  margin-top: 3rem;
+.kids-event-card:hover {
+  transform: translateY(-4px);
 }
+
+.kids-event-card__title {
+  margin: 0 0 0.5rem;
+}
+
+.kids-event-card__title a {
+  color: #000;
+  text-decoration: none;
+}
+
+.kids-event-card__title a:hover {
+  text-decoration: underline;
+}
+
+.kids-event-card__subtitle {
+  margin: 0 0 0.75rem;
+  color: #000;
+}
+
+.kids-event-card__meta {
+  margin: 0;
+  color: #000;
+  font-size: 0.95rem;
+}
+
+/* =========================
+   Questions grid
+========================= */
 
 .kids-questions-grid {
   display: grid;
   gap: 2rem;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  align-items: start;
 }
 
 .kids-card {
-  background: #fff;
-  border-radius: 1rem;
-  overflow: hidden;
-  border: 3px solid #fed36b;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-  transition: transform 0.2s ease;
-
-  &:hover {
-    transform: translateY(-4px);
-  }
-
-  &__image {
-    img {
-      width: 100%;
-      display: block;
-    }
-  }
-
-  &__content {
-    padding: 1.5rem;
-  }
-
-  &__question {
-    font-size: 1.3rem;
-    margin-bottom: 0.5rem;
-  }
-
-  &__author {
-    font-size: 0.9rem;
-    color: #555;
-    margin-bottom: 1rem;
-  }
-
-  &__link {
-    margin-top: 1rem;
-
-    a {
-      font-weight: bold;
-      color: #000;
-      text-decoration: underline;
-    }
-  }
-}
-
-
-/* ========================================
-   Drawings grid
-======================================== */
-
-.kids-drawings {
-  margin-top: 4rem;
-
-  &__grid {
-    display: grid;
-    gap: 1.5rem;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  }
-}
-
-.kids-drawing {
   background: #fff9e7;
   border: 3px solid #fed36b;
   border-radius: 1rem;
   overflow: hidden;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   transition: transform 0.2s ease;
-  cursor: pointer;
-
-  &:hover {
-    transform: translateY(-4px);
-  }
-
-  img {
-    width: 100%;
-    display: block;
-  }
-
-  figcaption {
-    padding: 0.8rem;
-    background: #fed36b;
-    font-size: 0.95rem;
-  }
 }
 
-
-/* ========================================
-   Answer page tweaks
-======================================== */
-
-.kids-answer-page__card-image {
-  margin-bottom: 2rem;
-
-  img {
-    width: 100%;
-    border-radius: 1rem;
-  }
+.kids-card:hover {
+  transform: translateY(-4px);
 }
 
+.kids-card__image img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
 
-/* ========================================
-   FIXES (KH layout quirks)
-======================================== */
+.kids-card__content {
+  padding: 1.25rem;
+}
 
-// .smokedglass {
-//   position: relative;
-//   z-index: 1;
-// }
+.kids-card__question {
+  margin: 0 0 0.5rem;
+  color: #000;
+  font-size: 1.25rem;
+  line-height: 1.3;
+}
 
-/* kids content moet daarboven */
-.kids-page,
-.kids-event-page,
-.kids-answer-page {
+.kids-card__author {
+  margin: 0 0 1rem;
+  color: #444;
+  font-size: 0.95rem;
+}
+
+.kids-card__link {
+  margin: 0;
+}
+
+.kids-card__link a {
+  color: #000;
+  font-weight: 700;
+  text-decoration: underline;
+}
+
+/* =========================
+   Drawings
+========================= */
+
+.kids-drawings__grid {
+  display: grid;
+  gap: 1.5rem;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
+.kids-drawing {
+  margin: 0;
+  background: #fff9e7;
+  border: 3px solid #fed36b;
+  border-radius: 1rem;
+  overflow: hidden;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.kids-drawing img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.kids-drawing figcaption {
+  padding: 0.85rem 1rem;
+  background: #fed36b;
+  color: #000;
+  font-size: 0.95rem;
+  line-height: 1.4;
+}
+
+/* =========================
+   Optional soften inherited layout
+========================= */
+
+.kids-page .content,
+.kids-event-page .content,
+.kids-answer-page .content {
   position: relative;
   z-index: 2;
+}
+
+/* niet overal slopen, alleen neutraliseren waar nodig */
+.kids-page .content__container,
+.kids-event-page .content__container,
+.kids-answer-page .content__container {
+  display: block;
 }

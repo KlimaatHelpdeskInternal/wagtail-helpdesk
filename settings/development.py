@@ -23,14 +23,19 @@ LOGGING = {
 DEBUG = True
 
 # Django should serve static, frontend service (npm run start) will auto rebuild
+# STORAGES = {
+#     "default": {"BACKEND": "apps.core.storages.MediaS3Storage"},
+#     "staticfiles": {"BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage"}
+# }
+# Local filesystem storage for development
 STORAGES = {
-    "default": {"BACKEND": "apps.core.storages.MediaS3Storage"},
-    "staticfiles": {"BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage"}
+    "default": {
+        "BACKEND": "django.core.files.storage.FileSystemStorage",
+    },
+    "staticfiles": {
+        "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
+    },
 }
-# Project has no docker-compose, use filesystem for media
-#STORAGES["default"] = {
-#    "BACKEND": "django.core.files.storage.FileSystemStorage"
-#}
 STATIC_URL = "/static/"
 STATIC_ROOT = "/static/"
 
