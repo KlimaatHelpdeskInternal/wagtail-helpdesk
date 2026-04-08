@@ -1,65 +1,66 @@
 {% extends "wagtail_helpdesk/base.html" %}
 {% load i18n static wagtailcore_tags %}
 
-{% block smokedglass %}
-{% endblock %}
-
 {% block content_area %}
-<div class="kids-page">
+  {% block head %}
+    <div class="content-header content-header--kids">
+      <div class="content-header__wrapper">
+        <div class="content-header__title-container">
+          <h1 class="content-header__title">
+            {{ page.title }}
+          </h1>
+        </div>
 
-  <header class="content-header content-header--kids">
-    <div class="content-header__wrapper">
-      <div class="content-header__title-container">
-        <h1 class="content-header__title">
-          {{ page.title }}
-        </h1>
+        {% if page.subtitle %}
+          <div class="content-header__introduction">
+            <p class="content-header__introduction-text">
+              {{ page.subtitle }}
+            </p>
+          </div>
+        {% endif %}
       </div>
+    </div>
+  {% endblock head %}
 
-      {% if page.subtitle %}
-      <div class="content-header__introduction">
-        <p class="content-header__introduction-text">
-          {{ page.subtitle }}
-        </p>
-      </div>
+  <div class="smokedglass kids-page">
+    <div class="kids-page__inner">
+
+      {% if page.intro %}
+        <section class="kids-section kids-section--intro">
+          <div class="kids-richtext richtext">
+            {{ page.intro|richtext }}
+          </div>
+        </section>
       {% endif %}
-        <p class="content-header__introduction-text">
 
-        {{ page.intro|richtext }}
-        </p>
+      <section class="kids-section kids-events-overview">
+        <h2 class="kids-section__title kids-events-overview__title">Evenementen</h2>
+
+        <div class="kids-events-overview__grid">
+          {% for event in event_pages %}
+            <article class="kids-event-card">
+              <h3 class="kids-event-card__title">
+                <a href="{{ event.url }}">{{ event.title }}</a>
+              </h3>
+
+              {% if event.subtitle %}
+                <p class="kids-event-card__subtitle">{{ event.subtitle }}</p>
+              {% endif %}
+
+              {% if event.event_date or event.event_location %}
+                <p class="kids-event-card__meta">
+                  {% if event.event_date %}{{ event.event_date }}{% endif %}
+                  {% if event.event_date and event.event_location %} · {% endif %}
+                  {% if event.event_location %}{{ event.event_location }}{% endif %}
+                </p>
+              {% endif %}
+            </article>
+          {% empty %}
+            <p>Er zijn nog geen kids-evenementen toegevoegd.</p>
+          {% endfor %}
+        </div>
+      </section>
 
     </div>
-  </header>
-
-  
-  <section class="kids-events-overview">
-    <div class="content__container">
-      <h2 class="kids-events-overview__title">Evenementen</h2>
-
-      <div class="kids-events-overview__grid">
-        {% for event in event_pages %}
-        <article class="kids-event-card">
-          <h3 class="kids-event-card__title">
-            <a href="{{ event.url }}">{{ event.title }}</a>
-          </h3>
-
-          {% if event.subtitle %}
-          <p class="kids-event-card__subtitle">{{ event.subtitle }}</p>
-          {% endif %}
-
-          {% if event.event_date or event.event_location %}
-          <p class="kids-event-card__meta">
-            {% if event.event_date %}{{ event.event_date }}{% endif %}
-            {% if event.event_date and event.event_location %} · {% endif %}
-            {% if event.event_location %}{{ event.event_location }}{% endif %}
-          </p>
-          {% endif %}
-        </article>
-        {% empty %}
-        <p>Er zijn nog geen kids-evenementen toegevoegd.</p>
-        {% endfor %}
-      </div>
-    </div>
-  </section>
-
-</div>
+  </div>
 {% endblock content_area %}
