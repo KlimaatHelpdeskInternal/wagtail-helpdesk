@@ -545,7 +545,7 @@ class AnswerIndexPage(RoutablePageMixin, Page):
         )
 
         # Search
-        search = request.GET.get("search", "")
+        search = request.GET.get("search", "").strip()
         context["search"] = search
         if search:
             answers = answers.search(search).get_queryset()
