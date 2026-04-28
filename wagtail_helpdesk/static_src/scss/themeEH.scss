@@ -1,0 +1,19 @@
+// stylelint-disable-no-empty-source
+// Colors
+$color-white: #fff;
+$color-true-black: #000;
+$color-button: #4aa4ab;
+
+$color-yellow-warm: #97d0cb;
+$color-yellow: #fff;
+$color-yellow-lighter: #acd9d5;
+$color-yellow-light: #c1e3e0;
+$color-yellow-background: #c1e3e0;
+
+$color-orange-dark: #97d0cb;
+$color-orange-light: #cef3f0;
+$sticky-link-typography: "paragraph";
+$recent-questions-typography: "heading-3";
+$question-link-typography: "question-list-title"; /*"question-list-title";*/
+
+@import '__sharedvariables.scss';

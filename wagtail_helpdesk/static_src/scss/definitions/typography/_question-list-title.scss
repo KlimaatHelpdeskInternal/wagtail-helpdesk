@@ -1,0 +1,17 @@
+:root {
+  --question-list-title-font-size: 24px;
+  --question-list-title-font-style: normal;
+  --question-list-title-font-variant: normal;
+  --question-list-title-letter-spacing: 0;
+  --question-list-title-font-weight: normal;
+  --question-list-title-line-height: 40px;
+  --question-list-title-margin-bottom: .5em;
+  --question-list-title-text-transform:none;
+  --question-list-title-margin-top: 1em;
+  --question-list-title-word-spacing: normal;
+
+  @include landscape {
+    --question-list-title-font-size: 36px;
+    --question-list-title-line-height: 62px;
+  }
+}

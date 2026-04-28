@@ -4,7 +4,7 @@
   @include grid-container;
 
   .question-link-list__title {
-    @include typography(heading-4);
+    @include typography($recent-questions-typography);
     grid-column: column 2 / span 10;
     padding: 40px 0 25px 0;
     border-bottom: 1px solid $color-true-black;
@@ -17,7 +17,7 @@
     grid-column: column 2 / span 10;
   }
   .question-link-list__no-results {
-    @include typography(heading-4);
+    @include typography($recent-questions-typography);
     padding-bottom: 40px;
     padding-top: 40px;
   }
@@ -29,7 +29,7 @@
 
   @include landscape {
     .question-link-list__title {
-      @include typography(heading-4);
+      @include typography($recent-questions-typography);
       grid-column: column 1 / span 9;
     }
 

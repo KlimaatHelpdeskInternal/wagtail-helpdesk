@@ -12,12 +12,13 @@ module.exports = (env, argv) => {
     entry: {
       main: [
         path.join(source, "js", "main.ts"),
-        path.join(source, "scss", "main.scss"),
+        path.join(source, "scss", "themeEH.scss"),
       ],
       carboncalculator: [
         path.join(source,"js","carboncalculator.ts")
       ]
     },
+    cache: false,
     output: {
       path: destination,
       filename: "[name].js",

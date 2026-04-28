@@ -45,7 +45,7 @@
     }
 
     .sticky-link__title {
-      @include typography(heading-5);
+      @include typography($sticky-link-typography);
     }
   }
 }

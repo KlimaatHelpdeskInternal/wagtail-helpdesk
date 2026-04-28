@@ -10,6 +10,7 @@
   "scripts": {
     "start": "webpack --mode=development --watch --progress",
     "build": "webpack --mode=production",
+    "builddev": "webpack --mode=development",
     "watch": "watch \"npm run build\""
   },
   "devDependencies": {
@@ -27,7 +28,7 @@
     "postcss-preset-env": "^7.8.3",
     "sass": "^1.56.1",
     "sass-loader": "^13.2.0",
-    "webpack": "^5.105.4",
+    "webpack": "^5.106.2",
     "webpack-cli": "^5.1.4"
   },
   "browserslist": [
