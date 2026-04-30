@@ -14,6 +14,7 @@ from modelcluster.contrib.taggit import ClusterTaggableManager
 from modelcluster.fields import ParentalKey
 from taggit.models import TaggedItemBase
 from wagtail import blocks
+from wagtail.models import Site
 from wagtail.admin.panels import FieldPanel, InlinePanel, MultiFieldPanel
 from wagtail.contrib.routable_page.models import RoutablePageMixin, route
 from wagtail.contrib.settings.models import BaseSiteSetting
@@ -22,7 +23,9 @@ from wagtail.fields import RichTextField, StreamField
 from wagtail.models import Orderable, Page
 from wagtail.search import index as search_index
 from wagtail.snippets.models import register_snippet
+from wagtail_helpdesk.site_settings.models import SiteSettings
 from embed_video.fields import EmbedVideoField
+
 
 
 from wagtail_helpdesk.cms.blocks import (
@@ -55,7 +58,7 @@ LINK_STREAM = [
 class HomePage(Page):
     template = "wagtail_helpdesk/cms/home_page.html"
 
-    max_count = 1
+    #max_count = 1
 
     intro = models.TextField(blank=True)
     header_buttons = StreamField(
@@ -87,10 +90,11 @@ class HomePage(Page):
 
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
+        sitesettings=SiteSettings.for_request(request=request)
         context.update(
             {
                 "featured_answers": Answer.objects.live()
-                .filter(featured=True)
+                .filter(featured=True, siteid__in=[sitesettings.site_id]) 
                 .prefetch_related(
                     "answer_expert_relationship__expert",
                     "answer_category_relationship__category",
@@ -257,6 +261,8 @@ class Answer(Page):
         help_text=_("This text is displayed above the tags, useful as a TLDR section"),
     )
     tags = ClusterTaggableManager(through=AnswerTag, blank=True)
+    siteid = models.ManyToManyField(Site,verbose_name="list of site id's", help_text="Choose the sites for which this answer is applicable")
+
 
     social_image = models.ForeignKey(
         "wagtailimages.Image",
@@ -324,6 +330,7 @@ class Answer(Page):
             "tags",
             heading="Please use tags with a maximum length of 16 characters per single word to avoid overlap in the mobile view.",
         ),
+        FieldPanel("siteid"),
         MultiFieldPanel(
             [
                 InlinePanel(
