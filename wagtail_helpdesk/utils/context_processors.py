@@ -39,6 +39,7 @@ def defaults(request):
         logofooter = sitesettings.logofooter
         logofooterurl ="" if logofooter is None or logofooter.file is None else logofooter.file.url
         css_file_name = sitesettings.css_file_name
+        baseurl = site.root_url
         return {
             "main_nav": menu_qs,
             "answers_list_url": answer_index_page.url if answer_index_page else "",
@@ -47,7 +48,9 @@ def defaults(request):
             "logo_footer_url" : logofooterurl,
             "favicon_url": faviconurl,
             "site_id" : siteid,
-            "css_file_name" : 'wagtail_helpdesk/' + css_file_name
+            "css_file_name" : 'wagtail_helpdesk/' + css_file_name,
+            "base_url" : baseurl
+
         }
         
     else:

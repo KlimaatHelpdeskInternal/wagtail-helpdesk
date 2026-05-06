@@ -262,7 +262,7 @@ class Answer(Page):
     )
     tags = ClusterTaggableManager(through=AnswerTag, blank=True)
     siteid = models.ManyToManyField(Site,verbose_name="list of site id's", help_text="Choose the sites for which this answer is applicable")
-
+    slug = Page.slug
 
     social_image = models.ForeignKey(
         "wagtailimages.Image",
@@ -411,6 +411,13 @@ class Answer(Page):
             )
         return tags
 
+    def serve(self, request):
+        # You can fetch context, check site-specific data here
+        return render(request, self.get_template(request), {
+            'page': self,
+            'self': self,
+        })
+    
     def get_references(self):
         """
         Build reference list, in the order Wagtail returns them.  ### , alphabetically to sort of comply with standards
@@ -513,7 +520,8 @@ class Answer(Page):
             }
         )
         return context
-
+    
+    
     class Meta:
         ordering = [
             "-first_published_at",

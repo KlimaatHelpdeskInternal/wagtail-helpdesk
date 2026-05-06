@@ -1,7 +1,7 @@
 {% load i18n wagtailcore_tags wagtailroutablepage_tags %}
 {% with object.get_answer_card_data as card_data %}
 <div class="question-link">
-    <a href="{% pageurl object %}"><h3 class="question-link__title">{{ card_data.title }}</h3></a>
+    <a href="{{ base_url }}/answers/{{ object.slug }} "><h3 class="question-link__title">{{ card_data.title }}</h3></a>
     <p class="question-link__author">
       <span class="question-link__by">{% trans 'Answered by' %}</span>
       {% if card_data.authors %}

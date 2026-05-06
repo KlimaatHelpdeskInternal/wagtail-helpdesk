@@ -8,8 +8,10 @@ from wagtail import urls as wagtail_urls
 from wagtail.admin import urls as wagtailadmin_urls
 from wagtail.documents import urls as wagtaildocs_urls
 from wagtail_helpdesk.urls import urlpatterns as helpdesk_urlpatterns
-
+from wagtail_helpdesk.cms.views import iframe_search_widget, AnswerView
+from django.views.generic import TemplateView
 from apps.users.urls import urlpatterns as users_urlpatterns
+
 
 urlpatterns = [
     path("django-admin/", admin.site.urls),
@@ -17,6 +19,10 @@ urlpatterns = [
     path("documents/", include(wagtaildocs_urls)),
     path("__healthcheck__/", include("health_check.urls")),
     path("__commithash__/", lambda request: HttpResponse(os.getenv("COMMIT_HASH", ""))),
+]
+urlpatterns += [
+    #path("answers/<slug:slug>/", TemplateView.as_view(template_name="wagtail_helpdesk/cms/answer_detail.html")),
+    path("answers/<slug:slug>/", AnswerView.as_view()),
 ]
 
 
@@ -34,6 +40,7 @@ if settings.DEBUG:
         path("test404", TemplateView.as_view(template_name="404.html")),
         path("test500", TemplateView.as_view(template_name="500.html")),
     ]
+
 urlpatterns += [
     path("", include(wagtail_urls)),
     path("", include(helpdesk_urlpatterns)),

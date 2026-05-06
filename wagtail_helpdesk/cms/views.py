@@ -2,8 +2,10 @@ from django.conf import settings
 from django.shortcuts import render
 from django.utils.translation import gettext_lazy as _
 from django.views.decorators.clickjacking import xframe_options_exempt
+from django.views.generic.base import TemplateView
+from wagtail_helpdesk.cms.models import AnswerIndexPage, Answer
+from wagtail.models import Orderable, Page
 
-from wagtail_helpdesk.cms.models import AnswerIndexPage
 
 
 @xframe_options_exempt
@@ -22,3 +24,18 @@ def js_wrapper(request):
     django_var = "a message to js"
     context_for_js = {'django_var ': django_var}
     return render(request, 'templates-wagtail/helpdesk/cms/carboncalculator.js', context_for_js ,"application/javascript")
+
+
+
+
+
+class AnswerView(TemplateView):
+    template_name = "wagtail_helpdesk/cms/answer_detail.html"
+    context_object_name = 'self'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        page = Page.objects.filter(slug = context["slug"]).first()
+        answer = Answer.objects.filter(page_ptr_id = page.id).first()
+        context["self"] = answer
+        return context
