@@ -20,6 +20,30 @@
   }
 }
 
+#kids-answer-wrapper .content-header  {
+position: static;
+margin: 1rem auto;
+padding: 2rem 0;
+font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+
+}
+
+#kids-answer-wrapper .content-header .content-header__wrapper {
+  padding: 0 !important;
+}
+
+#kids-answer-wrapper  .content-header__title-container{ 
+  grid-column: unset;
+}
+
+#kids-answer-wrapper .content-header .kids-header__wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+
 /* =========================
    Kids inner wrappers
 ========================= */
@@ -132,27 +156,70 @@
 }
 
 /* =========================
-   Questions grid
+   Cards grid
 ========================= */
 
 .kids-questions-grid {
-  display: grid;
-  gap: 2rem;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  align-items: start;
+    display: grid;
+    grid-gap: 2rem;
+    gap: 2rem;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%,280px),1fr));
+    align-items: start;
 }
 
+/* =========================
+   Kids card component
+========================= */
+
 .kids-card {
+  width: 100%;
   background: #fff9e7;
   border: 3px solid #fed36b;
   border-radius: 1rem;
-  overflow: hidden;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  transition: transform 0.2s ease;
+  padding: 0.5rem;
+  color: #000;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 .kids-card:hover {
   transform: translateY(-4px);
+  box-shadow: 0 7px 18px rgba(0, 0, 0, 0.16);
+}
+
+.kids-card__media {
+  background: linear-gradient(to bottom, #ffc300, #fff9e7);
+  border-radius: 0.65rem 0.65rem 0 0;
+  padding: 1rem;
+}
+
+.kids-card__media-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+
+.kids-card__label {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.35rem 0.65rem;
+  background: #fff9e7;
+  border: 2px solid #000;
+  border-radius: 999px;
+  line-height: 1;
+}
+
+.kids-card__image {
+  overflow: hidden;
+  border: 2px solid #000;
+  border-radius: 0.75rem;
+  background: #fff;
 }
 
 .kids-card__image img {
@@ -161,31 +228,64 @@
   height: auto;
 }
 
-.kids-card__content {
-  padding: 1.25rem;
+.kids-card__footer {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1rem 0.75rem 0.75rem;
 }
 
-.kids-card__question {
-  margin: 0 0 0.5rem;
+@media (min-width: 380px) {
+  .kids-card__footer {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+
+.kids-card__summary {
+  min-width: 0;
+}
+
+.kids-card__title {
+  margin: 0;
   color: #000;
-  font-size: 1.25rem;
-  line-height: 1.3;
+  font-size: 1.15rem;
+  line-height: 1.25;
+  font-weight: 700;
 }
 
-.kids-card__author {
-  margin: 0 0 1rem;
+.kids-card__meta {
+  margin: 0.35rem 0 0;
   color: #444;
   font-size: 0.95rem;
 }
 
-.kids-card__link {
-  margin: 0;
+.kids-card__button {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  padding: 0.65rem 1rem;
+  border: 2px solid #000;
+  border-radius: 999px;
+  background: #000;
+  color: #fff;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
 }
 
-.kids-card__link a {
+.kids-card__button:hover {
+  background: #fe9450;
   color: #000;
-  font-weight: 700;
-  text-decoration: underline;
+}
+
+@media (min-width: 380px) {
+  .kids-card__button {
+    width: max-content;
+    white-space: nowrap;
+  }
 }
 
 /* =========================
@@ -222,19 +322,165 @@
 }
 
 /* =========================
-   Optional soften inherited layout
+   Kids answer detail page
 ========================= */
 
-.kids-page .content,
-.kids-event-page .content,
-.kids-answer-page .content {
-  position: relative;
-  z-index: 2;
+.kids-answer-page__inner
+  {
+  width: min(1180px, calc(100% - 2rem));
 }
 
-/* niet overal slopen, alleen neutraliseren waar nodig */
-.kids-page .content__container,
-.kids-event-page .content__container,
-.kids-answer-page .content__container {
+
+.kids-answer-page__inner,
+.kids-page,
+.kids-event-page,
+.kids-answer-page,
+.kids-page__inner, .kids-event-page__inner, .kids-answer-page__inner {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+
+}
+
+.kids-answer-product {
+  display: grid;
+  gap: 2rem;
+  align-items: start;
+}
+
+@media (min-width: 860px) {
+  .kids-answer-product {
+    grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+  }
+}
+
+.kids-answer-product__media,
+.kids-answer-product__info,
+.kids-answer-detail {
+  background: #fff9e7;
+  border: 3px solid #fed36b;
+  border-radius: 1.25rem;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
+}
+
+.kids-answer-product__media {
+  padding: 0.75rem;
+}
+
+.kids-answer-product__image {
+  overflow: hidden;
+  border: 2px solid #000;
+  border-radius: 0.9rem;
+  background: #fff;
+}
+
+.kids-answer-product__image img {
   display: block;
+  width: 100%;
+  height: auto;
+}
+
+.kids-answer-product__placeholder {
+  display: grid;
+  min-height: 320px;
+  place-items: center;
+  border: 2px dashed #000;
+  border-radius: 0.9rem;
+  background: linear-gradient(to bottom, #ffc300, #fff9e7);
+  font-weight: 700;
+}
+
+.kids-answer-product__info {
+  padding: clamp(1.25rem, 3vw, 2rem);
+}
+
+.kids-answer-product__label,
+.kids-answer-detail__eyebrow {
+  display: inline-flex;
+  width: max-content;
+  margin-bottom: 1rem;
+  padding: 0.35rem 0.7rem;
+  border: 2px solid #000;
+  border-radius: 999px;
+  background: #fed36b;
+  color: #000;
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+.kids-answer-product__title {
+  margin: 0 0 1rem;
+  color: #000;
+  font-size: clamp(1.8rem, 3vw, 3rem);
+  line-height: 1.05;
+}
+
+.kids-answer-product__intro {
+  color: #000;
+  line-height: 1.7;
+}
+
+.kids-answer-product__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+}
+
+.kids-answer-product__button,
+.kids-answer-product__secondary,
+.kids-back-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 0.75rem 1rem;
+  border: 2px solid #000;
+  border-radius: 999px;
+  color: #000;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.kids-answer-product__button {
+  background: #000;
+  color: #fff;
+}
+
+.kids-answer-product__button:hover {
+  background: #fe9450;
+  color: #000;
+}
+
+.kids-answer-product__secondary,
+.kids-back-link {
+  background: #fed36b;
+}
+
+.kids-answer-product__secondary:hover,
+.kids-back-link:hover {
+  background: #ffc300;
+}
+
+.kids-answer-detail {
+  margin-top: 2rem;
+  padding: clamp(1.25rem, 3vw, 2rem);
+}
+
+.kids-answer-detail__header {
+  margin-bottom: 1.5rem;
+}
+
+.kids-answer-detail__title {
+  margin: 0;
+  color: #000;
+  font-size: clamp(1.6rem, 2.5vw, 2.4rem);
+}
+
+.kids-answer-detail__body {
+  max-width: 820px;
+  color: #000;
+  line-height: 1.75;
+}
+
+.kids-answer-detail__body p + p {
+  margin-top: 1rem;
 }

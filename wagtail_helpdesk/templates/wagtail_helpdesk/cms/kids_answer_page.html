@@ -1,0 +1,84 @@
+{% extends "wagtail_helpdesk/base.html" %}
+{% load i18n static wagtailcore_tags wagtailimages_tags %}
+
+{% block content_area %}
+<div id="kids-answer-wrapper">
+  {% block head %}
+    <div class="content-header content-header--kids">
+      <div class="kids-header__wrapper">
+        <div class="content-header__title-container">
+          <h1>
+            {{ page.title }}
+          </h1>
+        </div>
+
+        {% if page.subtitle %}
+          <div class="content-header__introduction">
+            <p class="content-header__introduction-text">
+              {{ page.subtitle }}
+            </p>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  {% endblock head %}
+
+  <div class="smokedglass kids-answer-page">
+    <div class="kids-answer-page__inner">
+
+      <section class="kids-answer-product">
+        <div class="kids-answer-product__media">
+          {% if page.card_image %}
+            <div class="kids-answer-product__image">
+              {% image page.card_image width-1000 as img %}
+              <img src="{{ img.url }}" alt="{{ page.title }}">
+            </div>
+          {% else %}
+            <div class="kids-answer-product__placeholder">
+              <span>Vraagkaartje</span>
+            </div>
+          {% endif %}
+        </div>
+
+        <div class="kids-answer-product__info">
+          <span class="kids-answer-product__label">Vraag van {{ page.asker_name }}</span>
+
+          <h2 class="kids-answer-product__title">{{ page.title }}</h2>
+
+          {% if page.intro %}
+            <div class="kids-answer-product__intro richtext">
+              {{ page.intro|richtext }}
+            </div>
+          {% endif %}
+
+          <div class="kids-answer-product__actions">
+            <a href="#antwoord" class="kids-answer-product__button">
+              Lees het antwoord
+            </a>
+
+            <a href="{{ page.get_parent.url }}" class="kids-answer-product__secondary">
+              Terug naar alle vragen
+            </a>
+          </div>
+        </div>
+      </section>
+
+      {% if page.content %}
+        <section id="antwoord" class="kids-answer-detail">
+          <div class="kids-answer-detail__header">
+            <span class="kids-answer-detail__eyebrow">Antwoord</span>
+            <h2 class="kids-answer-detail__title">Het antwoord</h2>
+          </div>
+
+          <div class="kids-answer-detail__body richtext">
+            {{ page.content|richtext }}
+          </div>
+        </section>
+      {% endif %}
+
+    </div>
+
+    {% include "wagtail_helpdesk/includes/social_share_buttons.html" %}
+  </div>
+  </div>
+{% endblock content_area %}

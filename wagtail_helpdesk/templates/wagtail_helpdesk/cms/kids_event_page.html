@@ -2,106 +2,114 @@
 {% load i18n static wagtailcore_tags wagtailimages_tags %}
 
 {% block content_area %}
-  {% block head %}
-    <div class="content-header content-header--kids">
-      <div class="content-header__wrapper">
-        <div class="content-header__title-container">
-          <h1 class="content-header__title">
-            {{ page.title }}
-          </h1>
-        </div>
+{% block head %}
+<div class="content-header content-header--kids">
+  <div class="content-header__wrapper">
+    <div class="content-header__title-container">
+      <h1 class="content-header__title">
+        {{ page.title }}
+      </h1>
+    </div>
 
-        {% if page.subtitle %}
-          <div class="content-header__introduction">
-            <p class="content-header__introduction-text">
-              {{ page.subtitle }}
-            </p>
-          </div>
+    {% if page.subtitle %}
+    <div class="content-header__introduction">
+      <p class="content-header__introduction-text">
+        {{ page.subtitle }}
+      </p>
+    </div>
+    {% endif %}
+  </div>
+</div>
+{% endblock head %}
+
+<div class="smokedglass kids-event-page">
+  <div class="kids-event-page__inner">
+
+    {% if page.intro %}
+    <section class="kids-section kids-section--intro">
+      <div class="kids-richtext richtext">
+        {{ page.intro|richtext }}
+      </div>
+    </section>
+    {% endif %}
+
+    {% if page.event_date or page.event_location %}
+    <section class="kids-section kids-section--meta">
+      <div class="kids-meta">
+        {% if page.event_date %}
+        <p class="kids-meta__item"><strong>Datum:</strong> {{ page.event_date }}</p>
+        {% endif %}
+        {% if page.event_location %}
+        <p class="kids-meta__item"><strong>Locatie:</strong> {{ page.event_location }}</p>
         {% endif %}
       </div>
-    </div>
-  {% endblock head %}
+    </section>
+    {% endif %}
 
-  <div class="smokedglass kids-event-page">
-    <div class="kids-event-page__inner">
+    <section class="kids-section kids-questions-section">
+      <h2 class="kids-section__title">Vragen van kinderen</h2>
 
-      {% if page.intro %}
-        <section class="kids-section kids-section--intro">
-          <div class="kids-richtext richtext">
-            {{ page.intro|richtext }}
-          </div>
-        </section>
-      {% endif %}
+      <div class="kids-questions-grid">
+        {% for item in kids_questions %}
+        <article class="kids-card">
+          <section class="kids-card__media">
+            <header class="kids-card__media-header">
+              <span class="kids-card__label">Vraag</span>
+            </header>
 
-      {% if page.event_date or page.event_location %}
-        <section class="kids-section kids-section--meta">
-          <div class="kids-meta">
-            {% if page.event_date %}
-              <p class="kids-meta__item"><strong>Datum:</strong> {{ page.event_date }}</p>
+            {% if item.card_image %}
+            <div class="kids-card__image">
+              {% image item.card_image fill-800x500 as img %}
+              <img src="{{ img.url }}" alt="{{ item.question_text }}">
+            </div>
             {% endif %}
-            {% if page.event_location %}
-              <p class="kids-meta__item"><strong>Locatie:</strong> {{ page.event_location }}</p>
+          </section>
+
+          <footer class="kids-card__footer">
+            <div class="kids-card__summary">
+              <h3 class="kids-card__title">{{ item.question_text }}</h3>
+
+              {% if item.child_name or item.age %}
+              <p class="kids-card__meta">
+                {% if item.child_name %}{{ item.child_name }}{% endif %}
+                {% if item.age %} ({{ item.age }}){% endif %}
+              </p>
+              {% endif %}
+            </div>
+
+            {% if item.answer_page %}
+            <a class="kids-card__button" href="{{ item.answer_page.url }}">
+              Lees
+            </a>
             {% endif %}
-          </div>
-        </section>
-      {% endif %}
+          </footer>
+        </article>
+        {% empty %}
+        <p>Er zijn nog geen vragen toegevoegd.</p>
+        {% endfor %}
+      </div>
+    </section>
 
-      <section class="kids-section kids-questions-section">
-        <h2 class="kids-section__title">Vragen van kinderen</h2>
+    <section class="kids-section kids-drawings">
+      <h2 class="kids-section__title">Hoe denken kinderen dat de wereld er over 50 jaar uitziet? 🌏</h2>
 
-        <div class="kids-questions-grid">
-          {% for item in kids_questions %}
-            <article class="kids-card">
-              {% if item.card_image %}
-                <div class="kids-card__image">
-                  {% image item.card_image fill-800x500 as img %}
-                  <img src="{{ img.url }}" alt="{{ item.question_text }}">
-                </div>
-              {% endif %}
+      <div class="kids-drawings__grid">
+        {% for drawing in kids_drawings %}
+        <figure class="kids-drawing">
+          {% image drawing.drawing_image fill-600x450 as img %}
+          <img src="{{ img.url }}" alt="{{ drawing.caption|default:drawing.title }}">
+          {% if drawing.caption %}
+          <figcaption>{{ drawing.caption }}</figcaption>
+          {% endif %}
+        </figure>
+        {% empty %}
+        <p>Er zijn nog geen tekeningen toegevoegd.</p>
+        {% endfor %}
+      </div>
+    </section>
 
-              <div class="kids-card__content">
-                <h3 class="kids-card__question">{{ item.question_text }}</h3>
-
-                {% if item.child_name or item.age %}
-                  <p class="kids-card__author">
-                    {% if item.child_name %}{{ item.child_name }}{% endif %}
-                    {% if item.age %} ({{ item.age }}){% endif %}
-                  </p>
-                {% endif %}
-
-                {% if item.answer_page %}
-                  <p class="kids-card__link">
-                    <a href="{{ item.answer_page.url }}">Lees het antwoord</a>
-                  </p>
-                {% endif %}
-              </div>
-            </article>
-          {% empty %}
-            <p>Er zijn nog geen vragen toegevoegd.</p>
-          {% endfor %}
-        </div>
-      </section>
-
-      <section class="kids-section kids-drawings">
-        <h2 class="kids-section__title">Hoe denken kinderen dat de wereld er over 50 jaar uitziet? 🌏</h2>
-
-        <div class="kids-drawings__grid">
-          {% for drawing in kids_drawings %}
-            <figure class="kids-drawing">
-              {% image drawing.drawing_image fill-600x450 as img %}
-              <img src="{{ img.url }}" alt="{{ drawing.caption|default:drawing.title }}">
-              {% if drawing.caption %}
-                <figcaption>{{ drawing.caption }}</figcaption>
-              {% endif %}
-            </figure>
-          {% empty %}
-            <p>Er zijn nog geen tekeningen toegevoegd.</p>
-          {% endfor %}
-        </div>
-      </section>
-
-    </div>
-
-    {% include "wagtail_helpdesk/includes/social_share_buttons.html" %}
   </div>
+
+  {% include "wagtail_helpdesk/includes/social_share_buttons.html" %}
+</div>
 {% endblock content_area %}
