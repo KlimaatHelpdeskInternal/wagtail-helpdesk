@@ -46,7 +46,7 @@
     </section>
     {% endif %}
 
-    <section class="kids-section kids-questions-section">
+    <section class="kids-section kids-questions-section" data-controller="lightbox">
       <h2 class="kids-section__title">Vragen van kinderen</h2>
 
       <div class="kids-questions-grid">
@@ -58,10 +58,13 @@
             </header>
 
             {% if item.card_image %}
-            <div class="kids-card__image">
-              {% image item.card_image fill-800x500 as img %}
-              <img src="{{ img.url }}" alt="{{ item.question_text }}">
-            </div>
+            {% image item.card_image fill-800x500 as thumb %}
+            {% image item.card_image width-1400 as large %}
+
+            <button type="button" class="kids-card__image kids-card__image-button" data-action="click->lightbox#open"
+              data-lightbox-image-url="{{ large.url }}" data-lightbox-caption="{{ item.question_text }}">
+              <img src="{{ thumb.url }}" alt="{{ item.question_text }}">
+            </button>
             {% endif %}
           </section>
 
@@ -88,16 +91,33 @@
         <p>Er zijn nog geen vragen toegevoegd.</p>
         {% endfor %}
       </div>
-    </section>
 
-    <section class="kids-section kids-drawings">
-      <h2 class="kids-section__title">Hoe denken kinderen dat de wereld er over 50 jaar uitziet? 🌏</h2>
+      <div class="lightbox" data-lightbox-target="overlay" data-action="click->lightbox#closeOnBackdrop" hidden>
+        <button type="button" class="lightbox__close" aria-label="Sluit afbeelding" data-action="click->lightbox#close">
+          &times;
+        </button>
+
+        <img class="lightbox__image" data-lightbox-target="image" alt="">
+        <p class="lightbox__caption" data-lightbox-target="caption"></p>
+      </div>
+    </section>
+    <section class="kids-section kids-drawings" data-controller="lightbox">
+      <h2 class="kids-section__title">
+        Hoe denken kinderen dat de wereld er over 50 jaar uitziet? 🌏
+      </h2>
 
       <div class="kids-drawings__grid">
         {% for drawing in kids_drawings %}
         <figure class="kids-drawing">
-          {% image drawing.drawing_image fill-600x450 as img %}
-          <img src="{{ img.url }}" alt="{{ drawing.caption|default:drawing.title }}">
+          {% image drawing.drawing_image fill-600x450 as thumb %}
+          {% image drawing.drawing_image width-1400 as large %}
+
+          <button type="button" class="kids-drawing__button" data-action="click->lightbox#open"
+            data-lightbox-image-url="{{ large.url }}"
+            data-lightbox-caption="{{ drawing.caption|default:drawing.title }}">
+            <img src="{{ thumb.url }}" alt="{{ drawing.caption|default:drawing.title }}">
+          </button>
+
           {% if drawing.caption %}
           <figcaption>{{ drawing.caption }}</figcaption>
           {% endif %}
@@ -105,6 +125,16 @@
         {% empty %}
         <p>Er zijn nog geen tekeningen toegevoegd.</p>
         {% endfor %}
+      </div>
+
+      <div class="lightbox" data-lightbox-target="overlay" data-action="click->lightbox#closeOnBackdrop" hidden>
+        <button type="button" class="lightbox__close" aria-label="Sluit afbeelding" data-action="click->lightbox#close">
+          &times;
+        </button>
+
+        <img class="lightbox__image" data-lightbox-target="image" alt="">
+
+        <p class="lightbox__caption" data-lightbox-target="caption"></p>
       </div>
     </section>
 

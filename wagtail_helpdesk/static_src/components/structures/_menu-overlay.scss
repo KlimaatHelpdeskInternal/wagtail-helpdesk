@@ -6,7 +6,7 @@
   position: fixed;
   right: 0;
   top: 0;
-  z-index: 9999;
+  z-index: 9998;
   opacity: 0;
   pointer-events: none;
   transition: opacity 500ms cubic-bezier(0.26, 0.88, 0.57, 0.9);
@@ -39,7 +39,7 @@
 
   .menu-overlay__top-wrapper {
     position: relative;
-    z-index: 99999;
+    z-index: 99998;
     grid-column: column 2 / span 10;
   }
 
@@ -47,7 +47,7 @@
     position: absolute;
     right: 15px;
     top: 20px;
-    z-index: 99999;
+    z-index: 99998;
   }
 
   .menu-overlay__logo {
@@ -115,7 +115,7 @@
 
     .menu-overlay__top-wrapper {
       position: relative;
-      z-index: 99999;
+      z-index: 99998;
       grid-column: column 9 / span 4;
     }
 

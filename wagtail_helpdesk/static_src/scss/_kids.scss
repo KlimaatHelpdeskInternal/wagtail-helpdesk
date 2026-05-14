@@ -173,6 +173,7 @@ font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, O
 
 .kids-card {
   width: 100%;
+  height: 100%;
   background: #fff9e7;
   border: 3px solid #fed36b;
   border-radius: 1rem;
@@ -483,4 +484,103 @@ font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, O
 
 .kids-answer-detail__body p + p {
   margin-top: 1rem;
+}
+
+.kids-drawing__button {
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: zoom-in;
+}
+
+.lightbox {
+  position: fixed;
+  inset: 0;
+    z-index: 2147483647;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding: 1rem;
+  background: rgba(0, 0, 0, 0.82);
+}
+
+.lightbox[hidden] {
+  display: none;
+}
+
+.lightbox__image {
+  max-width: min(1100px, 92vw);
+  max-height: 82vh;
+  border: 5px solid #fed36b;
+  border-radius: 1rem;
+  background: #fff9e7;
+  box-shadow: 0 0 24px rgba(255, 195, 0, 0.45);
+}
+
+.lightbox__caption {
+  max-width: min(760px, 90vw);
+  margin-top: 1rem;
+  color: #fff;
+  text-align: center;
+}
+
+.lightbox__close {
+  position: absolute;
+  top: 1rem;
+  right: 1.25rem;
+  border: 0;
+  background: none;
+  color: #fed36b;
+  font-size: 3rem;
+  line-height: 1;
+  cursor: pointer;
+  z-index: 2147483647;
+}
+
+.is-lightbox-open {
+  overflow: hidden;
+}
+
+body.is-lightbox-open .menu-bar {
+  pointer-events: none;
+}
+
+.kids-card__image-button {
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 2px solid #000;
+  border-radius: 0.75rem;
+  background: #fff;
+  overflow: hidden;
+  cursor: zoom-in;
+}
+
+.kids-card__image-button img {
+  transition: transform 0.2s ease;
+}
+
+.kids-card__image-button:hover img {
+  transform: scale(1.03);
+}
+
+.kids-answer-product__image-button {
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: zoom-in;
+}
+
+.kids-answer-product__image-button img {
+  transition: transform 0.2s ease;
+}
+
+.kids-answer-product__image-button:hover img {
+  transform: scale(1.02);
 }
