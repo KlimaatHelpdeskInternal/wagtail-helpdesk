@@ -16,3 +16,4 @@
 .idea/*
 .env
 /media
+wagtail_helpdesk\media
