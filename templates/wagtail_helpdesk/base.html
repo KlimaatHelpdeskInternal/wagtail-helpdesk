@@ -15,7 +15,11 @@
   gtag('config', 'G-EZ555D7QSW', {'anonymize_ip': true, 'allow_ad_personalization_signals': false});
 </script>
 
-<link rel="icon" href="{{ favicon_url }} ">
+{% if favicon_url.strip %}}
+  <link rel="icon" href="{{ favicon_url }} ">
+{% else %}
+  <link rel="icon" href="{% static "images/favicons/favicon.ico" %}">
+{% endif %}
 {% endblock extra_head %}
 
 {% block footer_logo %}

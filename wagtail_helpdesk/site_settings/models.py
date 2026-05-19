@@ -22,6 +22,16 @@ class SiteSettings(BaseSiteSetting ):
             "This is the logo used for display this site"
         ),
     )
+    logo_on_black = models.ForeignKey(
+        "wagtailimages.Image",
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name="+",
+        help_text=_(
+            "This is the logo used for this site on black background "
+        ),
+    )
     logofooter = models.ForeignKey(
         "wagtailimages.Image",
         null=True,

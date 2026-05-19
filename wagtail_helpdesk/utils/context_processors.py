@@ -36,6 +36,8 @@ def defaults(request):
         faviconurl =  "" if favicon is None or favicon.file is  None else favicon.file.url 
         logo = sitesettings.logo
         logourl = ""  if logo is None or logo.file is  None else logo.file.url
+        logoonblack = sitesettings.logo_on_black
+        logoonblackurl = ""  if logoonblack is None or logoonblack.file is  None else logoonblack.file.url
         logofooter = sitesettings.logofooter
         logofooterurl ="" if logofooter is None or logofooter.file is None else logofooter.file.url
         css_file_name = sitesettings.css_file_name
@@ -45,6 +47,7 @@ def defaults(request):
             "answers_list_url": answer_index_page.url if answer_index_page else "",
             "sitename" : sitename,
             "logo_url" : logourl,
+            "logo_on_black_url" : logoonblackurl,
             "logo_footer_url" : logofooterurl,
             "favicon_url": faviconurl,
             "site_id" : siteid,
@@ -56,5 +59,14 @@ def defaults(request):
     else:
         return {
             "main_nav": menu_qs,
+            "answers_list_url": answer_index_page.url if answer_index_page else "",
+            "sitename" : "KlimaatHelpdesk",
+            "logo_url" : "",
+            "logo_on_black_url" : "",
+            "logo_footer_url" : "",
+            "favicon_url": "",
+            "site_id" : 0,
+            "css_file_name" : 'wagtail_helpdesk/main_KH.css',
+            "base_url" : "" 
         }
 

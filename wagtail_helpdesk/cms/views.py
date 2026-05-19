@@ -35,7 +35,6 @@ class AnswerView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        page = Page.objects.filter(slug = context["slug"]).first()
-        answer = Answer.objects.filter(page_ptr_id = page.id).first()
+        answer = Answer.objects.filter(slug = context["slug"]).first()
         context["self"] = answer
         return context
