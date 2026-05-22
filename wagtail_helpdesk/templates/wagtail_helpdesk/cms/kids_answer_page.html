@@ -20,6 +20,21 @@
       </div>
       {% endif %}
     </div>
+    <nav class="kids-breadcrumbs" aria-label="Breadcrumb">
+      <ol class="kids-breadcrumbs__list">
+        {% for ancestor in page.get_ancestors.live %}
+        {% if not ancestor.is_root %}
+        <li class="kids-breadcrumbs__item">
+          <a href="{{ ancestor.url }}">{{ ancestor.title }}</a> >
+        </li>
+        {% endif %}
+        {% endfor %}
+
+        <li class="kids-breadcrumbs__item kids-breadcrumbs__item--current" aria-current="page">
+          {{ page.title }}
+        </li>
+      </ol>
+    </nav>
   </div>
   {% endblock head %}
 
@@ -46,7 +61,7 @@
         </div>
 
         <div class="kids-answer-product__info">
-          <span class="kids-answer-product__label">Vraag van {{ page.asker_name }}</span>
+          <span class="kids-answer-product__label"> {{ page.subtitle }}</span>
 
           <h2 class="kids-answer-product__title">{{ page.title }}</h2>
 
@@ -65,8 +80,34 @@
               Terug naar alle vragen
             </a>
           </div>
+
+
         </div>
       </section>
+      <nav class="kids-answer-nav" aria-label="Antwoord navigatie">
+        <div class="kids-answer-nav__inner">
+
+          {% if previous_answer %}
+          <a class="kids-answer-nav__link kids-answer-nav__link--previous" href="{{ previous_answer.url }}">
+            <span class="kids-answer-nav__label">Vorige vraag</span>
+            <span class="kids-answer-nav__title">{{ previous_answer.title }} </span>
+            <span class="kids-answer-nav__name">{{ previous_answer.subtitle }}</span>
+          </a>
+          {% else %}
+          <span></span>
+          {% endif %}
+
+          {% if next_answer %}
+          <a class="kids-answer-nav__link kids-answer-nav__link--next" href="{{ next_answer.url }}">
+            <span class="kids-answer-nav__label">Volgende vraag</span>
+            <span class="kids-answer-nav__title">{{ next_answer.title }}</span>
+            <span class="kids-answer-nav__name">{{ next_answer.subtitle }}</span>
+
+          </a>
+          {% endif %}
+
+        </div>
+      </nav>
 
       {% if page.content %}
       <section id="antwoord" class="kids-answer-detail">

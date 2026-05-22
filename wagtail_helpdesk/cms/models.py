@@ -755,6 +755,30 @@ class KidsAnswerPage(Page):
         related_name="+",
         help_text="Afbeelding van het originele vraagkaartje",
     )
+    
+    def get_context(self, request, *args, **kwargs):
+        context = super().get_context(request, *args, **kwargs)
+
+        answers = list(
+            KidsAnswerPage.objects
+            .live()
+            .child_of(self.get_parent())
+            .order_by("path")
+        )
+
+        try:
+            current_index = answers.index(self)
+        except ValueError:
+            previous_answer = None
+            next_answer = None
+        else:
+            previous_answer = answers[current_index - 1] if current_index > 0 else None
+            next_answer = answers[current_index + 1] if current_index < len(answers) - 1 else None
+
+        context["previous_answer"] = previous_answer
+        context["next_answer"] = next_answer
+
+        return context
 
     content_panels = Page.content_panels + [
         FieldPanel("subtitle"),

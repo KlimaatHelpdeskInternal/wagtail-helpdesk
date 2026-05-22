@@ -3,28 +3,44 @@
 
 {% block content_area %}
 {% block head %}
-<div class="content-header content-header--kids">
-  <div class="content-header__wrapper">
-    <div class="content-header__title-container">
-      <h1 class="content-header__title">
-        {{ page.title }}
-      </h1>
-    </div>
+  <div class="content-header content-header--kids">
+    <div class="kids-header__wrapper">
+      <div class="content-header__title-container">
+        <h1>
+          {{ page.title }}
+        </h1>
+      </div>
 
-    {% if page.subtitle %}
-    <div class="content-header__introduction">
-      <p class="content-header__introduction-text">
-        {{ page.subtitle }}
-      </p>
+      {% if page.subtitle %}
+      <div class="content-header__introduction">
+        <p class="content-header__introduction-text">
+          {{ page.subtitle }}
+        </p>
+      </div>
+      {% endif %}
     </div>
-    {% endif %}
+    <nav class="kids-breadcrumbs" aria-label="Breadcrumb">
+      <ol class="kids-breadcrumbs__list">
+        {% for ancestor in page.get_ancestors.live %}
+        {% if not ancestor.is_root %}
+        <li class="kids-breadcrumbs__item">
+          <a href="{{ ancestor.url }}">{{ ancestor.title }}</a> >
+        </li>
+        {% endif %}
+        {% endfor %}
+
+        <li class="kids-breadcrumbs__item kids-breadcrumbs__item--current" aria-current="page">
+          {{ page.title }}
+        </li>
+      </ol>
+    </nav>
   </div>
-</div>
 {% endblock head %}
 
 <div class="smokedglass kids-event-page">
+  
   <div class="kids-event-page__inner">
-
+    
     {% if page.intro %}
     <section class="kids-section kids-section--intro">
       <div class="kids-richtext richtext">
