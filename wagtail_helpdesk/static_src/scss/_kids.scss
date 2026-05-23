@@ -94,6 +94,29 @@
     z-index: 2;
 }
 
+.kids-page__inner a,
+.kids-event-page__inner a,
+.kids-answer-page__inner a {
+    outline: 1px solid transparent;
+    outline-offset: 3px;
+    transition:
+        outline-color 0.2s ease,
+        background-color 0.25s cubic-bezier(0.4, 0, 0.2, 1),
+        color 0.17s cubic-bezier(0.4, 0, 0.2, 1) 0.1s;
+}
+
+.kids-page__inner a:hover,
+.kids-event-page__inner a:hover,
+.kids-answer-page__inner a:hover,
+.kids-page__inner a:focus-visible,
+.kids-event-page__inner a:focus-visible,
+.kids-answer-page__inner a:focus-visible,
+.kids-page__inner a:focus,
+.kids-event-page__inner a:focus,
+.kids-answer-page__inner a:focus {
+    outline: 1px solid #2a2a2a;
+}
+
 /* =========================
    Sections
 ========================= */
@@ -121,19 +144,23 @@
     display: inline-block;
     width: 2.5rem;
     height: 2.5rem;
-    background: #fed36b;
+    background: rgb(254, 211, 107, 0.8);
+    background-image: radial-gradient(
+        circle at 30% 30%,
+        rgb(251, 209, 111, 0.65),
+        rgb(244, 186, 52, 0.75)
+    );
+
     border-radius: 50%;
-    margin-right: .75rem;
+    margin-right: 0.75rem;
     color: #3a3a3a;
     display: flex;
     justify-content: center;
     align-items: center;
     font-size: 0.8rem;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-    /* text-wrap: balance; */
-    /* text-align: center; */
+    box-shadow: 2px 4px 6px -4px rgba(0, 0, 0, 0.25);
+    border: 1px solid #5553;
 }
-
 
 /* =========================
    Richtext
@@ -154,15 +181,35 @@
 ========================= */
 
 .kids-meta {
+    position: relative;
     display: flex;
     flex-wrap: wrap;
-    gap: .75rem 1.5rem;
+    gap: 0.75rem 1.5rem;
     padding: 1rem 1.25rem;
-    background: rgba(255,249,231,.92);
+    background: rgba(255, 249, 231, 0.82);
     border: 2px solid #ffd300;
-    border-radius: 1rem;
-    width: min(100%,600px);
-    box-shadow: 1px 3px 4px 0px rgb(66,33,22,0.2);
+    border-left: none;
+    border-radius: 4px 1rem 8px 1rem;
+    width: min(100%, 600px);
+    box-shadow: -3px 4px 6px -3px rgba(0, 0, 0, 0.25);
+}
+
+.kids-meta::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 8px;
+    height: 66%;
+    background-color: rgba(255, 195, 0, 0.8);
+    background: linear-gradient(
+        to bottom,
+        rgba(255, 196, 0, 0.6),
+        rgba(254, 211, 107, 0.6)
+    );
+    border-radius: 0 0 1rem;
+    border: 2px solid hsl(49.65deg 95% 50%);
+    border-top: none;
 }
 
 .kids-meta__item {
@@ -181,16 +228,33 @@
 }
 
 .kids-event-card {
-    background: #fff9e7;
+    position: relative;
+    background: rgba(255, 249, 231, 0.82);
     border: 2px solid #fed36b;
-    border-radius: 1rem;
+    border-radius: 4px 1rem 8px 1rem;
     padding: 1.25rem;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
     transition: transform 0.2s ease;
+    width: min(100%, 600px);
+    border: 1px solid #5553;
+    border-left: none;
 }
 
-.kids-event-card:hover {
-    transform: translateY(-4px);
+.kids-event-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 8px;
+    height: 66%;
+    background-color: rgba(255, 195, 0, 0.2);
+    background-image: linear-gradient(
+        to bottom,
+        rgba(255, 196, 0, 0.2),
+        rgba(254, 211, 107, 0.8)
+    );
+    border-radius: 0 0 1rem;
+    border: 1px solid #5552;
 }
 
 .kids-event-card__title {
@@ -237,7 +301,7 @@
     width: 100%;
     height: 100%;
     background: #fff9e7;
-    border: 3px solid #fed36b;
+    border: 3px solid hsl(42, 99%, 71%);
     border-radius: 1rem;
     padding: 0.5rem;
     color: #000;
@@ -248,7 +312,8 @@
 }
 
 .kids-card:hover {
-    transform: translateY(-4px);
+    border-color: hsl(42, 95%, 51%);
+
     box-shadow: 0 7px 18px rgba(0, 0, 0, 0.16);
 }
 
@@ -330,17 +395,19 @@
     align-items: center;
     width: 100%;
     padding: 0.65rem 1rem;
-    border: 2px solid #000;
+    border: 2px solid #0b0b0b;
     border-radius: 999px;
-    background: #000;
-    color: #fff;
+    background: rgb(42, 42, 42, 0.85);
+    color: #fefefe;
     font-weight: 700;
     text-decoration: none;
     cursor: pointer;
 }
 
-.kids-card__button:hover {
-    background: #fe9450;
+.kids-card__button:hover,
+.kids-card__button:focus-visible,
+.kids-card__button:focus {
+    background: hsl(42, 90%, 51%, 0.25);
     color: #000;
 }
 
@@ -506,35 +573,37 @@
     justify-content: center;
     min-height: 44px;
     padding: 0.75rem 1rem;
-    border: 2px solid #000;
+    border: 1px solid #2a2a2a;
     border-radius: 999px;
-    color: #000;
+    color: #1a1a1a;
     font-weight: 700;
     text-decoration: none;
 }
 
 .kids-answer-product__button {
-    background: #000;
-    color: #fff;
+    background: rgb(42, 42, 42, 0.85);
+    color: #fefefe;
 }
 
-.kids-answer-product__button:hover {
-    background: #fe9450;
-    color: #000;
+.kids-answer-product__button:hover,
+.kids-answer-product__button:focus-visible,
+.kids-answer-product__button:focus {
+    background: hsl(42, 90%, 51%, 0.25);
+    color: #2a2a2a;
 }
 
 .kids-answer-product__secondary,
 .kids-back-link {
-    background: #fed36b;
+    background: rgb(254, 211, 107, 0.75);
 }
 
 .kids-answer-product__secondary:hover,
 .kids-back-link:hover {
-    background: #ffc300;
+    background: rgb(255, 195, 0, 0.75);
 }
 
 .kids-answer-detail {
-    margin-top: 2rem;
+    margin-top: 1.5rem;
     padding: clamp(1.25rem, 3vw, 2rem);
 }
 
@@ -681,91 +750,106 @@ body.is-lightbox-open .menu-bar {
     color: #000;
 }
 
-
-
 .kids-answer-nav {
-  margin-top: 2.5rem;
+    margin-top: 1.5rem;
 }
 
 .kids-answer-nav__inner {
-  display: grid;
-  gap: 0.5rem;
+    display: grid;
+    gap: 0.5rem;
 }
 
 @media (min-width: 700px) {
-  .kids-answer-nav__inner {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 1.5rem;
-  }
+    .kids-answer-nav__inner {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 1.5rem;
+    }
 }
 
 .kids-answer-nav__link {
-  display: block;
-  background: #fff9e7;
-  border: 3px solid #fed36b;
-  border-radius: 1rem;
-  color: #000;
-  text-decoration: none;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.10);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-  padding-block: 0.5rem;
+    display: block;
+    background-color: rgb(255, 249, 231, 0.75);
+
+    border: 2px solid #fed36b;
+    outline: 1px solid transparent;
+    outline-offset: 3px;
+    border-radius: 1rem;
+    color: #000;
+    text-decoration: none;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        outline-color 0.2s ease,
+        color 0.17s cubic-bezier(0.4, 0, 0.2, 1) 0.1s,
+        background-color 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    padding-block: 0.5rem;
 }
 
-.kids-answer-nav__link:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 7px 18px rgba(0, 0, 0, 0.14);
+.kids-answer-nav__link:hover,
+.kids-answer-nav__link:focus-visible,
+.kids-answer-nav__link:focus {
+    transform: translateY(-3px);
+    box-shadow: 0 7px 18px rgba(0, 0, 0, 0.14);
 }
 
 .kids-answer-nav__link--next {
-  text-align: right;
-  padding-right: 2rem;
-
+    text-align: right;
+    padding-right: 2rem;
+    background-image: linear-gradient(
+        to right,
+        transparent 60%,
+        rgba(254, 211, 107, 0.75) 95%,
+        rgba(254, 211, 107, 0.95) 100%
+    );
 }
 .kids-answer-nav__link--previous {
-  padding-left: 2rem;
+    padding-left: 2rem;
+    background-image: linear-gradient(
+        to left,
+        transparent 60%,
+        rgba(254, 211, 107, 0.75) 95%,
+        rgba(254, 211, 107, 0.95) 100%
+    );
 }
-
 
 .kids-answer-nav__link--previous,
 .kids-answer-nav__link--next {
-  position: relative;
-  
+    position: relative;
 }
 
 .kids-answer-nav__link--previous::before,
 .kids-answer-nav__link--next::before {
-  content: "";
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50% ) rotate(45deg);
-  width: 0.75rem;
-  height: 0.75rem;
-  border-top: 2px solid #2a2a2a;
-  border-right: 2px solid #2a2a2a;
+    content: "";
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%) rotate(45deg);
+    width: 0.75rem;
+    height: 0.75rem;
+    border-top: 2px solid #2a2a2a;
+    border-right: 2px solid #2a2a2a;
 }
 
 .kids-answer-nav__link--previous::before {
-  left: .75rem;
-  transform: translateY(-50%) rotate(-135deg);
+    left: 0.75rem;
+    transform: translateY(-50%) rotate(-135deg);
 }
 
 .kids-answer-nav__link--next::before {
-  right: .75rem;
+    right: 0.75rem;
 }
 
 .kids-answer-nav__label {
-  display: block;
-  margin-bottom: 0.35rem;
-  font-size: 0.85rem;
-  font-weight: 700;
-  opacity: 0.7;
+    display: block;
+    margin-bottom: 0.35rem;
+    font-size: 0.85rem;
+    font-weight: 700;
+    opacity: 0.7;
 }
 
 .kids-answer-nav__title {
-  display: block;
-  margin-top: 0.35rem;
-  font-size: 1rem;
-  font-weight: 700;
+    display: block;
+    margin-top: 0.35rem;
+    font-size: 1rem;
+    font-weight: 700;
 }
-
-  
