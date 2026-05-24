@@ -1,3 +1,5 @@
+from multiprocessing import context
+
 from django import template
 from django.conf import settings
 from django.core import serializers
@@ -718,9 +720,35 @@ class KidsEventPage(Page):
 
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
-        context["kids_questions"] = self.kids_questions.all()
-        context["kids_drawings"] = self.kids_drawings.all()
-        context["kids_answer_pages"] = self.get_children().type(KidsAnswerPage).live().specific()
+
+        questions = self.kids_questions.all()
+        drawings = self.kids_drawings.all()
+
+        questions_paginator = Paginator(questions, 6)
+        drawings_paginator = Paginator(drawings, 8)
+
+        questions_page_number = request.GET.get("questions_page")
+        drawings_page_number = request.GET.get("drawings_page")
+
+        try:
+            paginated_questions = questions_paginator.page(questions_page_number)
+        except PageNotAnInteger:
+            paginated_questions = questions_paginator.page(1)
+        except EmptyPage:
+            paginated_questions = questions_paginator.page(questions_paginator.num_pages)
+
+        try:
+            paginated_drawings = drawings_paginator.page(drawings_page_number)
+        except PageNotAnInteger:
+            paginated_drawings = drawings_paginator.page(1)
+        except EmptyPage:
+            paginated_drawings = drawings_paginator.page(drawings_paginator.num_pages)
+
+        context["kids_questions"] = paginated_questions
+        context["kids_drawings"] = paginated_drawings
+        context["kids_question_links"] = questions
+        context["kids_drawing_links"] = drawings
+
         return context
 
     class Meta:
