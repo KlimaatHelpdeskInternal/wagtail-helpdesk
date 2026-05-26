@@ -25,15 +25,15 @@
     <div class="content-header__title-container">
       <h1 class="content-header__title">
         {{ page.title }} 
+        <i onclick="togglePopup()" class="fa fa-question-circle" aria-hidden="true" style="font-size:18px"></i>
       </h1>
-      <i onclick="togglePopup()" class="fa fa-question-circle" aria-hidden="true" style="font-size:24px"></i>
     </div>
   </div>
 </div>
 
 <div id="cc__popup">
   <div id="cc__popup-content" class="content__container">
-    <i onclick="togglePopup()" class="fa fa-times" aria-hidden="true" style="font-size:24px"></i>
+    <i onclick="togglePopup()" class="fa fa-times" aria-hidden="true" style="font-size:18px"></i>
     <div class="content__answer richtext">
       <p>{{ page.content|richtext }}</p>
     </div>
@@ -41,8 +41,13 @@
 </div>
 
 <div id="cc__content" class="content">
-  <div class="content__container">
+  <div id="cc__grid">
+    <div id="cc__categorytext" class="richtext">
+      <p><b id="cc__categorytitle">Klik op een categorie</b></p>
+      <p id="cc__categoryexplanation"></p>
+    </div>
     <div id="cc__konva"></div>
+    <div></div>
   </div>
   
   {% comment %} <div class="cc__form">
