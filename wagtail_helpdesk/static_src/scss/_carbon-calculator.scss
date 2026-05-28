@@ -37,14 +37,25 @@
 #cc__grid {
   margin-left: 180px;
   width: calc(100vw - 360px);
-  
   display: grid;
   grid-template-columns: 300px 1fr 300px;
+
+  @media only screen and (max-width: 1200px) {
+    margin-left: 0px;
+    width: 100vw;
+    display: flex;
+    flex-flow: wrap-reverse;
+  }
 }
 
 #cc__categorytext {
   p {
     margin-top: 30px;
+
+    @media only screen and (max-width: 1200px) {
+      margin-top: 0px;
+      margin-left: 30px;
+    }
   }
 }
 
@@ -55,6 +66,7 @@
   @media only screen and (max-width: 1200px) {
     margin: 0;
     width: 100vw;
+    height: calc(80vh - 190px);
   }
 }
 

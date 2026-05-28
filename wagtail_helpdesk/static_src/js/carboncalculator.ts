@@ -72,13 +72,14 @@ function redraw() {
   drawCategories(currentCategories);
 }
 
-function createCircle(x, y, radius, fill, stroke) {
+function createCircle(x, y, radius, fill, stroke, strokeWidth) {
   let circle = new Konva.Circle({
     x: x,
     y: y,
     radius: radius,
     fill: fill,
     stroke: stroke,
+    strokeWidth: strokeWidth,
   });
 
   return circle;
@@ -147,7 +148,8 @@ function drawCategories(currentCategories) {
       0,
       circleRadius,
       "white",
-      "black"
+      "black",
+      2
     );
     
     const numText = createText(
@@ -180,27 +182,27 @@ function drawCategories(currentCategories) {
       "https://cdn-icons-png.flaticon.com/128/7133/7133490.png"
     )
 
-    console.log(currentCategories[i].image_url);
-
     category.add(circle);
     category.add(numText);
     category.add(img);
-    category.add(swapIcon);
+    
+    category.on('mousedown touchend', () => {
+      if (document.getElementById("cc__categorytitle") != null) {
+        document.getElementById("cc__categorytitle").innerHTML = "Aantal " + currentCategories[i].name;
+      }
+      if (document.getElementById("cc__categoryexplanation") != null) {
+        document.getElementById("cc__categoryexplanation").innerHTML = currentCategories[i].description;
+      }
+    });
 
     if (category.x() === stage.width() / 2 && category.y() === stage.height() / 2) {
       categoryZero = category;
     }
     else {
-      category.on('mousedown touchend', () => {
+      category.add(swapIcon);
+      swapIcon.on('mousedown touchend', () => {
         if (isClicked == false) {
           isClicked = true;
-          
-          if (document.getElementById("cc__categorytitle") != null) {
-              document.getElementById("cc__categorytitle").innerHTML = "Aantal " + currentCategories[i].name;
-          }
-          if (document.getElementById("cc__categoryexplanation") != null) {
-              document.getElementById("cc__categoryexplanation").innerHTML = currentCategories[i].description;
-          }
       
           const index = currentCategories.map(cat => cat.name).indexOf(category.name());
           const cat = currentCategories[index];
