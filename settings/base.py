@@ -220,7 +220,7 @@ STORAGES = {
     "staticfiles": {"BACKEND": "apps.core.storages.StaticS3Storage"},
 }
 
-WAGTAILIMAGES_EXTENSIONS = ["avif", "gif", "jpg", "jpeg", "png", "webp", "ico","svg"]
+XTENSIONS = ["avif", "gif", "jpg", "jpeg", "png", "webp", "ico"]
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/

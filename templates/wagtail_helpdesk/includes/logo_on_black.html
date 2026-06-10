@@ -1,7 +1,7 @@
-{% if logo_on_black_url %}
-    <img  src="{{ logo_on_black_url }}"/>
+{% if logo_on_black_url.strip %}
+    <img  src="{{ logo_on_black_url.strip }}"/>
 {% else %}
-    {% include 'svg/logo/logo.svg' %}
+    {% include 'svg/logo/logo-white.svg' %}
 {% endif %}
 
 

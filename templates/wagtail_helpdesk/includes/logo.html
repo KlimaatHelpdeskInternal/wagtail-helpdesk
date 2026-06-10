@@ -1,5 +1,5 @@
-{% if logo_url %}
-    <img  src="{{ logo_url }}"/><span>{{ logo_url }}</span>
+{% if logo_url.strip %}
+    <img  src="{{ logo_url.strip }}"/>
 {% else %}
     {% include 'svg/logo/logo.svg' %}
 {% endif %}
