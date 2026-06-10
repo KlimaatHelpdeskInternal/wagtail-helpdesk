@@ -13,6 +13,20 @@ let currentCategories = [];
 currentCategories.push(co2categories.find((cat) => cat.name == "kg CO2"));
 currentCategories.push(...co2categories.filter((cat) => cat.name !== "kg CO2"));
 
+// Debounce function to limit how often window resize handler triggers
+function debounce(func, wait) {
+    let timeout;
+    return function() {
+        clearTimeout(timeout);
+        timeout = setTimeout(func, wait);
+    };
+}
+
+// Reload the page 500ms after the user stops resizing window
+window.addEventListener('resize', debounce(() => {
+    location.reload();
+}, 500));
+
 /*
 const select = document.getElementById("co2categories");
 const button = document.getElementById("co2button");
@@ -47,24 +61,25 @@ const stage = new Konva.Stage({
 });
 
 stage.width(stage.container().offsetWidth);
-stage.height(stage.container().offsetHeight);
+stage.height(stage.container().offsetHeight * 0.95);
 
 // then create layer
 const layer = new Konva.Layer();
-
+      
 //functions
 function redraw() {
   layer.destroyChildren();
   drawCategories(currentCategories);
 }
 
-function createCircle(x, y, radius, fill, stroke) {
+function createCircle(x, y, radius, fill, stroke, strokeWidth) {
   let circle = new Konva.Circle({
     x: x,
     y: y,
     radius: radius,
     fill: fill,
     stroke: stroke,
+    strokeWidth: strokeWidth,
   });
 
   return circle;
@@ -79,11 +94,12 @@ function createText(x, y, width, text, fontSize, fontFamily, fill) {
     fontFamily: fontFamily,
     fill: fill,
     width: width,
-    align: "center"
+    align: "center",
+    fontStyle: "500",
   });
 }
 
-function createImage(x, y, width, height, source, name) {
+function createImage(x, y, width, height, source) {
   const imgObj = new Image();
   imgObj.src = source;
 
@@ -99,13 +115,13 @@ function createImage(x, y, width, height, source, name) {
 }
 
 function drawCategories(currentCategories) {
-
   let circleRadius = Math.min(stage.height() * 0.13, stage.width() * 0.13);
   let categoryZero;
 
   for (let i = 0; i < currentCategories.length; i++) {
     let posX;
     let posY;
+    let isClicked = false;
 
     if (i == 0) {
       posX = stage.width() * 0.5;
@@ -132,102 +148,103 @@ function drawCategories(currentCategories) {
       0,
       circleRadius,
       "white",
-      "black"
+      "black",
+      2
     );
     
     const numText = createText(
       0,
-      -circleRadius * 0.7 - 14,
-      circleRadius * 1.4,
+      -circleRadius * 0.8,
+      circleRadius * 0.8,
       Math.round(
         (currentCategories[0].conversion_to_kg_CO2 /
           currentCategories[i].conversion_to_kg_CO2) *
           1000
       ) / 1000,
-      13,
+      14,
       "Geomanist Webfont",
       "red"
     );
 
-    numText.on('mouseover', () => {
-      numText.fontStyle("bold");
-    });
-
-    numText.on('mouseout', () => {
-      numText.fontStyle("normal");
-    });
-
-    numText.on('mousedown touchend', () => {
-      redraw();
-      window.location.href = "https://www.klimaathelpdesk.org/";
-    });
-
-    const nameText = createText(
-      0,
-      -circleRadius * 0.7,
-      circleRadius * 1.2,
-      currentCategories[i].name,
-      13,
-      "Geomanist Webfont",
-      "black"
-    );
-
     const img = createImage(
       0,
-      25,
-      circleRadius * 0.8,
-      circleRadius * 0.8,
-      currentCategories[i].image_url,
-      currentCategories[i].name
+      0,
+      circleRadius * 0.9,
+      circleRadius * 0.9,
+      currentCategories[i].image_url
     );
+
+    const swapIcon = createImage(
+      0,
+      circleRadius * 0.7,
+      circleRadius * 0.35,
+      circleRadius * 0.35,
+      "https://cdn-icons-png.flaticon.com/128/7133/7133490.png"
+    )
 
     category.add(circle);
     category.add(numText);
-    category.add(nameText);
     category.add(img);
+    
+    category.on('mousedown touchend', () => {
+      if (document.getElementById("cc__categorytitle") != null) {
+        document.getElementById("cc__categorytitle").innerHTML = "Aantal " + currentCategories[i].name;
+      }
+      if (document.getElementById("cc__categoryexplanation") != null) {
+        document.getElementById("cc__categoryexplanation").innerHTML = currentCategories[i].description;
+      }
+    });
 
     if (category.x() === stage.width() / 2 && category.y() === stage.height() / 2) {
       categoryZero = category;
     }
     else {
-      category.on('mousedown touchend', () => {
-        const index = currentCategories.map(cat => cat.name).indexOf(category.name());
-        const cat = currentCategories[index];
+      category.add(swapIcon);
+      swapIcon.on('mousedown touchend', () => {
+        if (isClicked == false) {
+          isClicked = true;
+      
+          const index = currentCategories.map(cat => cat.name).indexOf(category.name());
+          const cat = currentCategories[index];
 
-        const xSpeed = (stage.width() / 2 - category.x()) / stage.height() * 0.2;
-        const ySpeed = (stage.height() / 2 - category.y()) / stage.height() * 0.2;
-        
-        const anim = new Konva.Animation(function(frame) {
-          category.zIndex(2);
-          categoryZero.zIndex(1);
+          const speedAdjustForScreenSize = Math.pow(stage.width() / 1000, 2);
+          const xSpeed = (stage.width() / 2 - category.x()) / stage.height() * 0.2;
+          const ySpeed = (stage.height() / 2 - category.y()) / stage.height() * 0.2;
+          
+          const anim = new Konva.Animation(function(frame) {
+            category.zIndex(2);
+            categoryZero.zIndex(1);
 
-          categoryZero.x(
-            categoryZero.x() + -xSpeed * frame.time
-          );
-          categoryZero.y(
-            categoryZero.y() + -ySpeed * frame.time
-          );
+            categoryZero.x(
+              categoryZero.x() + -xSpeed * frame.time
+            );
+            categoryZero.y(
+              categoryZero.y() + -ySpeed * frame.time
+            );
 
-          category.x(
-            category.x() + xSpeed * frame.time
-          );
-          category.y(
-            category.y() + ySpeed * frame.time
-          );
+            category.x(
+              category.x() + xSpeed * frame.time
+            );
+            category.y(
+              category.y() + ySpeed * frame.time
+            );
 
-          if (stage.width() / 2 * 0.95 <= category.x() && category.x() <= stage.width() / 2 * 1.05 &&
-        stage.height() / 2 * 0.95 <= category.y() && category.y() <= stage.height() / 2 * 1.05) {
-            anim.stop();
+            if (stage.width() / 2 * 0.9 <= category.x() && category.x() <= stage.width() / 2 * 1.1 &&
+          stage.height() / 2 * 0.9 <= category.y() && category.y() <= stage.height() / 2 * 1.1) {
+              anim.stop();
 
-            currentCategories[index] = currentCategories[0];
-            currentCategories[0] = cat;  
+              currentCategories[index] = currentCategories[0];
+              currentCategories[0] = cat;  
 
-            redraw();
-          }
+              redraw();
 
-        }, layer);
+              isClicked = false;
+            }
 
-        anim.start();
+          }, layer);
+
+          anim.start();
+        }
       });
     }
 
