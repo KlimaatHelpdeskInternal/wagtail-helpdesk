@@ -1,0 +1,220 @@
+{% extends "wagtail_helpdesk/base.html" %}
+{% load i18n static wagtailcore_tags wagtailimages_tags %}
+
+{% block content_area %}
+{% block head %}
+<div class="content-header content-header--kids">
+  <div class="kids-header__wrapper">
+    <div class="content-header__title-container">
+      <h1>
+        {{ page.title }}
+      </h1>
+    </div>
+
+    {% if page.subtitle %}
+    <div class="content-header__introduction">
+      <p class="content-header__introduction-text">
+        {{ page.subtitle }}
+      </p>
+    </div>
+    {% endif %}
+  </div>
+  <nav class="kids-breadcrumbs" aria-label="Breadcrumb">
+    <ol class="kids-breadcrumbs__list">
+      {% for ancestor in page.get_ancestors.live %}
+      {% if not ancestor.is_root %}
+      <li class="kids-breadcrumbs__item">
+        <a href="{{ ancestor.url }}">{{ ancestor.title }}</a> >
+      </li>
+      {% endif %}
+      {% endfor %}
+
+      <li class="kids-breadcrumbs__item kids-breadcrumbs__item--current" aria-current="page">
+        {{ page.title }}
+      </li>
+    </ol>
+  </nav>
+</div>
+{% endblock head %}
+
+<div class="smokedglass kids-event-page">
+
+  <div class="kids-event-page__inner">
+
+    {% if page.intro %}
+    <section class="kids-section kids-section--intro">
+      <div class="kids-richtext richtext">
+        {{ page.intro|richtext }}
+      </div>
+    </section>
+    {% endif %}
+
+    <!-- quicklinks to all the questions from the kids with their names linking to the answer page if available, and all the drawings with their captions. If there are more than 5 questions or drawings, show a pagination with 5 items per page. -->
+
+
+    {% if page.event_date or page.event_location %}
+    <section class="kids-section kids-section--meta">
+      <div class="kids-meta">
+        {% if page.event_date %}
+        <p class="kids-meta__item"><strong>Datum:</strong> {{ page.event_date }}</p>
+        {% endif %}
+        {% if page.event_location %}
+        <p class="kids-meta__item"><strong>Locatie:</strong> {{ page.event_location }}</p>
+        {% endif %}
+      </div>
+    </section>
+    {% endif %}
+
+    <section id="vragen" class="kids-section kids-questions-section" data-controller="lightbox">
+      <h2 class="kids-section__title">Vragen van kinderen</h2>
+      <div class="kids-section__quicklinks">
+         <ul class="names-and-links__list">
+          {% for item in kids_question_links %}
+          <li class="names-and-links__item">
+            {% if item.answer_page %}
+            <a href="{{ item.answer_page.url }}">
+              {{ item.child_name|default:"Anoniem" }}
+            </a>
+            {% else %}
+            {{ item.child_name|default:"Anoniem" }}
+            {% endif %}
+          </li>
+          {% endfor %}
+        </ul>
+      </div>
+      <div class="kids-questions-grid">
+        {% for item in kids_questions %}
+        <article class="kids-card">
+          <section class="kids-card__media">
+            <header class="kids-card__media-header">
+              <span class="kids-card__label">Vraag</span>
+            </header>
+
+            {% if item.card_image %}
+            {% image item.card_image fill-800x500 as thumb %}
+            {% image item.card_image width-1400 as large %}
+
+            <button type="button" class="kids-card__image kids-card__image-button" data-action="click->lightbox#open"
+              data-lightbox-image-url="{{ large.url }}" data-lightbox-caption="{{ item.question_text }}">
+              <img src="{{ thumb.url }}" alt="{{ item.question_text }}">
+            </button>
+            {% endif %}
+          </section>
+
+          <footer class="kids-card__footer">
+            <div class="kids-card__summary">
+              <h3 class="kids-card__title">{{ item.question_text }}</h3>
+
+              {% if item.child_name or item.age %}
+              <p class="kids-card__meta">
+                {% if item.child_name %}{{ item.child_name }}{% endif %}
+                {% if item.age %} ({{ item.age }}){% endif %}
+              </p>
+              {% endif %}
+            </div>
+
+            {% if item.answer_page %}
+            <a class="kids-card__button" href="{{ item.answer_page.url }}">
+              Lees
+            </a>
+            {% endif %}
+          </footer>
+        </article>
+        {% empty %}
+        <p>Er zijn nog geen vragen toegevoegd.</p>
+        {% endfor %}
+      </div>
+      {% if kids_questions.has_other_pages %}
+      <nav class="kids-pagination" aria-label="Paginering vragen">
+        {% if kids_questions.has_previous %}
+        <a class="kids-pagination__link"
+          href="?questions_page={{ kids_questions.previous_page_number }}&drawings_page={{ kids_drawings.number }}#vragen">
+          Vorige
+        </a>
+        {% endif %}
+
+        <span class="kids-pagination__current">
+          Pagina {{ kids_questions.number }} van {{ kids_questions.paginator.num_pages }}
+        </span>
+
+        {% if kids_questions.has_next %}
+        <a class="kids-pagination__link"
+          href="?questions_page={{ kids_questions.next_page_number }}&drawings_page={{ kids_drawings.number }}#vragen">
+          Volgende
+        </a>
+        {% endif %}
+      </nav>
+      {% endif %}
+      <div class="lightbox" data-lightbox-target="overlay" data-action="click->lightbox#closeOnBackdrop" hidden>
+        <button type="button" class="lightbox__close" aria-label="Sluit afbeelding" data-action="click->lightbox#close">
+          &times;
+        </button>
+
+        <img class="lightbox__image" data-lightbox-target="image" alt="">
+        <p class="lightbox__caption" data-lightbox-target="caption"></p>
+      </div>
+    </section>
+    <section id="tekeningen" class="kids-section kids-drawings" data-controller="lightbox">
+      <h2 class="kids-section__title">
+        Hoe denken kinderen dat de wereld er over 50 jaar uitziet? 🌏
+      </h2>
+
+      <div class="kids-drawings__grid">
+        {% for drawing in kids_drawings %}
+        <figure class="kids-drawing">
+          {% image drawing.drawing_image fill-600x450 as thumb %}
+          {% image drawing.drawing_image width-1400 as large %}
+
+          <button type="button" class="kids-drawing__button" data-action="click->lightbox#open"
+            data-lightbox-image-url="{{ large.url }}"
+            data-lightbox-caption="{{ drawing.caption|default:drawing.title }}">
+            <img src="{{ thumb.url }}" alt="{{ drawing.caption|default:drawing.title }}">
+          </button>
+
+          {% if drawing.caption %}
+          <figcaption>{{ drawing.caption }}</figcaption>
+          {% endif %}
+        </figure>
+        {% empty %}
+        <p>Er zijn nog geen tekeningen toegevoegd.</p>
+        {% endfor %}
+      </div>
+
+      {% if kids_drawings.has_other_pages %}
+      <nav class="kids-pagination" aria-label="Paginering tekeningen">
+        {% if kids_drawings.has_previous %}
+        <a class="kids-pagination__link"
+          href="?questions_page={{ kids_questions.number }}&drawings_page={{ kids_drawings.previous_page_number }}#tekeningen">
+          Vorige
+        </a>
+        {% endif %}
+
+        <span class="kids-pagination__current">
+          Pagina {{ kids_drawings.number }} van {{ kids_drawings.paginator.num_pages }}
+        </span>
+
+        {% if kids_drawings.has_next %}
+        <a class="kids-pagination__link"
+          href="?questions_page={{ kids_questions.number }}&drawings_page={{ kids_drawings.next_page_number }}#tekeningen">
+          Volgende
+        </a>
+        {% endif %}
+      </nav>
+      {% endif %}
+
+      <div class="lightbox" data-lightbox-target="overlay" data-action="click->lightbox#closeOnBackdrop" hidden>
+        <button type="button" class="lightbox__close" aria-label="Sluit afbeelding" data-action="click->lightbox#close">
+          &times;
+        </button>
+
+        <img class="lightbox__image" data-lightbox-target="image" alt="">
+
+        <p class="lightbox__caption" data-lightbox-target="caption"></p>
+      </div>
+    </section>
+
+  </div>
+
+  {% include "wagtail_helpdesk/includes/social_share_buttons.html" %}
+</div>
+{% endblock content_area %}
