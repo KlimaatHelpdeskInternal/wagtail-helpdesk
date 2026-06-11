@@ -160,6 +160,7 @@
     font-size: 0.8rem;
     box-shadow: 2px 4px 6px -4px rgba(0, 0, 0, 0.25);
     border: 1px solid #5553;
+    flex: 0 0 auto;
 }
 
 /* =========================
@@ -711,6 +712,16 @@
 .is-lightbox-open {
     overflow: hidden;
 }
+
+@media (max-width: 800px) {
+ .lightbox__close {
+    top: calc(1rem + 50px);
+    outline: 3x solid hotpink;
+ }
+}
+
+
+
 
 body.is-lightbox-open .menu-bar {
     pointer-events: none;
