@@ -10,6 +10,7 @@
   "scripts": {
     "start": "webpack --mode=development --watch --progress",
     "build": "webpack --mode=production",
+    "builddev": "webpack --mode=development",
     "watch": "watch \"npm run build\""
   },
   "devDependencies": {
