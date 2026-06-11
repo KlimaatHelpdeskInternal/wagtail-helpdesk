@@ -19,3 +19,5 @@ colortest.html
 wagtail_helpdesk/media
 wagtail_helpdesk/static/wagtail_helpdesk/main.css
 wagtail_helpdesk/static/wagtail_helpdesk/main.js
+wagtail_helpdesk/static/wagtail_helpdesk/carboncalculator.js
+wagtail_helpdesk/static/wagtail_helpdesk/co2categories.js
