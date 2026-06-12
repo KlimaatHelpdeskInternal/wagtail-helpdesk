@@ -4,18 +4,18 @@
 <script>
   const carbonemissioncategoriesvar = '{{ carbonemissioncategories|escapejs  }}';
 
-  function openPopup() {
-    console.log("click");
-    document.getElementById("cc__popup").style.display = "block";
-  }
-
-  function closePopup() {
-    document.getElementById("cc__popup").style.display = "none";
+  function togglePopup() {
+    if (document.getElementById("cc__popup").style.display == "block") {
+      document.getElementById("cc__popup").style.display = "none";
+    } 
+    else {
+      document.getElementById("cc__popup").style.display = "block";
+    }
   }
 </script>
 <script defer src="{% versioned_static 'wagtail_helpdesk/carboncalculator.js' %}"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
+<title>{% block title %}CO2 omrekentool | KlimaatHelpdesk{% endblock %}</title>
 
 {% endblock %}
 
@@ -25,16 +25,15 @@
     <div class="content-header__title-container">
       <h1 class="content-header__title">
         {{ page.title }} 
-        <i onclick="openPopup()" class="fa fa-question-circle" aria-hidden="true" style="font-size:24px"></i>
+        <i onclick="togglePopup()" class="fa fa-question-circle" aria-hidden="true" style="font-size:18px"></i>
       </h1>
-      
     </div>
   </div>
 </div>
 
 <div id="cc__popup">
   <div id="cc__popup-content" class="content__container">
-    <i onclick="closePopup()" class="fa fa-times" aria-hidden="true" style="font-size:24px"></i>
+    <i onclick="togglePopup()" class="fa fa-times" aria-hidden="true" style="font-size:18px"></i>
     <div class="content__answer richtext">
       <p>{{ page.content|richtext }}</p>
     </div>
@@ -42,8 +41,17 @@
 </div>
 
 <div id="cc__content" class="content">
-  <div class="content__container">
+  <div id="cc__grid">
+    <div id="cc__categorytext" class="richtext">
+      <p><b id="cc__categorytitle">Hoe werkt het?</b></p>
+      <p id="cc__categoryexplanation">
+        Druk op een categorie voor meer informatie. 
+        </br></br> 
+        Druk op de pijltjes om een categorie in het midden te plaatsen.
+      </p>
+    </div>
     <div id="cc__konva"></div>
+    <div></div>
   </div>
   
   {% comment %} <div class="cc__form">

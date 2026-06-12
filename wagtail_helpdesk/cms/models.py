@@ -1,3 +1,4 @@
+from multiprocessing import context
 from django import template
 from django.conf import settings
 from django.core import serializers
@@ -560,7 +561,7 @@ class AnswerIndexPage(RoutablePageMixin, Page):
         )
 
         # Search
-        search = request.GET.get("search", "")
+        search = request.GET.get("search", "").strip()
         context["search"] = search
         if search:
             answers = answers.search(search).get_queryset()
@@ -654,6 +655,265 @@ class AnswerIndexPage(RoutablePageMixin, Page):
         )
 
         return render(request, self.template, context)
+class KidsPage(Page):
+    """ A page for kids with send in questions and answers in a more playful way """
+    template = "wagtail_helpdesk/cms/kids_page.html"
+
+    subtitle = models.CharField(
+        max_length=255,
+        blank=True,
+        help_text="Korte tekst onder de titel",
+    )
+    intro = RichTextField(
+        blank=True,
+        help_text="Introductietekst voor de kids hoofdpagina",
+    )
+
+    subpage_types = ["cms.KidsEventPage"]
+
+    content_panels = Page.content_panels + [
+        FieldPanel("subtitle"),
+        FieldPanel("intro"),
+    ]
+
+    def get_context(self, request, *args, **kwargs):
+        context = super().get_context(request, *args, **kwargs)
+        context["event_pages"] = self.get_children().live().specific()
+        return context
+
+    class Meta:
+        verbose_name = _("Kids page")
+        verbose_name_plural = _("Kids pages")
+        
+        
+class KidsEventPage(Page):
+    template = "wagtail_helpdesk/cms/kids_event_page.html"
+
+    parent_page_types = ["cms.KidsPage"]
+    subpage_types = ["cms.KidsAnswerPage"]
+
+    subtitle = models.CharField(
+        max_length=255,
+        blank=True,
+        help_text="Korte tekst onder de titel",
+    )
+    intro = RichTextField(
+        blank=True,
+        help_text="Introductietekst voor deze kids event pagina",
+    )
+    event_date = models.DateField(
+        blank=True,
+        null=True,
+        help_text="Datum van het evenement",
+    )
+    event_location = models.CharField(
+        max_length=255,
+        blank=True,
+        help_text="Bijvoorbeeld Tivoli Utrecht",
+    )
+
+    content_panels = Page.content_panels + [
+        FieldPanel("subtitle"),
+        FieldPanel("intro"),
+        FieldPanel("event_date"),
+        FieldPanel("event_location"),
+        MultiFieldPanel(
+            [
+                InlinePanel("kids_questions", label="Kids vragen"),
+            ],
+            heading="Vragen",
+        ),
+        MultiFieldPanel(
+            [
+                InlinePanel("kids_drawings", label="Kids tekeningen"),
+            ],
+            heading="Tekeningen",
+        ),
+    ]
+
+    def get_context(self, request, *args, **kwargs):
+        context = super().get_context(request, *args, **kwargs)
+
+        questions = self.kids_questions.all()
+        drawings = self.kids_drawings.all()
+
+        questions_paginator = Paginator(questions, 6)
+        drawings_paginator = Paginator(drawings, 8)
+
+        questions_page_number = request.GET.get("questions_page")
+        drawings_page_number = request.GET.get("drawings_page")
+
+        try:
+            paginated_questions = questions_paginator.page(questions_page_number)
+        except PageNotAnInteger:
+            paginated_questions = questions_paginator.page(1)
+        except EmptyPage:
+            paginated_questions = questions_paginator.page(questions_paginator.num_pages)
+
+        try:
+            paginated_drawings = drawings_paginator.page(drawings_page_number)
+        except PageNotAnInteger:
+            paginated_drawings = drawings_paginator.page(1)
+        except EmptyPage:
+            paginated_drawings = drawings_paginator.page(drawings_paginator.num_pages)
+
+        context["kids_questions"] = paginated_questions
+        context["kids_drawings"] = paginated_drawings
+        context["kids_question_links"] = questions
+        context["kids_drawing_links"] = drawings
+
+        return context
+
+    class Meta:
+        verbose_name = _("Kids event page")
+        verbose_name_plural = _("Kids event pages")
+        
+
+class KidsAnswerPage(Page):
+    template = "wagtail_helpdesk/cms/kids_answer_page.html"
+
+    parent_page_types = ["cms.KidsEventPage"]
+    subpage_types = []
+
+    subtitle = models.CharField(
+        max_length=255,
+        blank=True,
+        help_text="Korte tekst onder de titel",
+    )
+    intro = RichTextField(
+        blank=True,
+        help_text="Introductietekst voor het kids antwoord",
+    )
+    content = RichTextField(
+        blank=True,
+        help_text="Het antwoord in kindvriendelijke taal",
+    )
+    card_image = models.ForeignKey(
+        "wagtailimages.Image",
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name="+",
+        help_text="Afbeelding van het originele vraagkaartje",
+    )
+    
+    def get_context(self, request, *args, **kwargs):
+        context = super().get_context(request, *args, **kwargs)
+
+        answers = list(
+            KidsAnswerPage.objects
+            .live()
+            .child_of(self.get_parent())
+            .order_by("path")
+        )
+
+        try:
+            current_index = answers.index(self)
+        except ValueError:
+            previous_answer = None
+            next_answer = None
+        else:
+            previous_answer = answers[current_index - 1] if current_index > 0 else None
+            next_answer = answers[current_index + 1] if current_index < len(answers) - 1 else None
+
+        context["previous_answer"] = previous_answer
+        context["next_answer"] = next_answer
+
+        return context
+
+    content_panels = Page.content_panels + [
+        FieldPanel("subtitle"),
+        FieldPanel("intro"),
+        FieldPanel("content"),
+        FieldPanel("card_image"),
+    ]
+
+    class Meta:
+        verbose_name = _("Kids answer page")
+        verbose_name_plural = _("Kids answer pages")
+        
+        
+class KidsQuestion(Orderable, models.Model):
+    page = ParentalKey(
+        "cms.KidsEventPage",
+        related_name="kids_questions",
+        on_delete=models.CASCADE,
+    )
+
+    child_name = models.CharField(max_length=255, blank=True)
+    age = models.PositiveIntegerField(blank=True, null=True)
+    question_text = models.CharField(max_length=500)
+    card_image = models.ForeignKey(
+        "wagtailimages.Image",
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name="+",
+    )
+    answer_page = models.ForeignKey(
+        "cms.KidsAnswerPage",
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name="+",
+        help_text="Koppel een kids antwoordpagina aan deze vraag",
+    )
+
+    panels = [
+        FieldPanel("child_name"),
+        FieldPanel("age"),
+        FieldPanel("question_text"),
+        FieldPanel("card_image"),
+        FieldPanel("answer_page"),
+    ]
+
+    def __str__(self):
+        if self.child_name and self.age:
+            return f"{self.question_text} — {self.child_name} ({self.age})"
+        if self.child_name:
+            return f"{self.question_text} — {self.child_name}"
+        return self.question_text
+
+    class Meta:
+        verbose_name = _("Kids question")
+        verbose_name_plural = _("Kids questions")
+        
+        
+class KidsDrawing(Orderable, models.Model):
+    page = ParentalKey(
+        "cms.KidsEventPage",
+        related_name="kids_drawings",
+        on_delete=models.CASCADE,
+    )
+
+    title = models.CharField(max_length=255, blank=True)
+    child_name = models.CharField(max_length=255, blank=True)
+    age = models.PositiveIntegerField(blank=True, null=True)
+    caption = models.CharField(max_length=255, blank=True)
+    drawing_image = models.ForeignKey(
+        "wagtailimages.Image",
+        null=True,
+        blank=False,
+        on_delete=models.SET_NULL,
+        related_name="+",
+    )
+
+    panels = [
+        FieldPanel("title"),
+        FieldPanel("child_name"),
+        FieldPanel("age"),
+        FieldPanel("caption"),
+        FieldPanel("drawing_image"),
+    ]
+
+    def __str__(self):
+        return self.title or self.caption or "Kids tekening"
+
+    class Meta:
+        verbose_name = _("Kids drawing")
+        verbose_name_plural = _("Kids drawings")        
+
+
 
 class ExpertIndexPage(Page):
     """List of experts on the website"""

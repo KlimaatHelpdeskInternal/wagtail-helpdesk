@@ -15,6 +15,12 @@
 .idea/
 .idea/*
 .env
+colortest.html
+wagtail_helpdesk/media
+wagtail_helpdesk/static/wagtail_helpdesk/main.css
+wagtail_helpdesk/static/wagtail_helpdesk/main.js
+wagtail_helpdesk/static/wagtail_helpdesk/carboncalculator.js
+wagtail_helpdesk/static/wagtail_helpdesk/co2categories.js
 wagtail_helpdesk/static/wagtail_helpdesk/mainKH.js
 wagtail_helpdesk/static/wagtail_helpdesk/carboncalculator.js
 wagtail_helpdesk/static/wagtail_helpdesk/co2categories.js
@@ -23,3 +29,4 @@ wagtail_helpdesk/static/wagtail_helpdesk/mainEH.css
 wagtail_helpdesk/static/wagtail_helpdesk/mainEH.js
 wagtail_helpdesk/static/wagtail_helpdesk/mainKH.css
 wagtail_helpdesk/static/wagtail_helpdesk/mainKH.js
+wagtail_helpdesk/static/wagtail_helpdesk/main.js
