@@ -1,0 +1,137 @@
+{% extends "wagtail_helpdesk/base.html" %}
+{% load i18n static wagtailcore_tags wagtailimages_tags %}
+
+{% block content_area %}
+<div id="kids-answer-wrapper">
+  {% block head %}
+  <div class="content-header content-header--kids">
+    <div class="kids-header__wrapper">
+      <div class="content-header__title-container">
+        <h1>
+          {{ page.title }}
+        </h1>
+      </div>
+
+      {% if page.subtitle %}
+      <div class="content-header__introduction">
+        <p class="content-header__introduction-text">
+          {{ page.subtitle }}
+        </p>
+      </div>
+      {% endif %}
+    </div>
+    <nav class="kids-breadcrumbs" aria-label="Breadcrumb">
+      <ol class="kids-breadcrumbs__list">
+        {% for ancestor in page.get_ancestors.live %}
+        {% if not ancestor.is_root %}
+        <li class="kids-breadcrumbs__item">
+          <a href="{{ ancestor.url }}">{{ ancestor.title }}</a> >
+        </li>
+        {% endif %}
+        {% endfor %}
+
+        <li class="kids-breadcrumbs__item kids-breadcrumbs__item--current" aria-current="page">
+          {{ page.title }}
+        </li>
+      </ol>
+    </nav>
+  </div>
+  {% endblock head %}
+
+  <div class="smokedglass kids-answer-page" data-controller="lightbox">
+    <div class="kids-answer-page__inner">
+
+      <section class="kids-answer-product">
+        <div class="kids-answer-product__media">
+          {% if page.card_image %}
+          <div class="kids-answer-product__image">
+            {% image page.card_image width-1000 as display_img %}
+            {% image page.card_image width-1600 as large_img %}
+
+            <button type="button" class="kids-answer-product__image-button" data-action="click->lightbox#open"
+              data-lightbox-image-url="{{ large_img.url }}" data-lightbox-caption="{{ page.title }}">
+              <img src="{{ display_img.url }}" alt="{{ page.title }}">
+            </button>
+          </div>
+          {% else %}
+          <div class="kids-answer-product__placeholder">
+            <span>Vraagkaartje</span>
+          </div>
+          {% endif %}
+        </div>
+
+        <div class="kids-answer-product__info">
+          <span class="kids-answer-product__label"> {{ page.subtitle }}</span>
+
+          <h2 class="kids-answer-product__title">{{ page.title }}</h2>
+
+          {% if page.intro %}
+          <div class="kids-answer-product__intro richtext">
+            {{ page.intro|richtext }}
+          </div>
+          {% endif %}
+
+          <div class="kids-answer-product__actions">
+            <a href="#antwoord" class="kids-answer-product__button">
+              Lees het antwoord
+            </a>
+
+            <a href="{{ page.get_parent.url }}" class="kids-answer-product__secondary">
+              Terug naar alle vragen
+            </a>
+          </div>
+
+
+        </div>
+      </section>
+      <nav class="kids-answer-nav" aria-label="Antwoord navigatie">
+        <div class="kids-answer-nav__inner">
+
+          {% if previous_answer %}
+          <a class="kids-answer-nav__link kids-answer-nav__link--previous" href="{{ previous_answer.url }}">
+            <span class="kids-answer-nav__label">Vorige vraag</span>
+            <span class="kids-answer-nav__title">{{ previous_answer.title }} </span>
+            <span class="kids-answer-nav__name">{{ previous_answer.subtitle }}</span>
+          </a>
+          {% else %}
+          <span></span>
+          {% endif %}
+
+          {% if next_answer %}
+          <a class="kids-answer-nav__link kids-answer-nav__link--next" href="{{ next_answer.url }}">
+            <span class="kids-answer-nav__label">Volgende vraag</span>
+            <span class="kids-answer-nav__title">{{ next_answer.title }}</span>
+            <span class="kids-answer-nav__name">{{ next_answer.subtitle }}</span>
+
+          </a>
+          {% endif %}
+
+        </div>
+      </nav>
+
+      {% if page.content %}
+      <section id="antwoord" class="kids-answer-detail">
+        <div class="kids-answer-detail__header">
+          <span class="kids-answer-detail__eyebrow">Antwoord</span>
+          <h2 class="kids-answer-detail__title">Het antwoord</h2>
+        </div>
+
+        <div class="kids-answer-detail__body richtext">
+          {{ page.content|richtext }}
+        </div>
+      </section>
+      {% endif %}
+      <div class="lightbox" data-lightbox-target="overlay" data-action="click->lightbox#closeOnBackdrop" hidden>
+        <button type="button" class="lightbox__close" aria-label="Sluit afbeelding" data-action="click->lightbox#close">
+          &times;
+        </button>
+
+        <img class="lightbox__image" data-lightbox-target="image" alt="">
+        <p class="lightbox__caption" data-lightbox-target="caption"></p>
+      </div>
+    </div>
+
+    {% include "wagtail_helpdesk/includes/social_share_buttons.html" %}
+  </div>
+</div>
+{% endblock content_area %}
