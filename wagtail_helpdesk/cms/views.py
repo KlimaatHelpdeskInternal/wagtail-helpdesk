@@ -3,7 +3,7 @@ from django.shortcuts import render
 from django.utils.translation import gettext_lazy as _
 from django.views.decorators.clickjacking import xframe_options_exempt
 from django.views.generic.base import TemplateView
-from wagtail_helpdesk.cms.models import AnswerCategory, AnswerIndexPage, Answer, Expert, ExpertAnswerOverviewPage, ExpertIndexPage
+from wagtail_helpdesk.cms.models import AnswerCategory, AnswerIndexPage, Answer, Expert, ExpertAnswerOverviewPage, ExpertIndexPage, Volunteer, VolunteerIndexPage, AnswerOriginBlock
 from wagtail.models import Orderable, Page
 from django.http import HttpResponse
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
@@ -38,8 +38,11 @@ class AnswerView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         answer = Answer.objects.filter(slug = context["slug"]).first()
+        context["references"] = answer.get_references()
         context["self"] = answer
+
         return context
+    
     
 class ExpertView(TemplateView):
     template_name = "wagtail_helpdesk/experts/experts_list.html"
@@ -93,4 +96,17 @@ class ExpertView(TemplateView):
         )
         return context
 
+class VolunteerView(TemplateView):
+    template_name = "wagtail_helpdesk/volunteers/volunteers_list.html"
+    
+    def get_context_data(self,  *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        volunteers = Volunteer.objects.all()
+
+        context.update(
+            {
+                "volunteers": volunteers,
+            }
+        )
+        return context
 

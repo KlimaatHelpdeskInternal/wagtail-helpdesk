@@ -6,6 +6,8 @@ from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.db import models
 from django.db.models import TextField
 from django.db.models import CharField
+from django.db.models.signals import pre_save
+from django.dispatch import receiver
 from django.http import Http404, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, redirect, render
 from django.template.loader import render_to_string
@@ -14,7 +16,7 @@ from ipware import get_client_ip
 from modelcluster.contrib.taggit import ClusterTaggableManager
 from modelcluster.fields import ParentalKey
 from taggit.models import TaggedItemBase
-from wagtail import blocks
+from wagtail import blocks, hooks
 from wagtail.models import Site
 from wagtail.admin.panels import FieldPanel, InlinePanel, MultiFieldPanel
 from wagtail.contrib.routable_page.models import RoutablePageMixin, route
@@ -91,11 +93,18 @@ class HomePage(Page):
 
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
-        sitesettings=SiteSettings.for_request(request=request)
+        try:
+            sitesettings=SiteSettings.for_request(request=request)
+            sitesettingsavailable = True
+        except Exception as e:
+            sitesettings = None
+            sitesettingsavailable = False
+        filteredanswers = Answer.objects.live().filter(featured=True)
+        if sitesettings is not None:
+            filteredanswers = filteredanswers.filter(siteid__in=[sitesettings.site_id])
         context.update(
             {
-                "featured_answers": Answer.objects.live()
-                .filter(featured=True, siteid__in=[sitesettings.site_id]) 
+                "featured_answers": filteredanswers
                 .prefetch_related(
                     "answer_expert_relationship__expert",
                     "answer_category_relationship__category",
@@ -262,7 +271,7 @@ class Answer(Page):
         help_text=_("This text is displayed above the tags, useful as a TLDR section"),
     )
     tags = ClusterTaggableManager(through=AnswerTag, blank=True)
-    siteid = models.ManyToManyField(Site,verbose_name="list of site id's", help_text="Choose the sites for which this answer is applicable")
+    siteid = models.ManyToManyField(Site,verbose_name="list of site id's", help_text="Choose the sites for which this answer is applicable", blank=True, auto_created=False)
     slug = Page.slug
 
     social_image = models.ForeignKey(
@@ -385,7 +394,25 @@ class Answer(Page):
                     parts.append(quote_text)
 
         return " ".join(parts)
-        
+
+    '''
+    def save(self, *args, **kwargs):
+
+        backupsiteid = self.siteid.all()
+        self.siteid.clear()
+        super(Answer, self).save(self,*args, **kwargs)
+        for cat in self.category.all():
+            if cat.parent:
+                self.category.add(cat.parent)
+        super(Answer, self).save(self,*args, **kwargs)
+
+    @receiver(pre_save)
+    def pre_save(sender, instance, *args, **kwargs):
+        answer = instance
+        answer.siteid.clear()
+        answer.save(answer,*args,**kwargs)
+           
+'''
     @property
     def calculated_reading_time(self) -> int | None:
         text = self.get_plain_text_from_page_content()
@@ -508,6 +535,9 @@ class Answer(Page):
             context=self.get_card_data(),
         )
 
+    def get_parent(self):
+        return AnswerIndexPage.objects.first()
+    
     def get_context(self, request, *args, **kwargs):
         context = super(Answer, self).get_context(request, *args, **kwargs)
 
@@ -528,6 +558,39 @@ class Answer(Page):
             "-first_published_at",
         ]
 
+class AnswerSites(models.Model):
+    name = models.CharField(_("name"), max_length=50, help_text="The name of this CarbonEmission category")
+    conversion_to_kg_CO2 = models.FloatField(default=1,name="conversion_to_kg_CO2", help_text="The conversion ratio to 1kg of CO2")
+    description = models.CharField(
+        _("description"), max_length=255, blank=False, null=True, help_text="A description for this category"
+    )
+    image_url = models.URLField(name="image_url", blank=True, null=True, help_text="A URL for an image depicting this category")
+    source_description = models.CharField(
+        _("source_description"), max_length=255, blank=True, null=True, help_text="A description of the source of this conversion number")
+    source_url = models.CharField(
+        _("source_url"), max_length=255, blank=True, null=True, help_text="A URL for  the source of this conversion number"  
+    )
+    is_emission = models.BooleanField(
+        _("is_emission"), default=True, help_text="True if it is a CO2 emission, False if it is a CO2 absorbtion"  
+    )
+
+
+
+    panels = [
+        FieldPanel("AnswerID"),
+        
+    ]
+
+    class Meta:
+        verbose_name = _("CO2 emission category")
+        verbose_name_plural = _("CO2 emission categories")
+        ordering = ["name"]
+
+    def __str__(self):
+        return self.name
+
+    def get_prefiltered_search_params(self):
+        return "?{}=".format(self.name)
 
 
 class AnswerIndexPage(RoutablePageMixin, Page):

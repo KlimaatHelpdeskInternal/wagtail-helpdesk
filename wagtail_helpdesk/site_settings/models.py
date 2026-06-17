@@ -8,9 +8,9 @@ from wagtail.models import Site
 class SiteSettings(BaseSiteSetting ):
     id = models.AutoField(_("id"), primary_key=True)
     name = models.CharField(_("name"), max_length=50)
-    css_file_name = models.CharField(_("name"), max_length=50, default="main.css")
+    css_file_name = models.CharField(_("name"), max_length=50, default="mainKH.css")
 
-    sitename = models.CharField(_("sitename"), max_length=50, null=True)
+    sitename = models.CharField(_("sitename"), max_length=50, null=True, default="KlimaatHelpdesk")
 
     logo = models.ForeignKey(
         "wagtailimages.Image",
