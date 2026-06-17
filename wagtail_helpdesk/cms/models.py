@@ -14,7 +14,7 @@ from django.template.loader import render_to_string
 from django.utils.translation import gettext_lazy as _
 from ipware import get_client_ip
 from modelcluster.contrib.taggit import ClusterTaggableManager
-from modelcluster.fields import ParentalKey
+from modelcluster.fields import ParentalKey,ParentalManyToManyField
 from taggit.models import TaggedItemBase
 from wagtail import blocks, hooks
 from wagtail.models import Site
@@ -271,7 +271,7 @@ class Answer(Page):
         help_text=_("This text is displayed above the tags, useful as a TLDR section"),
     )
     tags = ClusterTaggableManager(through=AnswerTag, blank=True)
-    siteid = models.ManyToManyField(Site,verbose_name="list of site id's", help_text="Choose the sites for which this answer is applicable", blank=True, auto_created=False)
+    siteid = ParentalManyToManyField(Site,verbose_name="list of site id's", help_text="Choose the sites for which this answer is applicable", blank=True, auto_created=False)
     slug = Page.slug
 
     social_image = models.ForeignKey(
