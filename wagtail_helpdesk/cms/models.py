@@ -395,24 +395,6 @@ class Answer(Page):
 
         return " ".join(parts)
 
-    '''
-    def save(self, *args, **kwargs):
-
-        backupsiteid = self.siteid.all()
-        self.siteid.clear()
-        super(Answer, self).save(self,*args, **kwargs)
-        for cat in self.category.all():
-            if cat.parent:
-                self.category.add(cat.parent)
-        super(Answer, self).save(self,*args, **kwargs)
-
-    @receiver(pre_save)
-    def pre_save(sender, instance, *args, **kwargs):
-        answer = instance
-        answer.siteid.clear()
-        answer.save(answer,*args,**kwargs)
-           
-'''
     @property
     def calculated_reading_time(self) -> int | None:
         text = self.get_plain_text_from_page_content()
