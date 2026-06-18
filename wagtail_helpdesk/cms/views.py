@@ -33,9 +33,6 @@ def js_wrapper(request):
 
 class AnswersListView(TemplateView):
     template_name = "wagtail_helpdesk/cms/answers_list.html"
-    path = template_name
-    depth = 3
-    pk = 1 
     context_object_name = 'answers_and_columns'
 
     def get_context_data(self, **kwargs):
