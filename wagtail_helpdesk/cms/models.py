@@ -159,12 +159,14 @@ class CategoryAnswerRelationship(Orderable, models.Model):
 
 
 class AnswerTag(TaggedItemBase):
+    '''A class for AnswerTag. AnswerTag is a tag taht is applied to a specific answer, can be different for all answers, and added per answer'''
     content_object = ParentalKey(
         "Answer", related_name="tagged_items", on_delete=models.CASCADE
     )
 
 
 class AnswerCategory(models.Model):
+    '''A class for AnswerCategory,. used for filtering the answers in the website. AnswerCategory is a global list applicable for all answers'''
     name = models.CharField(_("name"), max_length=50)
     slug = models.SlugField(
         verbose_name=_("slug"),
@@ -197,6 +199,7 @@ class AnswerCategory(models.Model):
 register_snippet(AnswerCategory)
 
 class CarbonEmissionCategory(models.Model):
+    '''This class contains the info about a CO2 emission category, used in the CarbonCalculator'''
     name = models.CharField(_("name"), max_length=50, help_text="The name of this CarbonEmission category")
     conversion_to_kg_CO2 = models.FloatField(default=1,name="conversion_to_kg_CO2", help_text="The conversion ratio to 1kg of CO2")
     description = models.CharField(
@@ -239,6 +242,7 @@ class CarbonEmissionCategory(models.Model):
 register_snippet(CarbonEmissionCategory)
 
 class Answer(Page):
+    '''This class contains all the data for an answer on the website.'''
     template = "wagtail_helpdesk/cms/answer_detail.html"
 
     # Determines type and whether its highlighted in overview list
@@ -694,6 +698,7 @@ class KidsPage(Page):
         
         
 class KidsEventPage(Page):
+    '''A page to display info for an event for kids'''
     template = "wagtail_helpdesk/cms/kids_event_page.html"
 
     parent_page_types = ["cms.KidsPage"]
@@ -777,6 +782,7 @@ class KidsEventPage(Page):
         
 
 class KidsAnswerPage(Page):
+    '''An answer for kids that is displayed on KidsAnswerpage'''
     template = "wagtail_helpdesk/cms/kids_answer_page.html"
 
     parent_page_types = ["cms.KidsEventPage"]
@@ -841,6 +847,7 @@ class KidsAnswerPage(Page):
         
         
 class KidsQuestion(Orderable, models.Model):
+    '''The question posed by kid, displayed on KidsAnswerPage'''
     page = ParentalKey(
         "cms.KidsEventPage",
         related_name="kids_questions",
@@ -887,6 +894,7 @@ class KidsQuestion(Orderable, models.Model):
         
         
 class KidsDrawing(Orderable, models.Model):
+    '''AA drawing created by kids, shown on KidsEventPage'''
     page = ParentalKey(
         "cms.KidsEventPage",
         related_name="kids_drawings",
@@ -971,6 +979,7 @@ class ExpertIndexPage(Page):
 
 
 class ExpertAnswerOverviewPage(RoutablePageMixin, Page):
+    '''Class that creates an overview of answers per expert'''
     template = "wagtail_helpdesk/cms/expert_answer_overview_page.html"
 
     preview_modes = []
@@ -1035,6 +1044,7 @@ class GeneralPage(Page):
 
 
 class QuestionsInProgressPage(Page):
+    '''Page that retuns a list of questions in progress'''
     template = "wagtail_helpdesk/cms/questions_in_progress.html"
 
     def get_context(self, request, *args, **kwargs):
@@ -1078,6 +1088,7 @@ class CarbonCalculatorPage(Page):
         return context
 
 class AskQuestionPage(RoutablePageMixin, Page):
+    '''The apge to pose a new question'''
     intro = RichTextField(
         verbose_name="Intro",
         default="<p>Wij willen je vraag graag zo compleet en correct mogelijk beantwoorden. "
@@ -1198,6 +1209,7 @@ class AskQuestionPage(RoutablePageMixin, Page):
 
 @register_setting
 class MainNavSettings(BaseSiteSetting):
+    '''Class that contains settings for the entire application '''
     text = models.CharField(
         verbose_name=_("Text"),
         max_length=255,
@@ -1226,6 +1238,7 @@ class MainNavSettings(BaseSiteSetting):
 
 @register_setting
 class FooterSettings(BaseSiteSetting):
+    '''Class that determines the behaviour of the footer'''
     about_title = models.CharField(max_length=255, verbose_name=_("Title"), blank=True)
     about_text = RichTextField(verbose_name=_("Text"), blank=True)
     about_buttons = StreamField(
@@ -1288,6 +1301,7 @@ class FooterSettings(BaseSiteSetting):
 
 @register_setting
 class StickySettings(BaseSiteSetting):
+    '''Class that determines the behaviour of the sticky menu, in the right bottom of the site'''
     text = models.CharField(
         max_length=255,
         verbose_name=_("Text"),
@@ -1304,6 +1318,7 @@ class StickySettings(BaseSiteSetting):
 
 
 class SearchWidgetPage(Page):
+    '''Class that determines the behaviour of the search widget'''
     template = "wagtail_helpdesk/cms/search_widget_page.html"
 
     intro = models.TextField(

@@ -6,6 +6,7 @@ from wagtail.models import Site
 # Create your models here.
 @register_setting
 class SiteSettings(BaseSiteSetting ):
+    '''A class with all the settings for a specific site. We use this to make the platform multi site. With these settings the layout and icons are controlled. '''
     id = models.AutoField(_("id"), primary_key=True)
     name = models.CharField(_("name"), max_length=50)
     css_file_name = models.CharField(_("name"), max_length=50, default="mainKH.css")

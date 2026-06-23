@@ -32,6 +32,7 @@ def js_wrapper(request):
 
 
 class AnswersListView(TemplateView):
+    '''A new view that helps to list the answers filtered for a specific site'''
     template_name = "wagtail_helpdesk/cms/answers_list.html"
     context_object_name = 'answers_and_columns'
 
@@ -140,6 +141,7 @@ class AnswersListView(TemplateView):
         return context
 
 class AnswerView(TemplateView):
+    '''This view shows the answers for an answers that is listed in pultiple sites. The route to this view is added in urls.py'''
     template_name = "wagtail_helpdesk/cms/answer_detail.html"
     context_object_name = 'self'
 
@@ -153,6 +155,7 @@ class AnswerView(TemplateView):
     
     
 class ExpertView(TemplateView):
+    '''This view shows the experts. We use a view to make sure if is displayed in multiple sites and we can add the route to this view in urls.py.'''
     template_name = "wagtail_helpdesk/experts/experts_list.html"
     
     def get_context_data(self,  *args, **kwargs):
@@ -205,6 +208,7 @@ class ExpertView(TemplateView):
         return context
 
 class VolunteerView(TemplateView):
+    '''This view shows the volunteers. We use a view to make sure if is displayed in multiple sites and we can add the route to this view in urls.py.'''
     template_name = "wagtail_helpdesk/volunteers/volunteers_list.html"
     
     def get_context_data(self,  *args, **kwargs):
