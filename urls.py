@@ -8,7 +8,7 @@ from wagtail import urls as wagtail_urls
 from wagtail.admin import urls as wagtailadmin_urls
 from wagtail.documents import urls as wagtaildocs_urls
 from wagtail_helpdesk.urls import urlpatterns as helpdesk_urlpatterns
-from wagtail_helpdesk.cms.views import iframe_search_widget, AnswerView, ExpertView
+from wagtail_helpdesk.cms.views import iframe_search_widget, AnswerView, ExpertView, VolunteerView, AnswersListView
 from django.views.generic import TemplateView
 from apps.users.urls import urlpatterns as users_urlpatterns
 
@@ -21,8 +21,11 @@ urlpatterns = [
     path("__commithash__/", lambda request: HttpResponse(os.getenv("COMMIT_HASH", ""))),
 ]
 urlpatterns += [
+    path("answers/", AnswersListView.as_view()),
     path("answers/<slug:slug>/", AnswerView.as_view()),
     path("experts/", ExpertView.as_view()),
+    path("volunteers/", VolunteerView.as_view()),
+    path("vrijwilligers/", VolunteerView.as_view()),
 ]
 
 

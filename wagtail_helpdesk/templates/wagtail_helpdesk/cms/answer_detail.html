@@ -110,7 +110,7 @@
 {% block head %}
   <div class="content-header" data-controller="video">
     <div class="content-header__wrapper">
-      <a class="content-header__back-link" href="">{# pageurl self.get_parent #}
+      <a class="content-header__back-link" href="/answers/">
         <span class="content-header__back-link-icon"></span>
       </a>
       <div class="content-header__title-container">
@@ -229,6 +229,7 @@
   {% include "wagtail_helpdesk/includes/social_share_buttons.html" %}
 
   {% for block in self.answer_origin %}
+    <div id="BlockFound">{{ block.text }}</div>
     {% include_block block %}
   {% endfor %}
 

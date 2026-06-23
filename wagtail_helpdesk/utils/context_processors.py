@@ -41,7 +41,10 @@ def defaults(request):
         logofooter = sitesettings.logofooter
         logofooterurl ="" if logofooter is None or logofooter.file is None else logofooter.file.url
         css_file_name = sitesettings.css_file_name
-        baseurl = site.root_url
+        if site.is_default_site:
+            baseurl = request._current_scheme_host
+        else:
+            baseurl = site.root_url
         return {
             "main_nav": menu_qs,
             "answers_list_url": answer_index_page.url if answer_index_page else "",
