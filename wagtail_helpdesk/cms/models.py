@@ -97,8 +97,8 @@ class HomePage(Page):
         except Exception as e:
             sitesettings = None
         filteredanswers = Answer.objects.live().filter(featured=True)
-        if sitesettings is not None:
-            filteredanswers = filteredanswers.filter(siteid__in=[sitesettings.site_id])
+        #if sitesettings is not None:
+        #    filteredanswers = filteredanswers.filter(siteid__in=[sitesettings.site_id])
         context.update(
             {
                 "featured_answers": filteredanswers
@@ -364,6 +364,7 @@ class Answer(Page):
 
     search_fields = Page.search_fields + [
         search_index.FilterField("type"),
+        search_index.FilterField("siteid"),
         search_index.SearchField("excerpt"),
         search_index.SearchField("introduction"),
         search_index.SearchField("page_content"),

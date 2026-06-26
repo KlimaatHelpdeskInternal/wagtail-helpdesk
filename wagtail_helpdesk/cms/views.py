@@ -45,8 +45,8 @@ class AnswersListView(TemplateView):
             sitesettings = None
             sitesettingsavailable = False
         filteredanswers = Answer.objects.live()
-        if sitesettings is not None:
-            filteredanswers = filteredanswers.filter(siteid__in=[sitesettings.site_id])
+        #if sitesettings is not None:
+        #    filteredanswers = filteredanswers.filter(siteid__in=[sitesettings.site_id])
 
         answers = (
             filteredanswers
