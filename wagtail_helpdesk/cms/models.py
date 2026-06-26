@@ -364,6 +364,7 @@ class Answer(Page):
 
     search_fields = Page.search_fields + [
         search_index.FilterField("type"),
+        search_index.FilterField("site_id"),
         search_index.SearchField("excerpt"),
         search_index.SearchField("introduction"),
         search_index.SearchField("page_content"),
