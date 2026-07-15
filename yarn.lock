@@ -3070,10 +3070,10 @@ webpack-sources@^3.5.0:
   resolved "https://registry.npmjs.org/webpack-sources/-/webpack-sources-3.5.0.tgz"
   integrity sha512-HPuy+uuoTCaaoEoI1LQ3JN9+vrPBvEesnnX1jADHy728cHSMlq4wUc4afYqahq2B1mhQVZxCXOkNTnXltr+2vQ==
 
-webpack@^5.0.0, webpack@^5.1.0, webpack@^5.108.0, webpack@>=5, webpack@5.x.x:
-  version "5.108.0"
-  resolved "https://registry.npmjs.org/webpack/-/webpack-5.108.0.tgz"
-  integrity sha512-Ln1JuYGPRTXcHECapSFSvACtHmWEN5sQqFJeLLGQ0057S7qzT2eXUz0MZUedtmIrNy3nJgnITSubIYKGED9jSQ==
+webpack@^5.0.0, webpack@^5.1.0, webpack@^5.108.4, webpack@>=5, webpack@5.x.x:
+  version "5.108.4"
+  resolved "https://registry.npmjs.org/webpack/-/webpack-5.108.4.tgz"
+  integrity sha512-yur8LyJoeiWh47dErD+Ok7vlbmDsJ3UbbRPAoxbGJ54WpE2y5yVo5G/inUzujnYgw3tPmBRdn+G7PoxXaYC33w==
   dependencies:
     "@types/estree" "^1.0.8"
     "@types/json-schema" "^7.0.15"

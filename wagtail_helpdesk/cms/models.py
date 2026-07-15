@@ -423,12 +423,12 @@ class Answer(Page):
             )
         return tags
 
-    def serve(self, request):
+    '''def serve(self, request):
         # You can fetch context, check site-specific data here
         return render(request, self.get_template(request), {
             'page': self,
             'self': self,
-        })
+        })'''
     
     def get_references(self):
         """
@@ -526,12 +526,13 @@ class Answer(Page):
         context = super(Answer, self).get_context(request, *args, **kwargs)
 
         categories = AnswerCategory.objects.all()
-
+        references = self.get_references()
         context.update(
             {
                 "categories": categories,
                 "answers_page": AnswerIndexPage.objects.first().url,
                 "experts_page": ExpertIndexPage.objects.first(),
+                "references": references,
             }
         )
         return context
